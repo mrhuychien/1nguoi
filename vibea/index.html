@@ -1,0 +1,2459 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibecode Kit v4.0 - The Partnership Edition | Complete Knowledge Base</title>
+    <meta name="description" content="Vibecode Kit v4.0 - Hệ thống hoàn chỉnh để biến ý tưởng thành sản phẩm thật với AI Partnership Model">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'Noto Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Space Grotesk', 'Noto Sans', sans-serif; }
+        pre, code, .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Animations */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes pulse-slow { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
+        @keyframes glow { from { box-shadow: 0 0 20px rgba(167, 139, 250, 0.3); } to { box-shadow: 0 0 40px rgba(167, 139, 250, 0.6); } }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
+        .animate-glow { animation: glow 2s ease-in-out infinite alternate; }
+
+        /* Utilities */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); }
+        .gradient-text { background: linear-gradient(135deg, #a78bfa, #f472b6, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .gradient-text-2 { background: linear-gradient(135deg, #22d3ee, #34d399, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+
+        /* Layer Cards */
+        .layer-seed::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #a78bfa, #7c3aed); }
+        .layer-experience::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #22d3ee, #0891b2); }
+        .layer-activation::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #f472b6, #db2777); }
+        .layer-decay::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #fb923c, #ea580c); }
+
+        /* Tab & Accordion */
+        .tab-btn.active { background: rgba(255, 255, 255, 0.1); color: white; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .accordion-content.open { max-height: 10000px; }
+        .sub-tab.active { border-bottom: 2px solid #a78bfa; color: #a78bfa; }
+
+        /* Code blocks */
+        .code-block { background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); }
+
+        /* Data tables */
+        .data-table th { background: rgba(167, 139, 250, 0.2); }
+        .data-table tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+        .data-table tr:hover { background: rgba(255, 255, 255, 0.05); }
+
+        /* Copy button */
+        .copy-btn { transition: all 0.2s; }
+        .copy-btn:hover { transform: scale(1.05); }
+        .copy-btn.copied { background: #22c55e !important; }
+
+        /* Toast */
+        .toast { animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white overflow-x-hidden">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-violet-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div class="absolute top-1/2 -left-40 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1s;"></div>
+        <div class="absolute -bottom-40 right-1/3 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+        <div class="absolute top-1/4 left-1/3 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 3s;"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="relative z-10 border-b border-white/10 glass sticky top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-xl shadow-lg shadow-violet-500/25 animate-glow">⚡</div>
+                    <div>
+                        <h1 class="text-xl font-bold tracking-tight">Vibecode Kit</h1>
+                        <p class="text-xs text-white/50">v4.0 - The Partnership Edition</p>
+                    </div>
+                </div>
+                <nav class="flex gap-1 bg-white/5 p-1 rounded-xl overflow-x-auto scrollbar-hide" id="nav-tabs">
+                    <button onclick="switchTab('home')" data-tab="home" class="tab-btn active px-3 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap">🏠 Tổng quan</button>
+                    <button onclick="switchTab('philosophy')" data-tab="philosophy" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-white/50 hover:text-white/80 whitespace-nowrap">🧠 Triết lý</button>
+                    <button onclick="switchTab('workflow')" data-tab="workflow" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-white/50 hover:text-white/80 whitespace-nowrap">🔄 Quy trình</button>
+                    <button onclick="switchTab('prompts')" data-tab="prompts" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-white/50 hover:text-white/80 whitespace-nowrap">🎯 Master Prompts</button>
+                    <button onclick="switchTab('templates')" data-tab="templates" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-white/50 hover:text-white/80 whitespace-nowrap">📦 Templates</button>
+                    <button onclick="switchTab('reference')" data-tab="reference" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-white/50 hover:text-white/80 whitespace-nowrap">📖 Tham khảo</button>
+                    <button onclick="switchTab('appendix')" data-tab="appendix" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-white/50 hover:text-white/80 whitespace-nowrap">📚 Phụ lục</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-50"></div>
+
+    <!-- Main Content -->
+    <main class="relative z-10">
+
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <!--                              TAB HOME                                       -->
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <section id="tab-home" class="tab-content">
+            <!-- Hero -->
+            <div class="py-16 sm:py-24 px-4 sm:px-6">
+                <div class="max-w-5xl mx-auto text-center">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/20 border border-violet-500/30 text-violet-300 text-sm mb-6">
+                        <span class="animate-pulse">●</span> Complete Knowledge Base - Từ vibecode-kit V4.zip
+                    </div>
+                    <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                        <span class="gradient-text">AI đã có ngôi nhà</span><br>trong đầu
+                    </h2>
+                    <p class="text-lg sm:text-xl text-white/60 mb-4 max-w-3xl mx-auto">
+                        Bạn có mảnh đất và cuộc sống cần ngôi nhà đó. Cả hai cùng nhau điều chỉnh cho vừa vặn.
+                    </p>
+                    <p class="text-base text-white/40 mb-8 max-w-3xl mx-auto">
+                        Vibecode Kit v4.0 - Hệ thống hoàn chỉnh với <span class="text-violet-400">4 Master Prompts</span>,
+                        <span class="text-cyan-400">5 Project Templates</span>, và <span class="text-pink-400">6-Step Workflow</span>
+                    </p>
+                    <div class="flex items-center justify-center gap-4 flex-wrap">
+                        <button onclick="switchTab('workflow')" class="px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 rounded-xl font-semibold hover:shadow-lg hover:shadow-violet-500/25 transition-all hover:scale-105">
+                            🚀 Xem Quy trình 6 bước
+                        </button>
+                        <button onclick="switchTab('prompts')" class="px-6 py-3 bg-white/10 rounded-xl font-semibold hover:bg-white/20 transition-all">
+                            🎯 Xem 4 Master Prompts
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kit Contents Overview -->
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold mb-4">📦 Nội dung Kit đầy đủ</h3>
+                    <p class="text-white/60">Tất cả tri thức từ vibecode-kit V4.zip</p>
+                </div>
+
+                <!-- 4 Master Prompts -->
+                <div class="grid md:grid-cols-4 gap-4 mb-8">
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-violet-900/30 to-violet-800/10 border border-violet-500/20 card-hover relative overflow-hidden layer-seed">
+                        <div class="text-3xl mb-3">🏗️</div>
+                        <h4 class="font-bold text-violet-300 mb-2">VIBECODE MASTER</h4>
+                        <p class="text-white/60 text-sm mb-3">Universal Master Prompt - Quy trình 6 bước cho mọi dự án</p>
+                        <div class="text-xs text-white/40">707 lines • ~7,000 tokens</div>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-emerald-900/30 to-emerald-800/10 border border-emerald-500/20 card-hover relative overflow-hidden layer-experience">
+                        <div class="text-3xl mb-3">✅</div>
+                        <h4 class="font-bold text-emerald-300 mb-2">QA MASTER</h4>
+                        <p class="text-white/60 text-sm mb-3">Quality Assurance Protocol - Test cases & nghiệm thu</p>
+                        <div class="text-xs text-white/40">919 lines • ~9,000 tokens</div>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-orange-900/30 to-orange-800/10 border border-orange-500/20 card-hover relative overflow-hidden layer-activation">
+                        <div class="text-3xl mb-3">🔍</div>
+                        <h4 class="font-bold text-orange-300 mb-2">DEBUG MASTER</h4>
+                        <p class="text-white/60 text-sm mb-3">Investigation Protocol - Debug có hệ thống 9 bước</p>
+                        <div class="text-xs text-white/40">753 lines • ~7,500 tokens</div>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-cyan-900/30 to-cyan-800/10 border border-cyan-500/20 card-hover relative overflow-hidden layer-decay">
+                        <div class="text-3xl mb-3">🔬</div>
+                        <h4 class="font-bold text-cyan-300 mb-2">XRAY MASTER</h4>
+                        <p class="text-white/60 text-sm mb-3">Handover Protocol - X-Ray codebase & chuyển giao</p>
+                        <div class="text-xs text-white/40">752 lines • ~7,500 tokens</div>
+                    </div>
+                </div>
+
+                <!-- 5 Project Templates -->
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+                    <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-center card-hover">
+                        <div class="text-2xl mb-2">📄</div>
+                        <div class="font-medium text-sm">Landing Page</div>
+                        <div class="text-xs text-white/40 mt-1">657 lines</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-center card-hover">
+                        <div class="text-2xl mb-2">🚀</div>
+                        <div class="font-medium text-sm">SaaS App</div>
+                        <div class="text-xs text-white/40 mt-1">~700 lines</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-center card-hover">
+                        <div class="text-2xl mb-2">📊</div>
+                        <div class="font-medium text-sm">Dashboard</div>
+                        <div class="text-xs text-white/40 mt-1">~680 lines</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-center card-hover">
+                        <div class="text-2xl mb-2">📝</div>
+                        <div class="font-medium text-sm">Blog/Docs</div>
+                        <div class="text-xs text-white/40 mt-1">~750 lines</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-center card-hover">
+                        <div class="text-2xl mb-2">🎨</div>
+                        <div class="font-medium text-sm">Portfolio</div>
+                        <div class="text-xs text-white/40 mt-1">~800 lines</div>
+                    </div>
+                </div>
+
+                <!-- Summary Stats -->
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div>
+                            <div class="text-3xl font-bold gradient-text">4</div>
+                            <div class="text-white/60 text-sm">Master Prompts</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold gradient-text-2">5</div>
+                            <div class="text-white/60 text-sm">Project Templates</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-pink-400">6</div>
+                            <div class="text-white/60 text-sm">Bước Workflow</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-orange-400">~50K</div>
+                            <div class="text-white/60 text-sm">Tokens tri thức</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Three Roles -->
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold mb-4">🤝 Mô hình Partnership - Ba vai trò</h3>
+                    <p class="text-white/60">AI & Human: Cùng nhau, tốt hơn</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="p-8 rounded-2xl bg-gradient-to-br from-cyan-900/20 to-cyan-800/5 border border-cyan-500/20 card-hover">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-3xl mb-6 shadow-lg shadow-cyan-500/25">🏠</div>
+                        <h4 class="text-xl font-bold mb-3 text-cyan-300">Chủ nhà (BẠN)</h4>
+                        <p class="text-white/60 text-sm mb-4">Có mục tiêu kinh doanh, hiểu khách hàng, cung cấp context và ra quyết định cuối cùng.</p>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-center gap-2 text-white/70"><span class="text-cyan-400">✓</span> Nêu mục tiêu (không phải giải pháp)</div>
+                            <div class="flex items-center gap-2 text-white/70"><span class="text-cyan-400">✓</span> Cung cấp context khi được hỏi</div>
+                            <div class="flex items-center gap-2 text-white/70"><span class="text-cyan-400">✓</span> Xác nhận hoặc yêu cầu điều chỉnh</div>
+                            <div class="flex items-center gap-2 text-white/70"><span class="text-cyan-400">✓</span> Test kết quả cuối cùng</div>
+                        </div>
+                    </div>
+                    <div class="p-8 rounded-2xl bg-gradient-to-br from-violet-900/20 to-violet-800/5 border border-violet-500/20 card-hover">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-3xl mb-6 shadow-lg shadow-violet-500/25">🏛️</div>
+                        <h4 class="text-xl font-bold mb-3 text-violet-300">Kiến trúc sư (ChatGPT/Claude)</h4>
+                        <p class="text-white/60 text-sm mb-4">Có vision sẵn từ huấn luyện, biết patterns hiệu quả, đề xuất và điều phối toàn bộ dự án.</p>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-center gap-2 text-white/70"><span class="text-violet-400">✓</span> ĐỀ XUẤT vision ngay khi nhận yêu cầu</div>
+                            <div class="flex items-center gap-2 text-white/70"><span class="text-violet-400">✓</span> Hỏi context để ĐIỀU CHỈNH</div>
+                            <div class="flex items-center gap-2 text-white/70"><span class="text-violet-400">✓</span> Tạo Blueprint chi tiết</div>
+                            <div class="flex items-center gap-2 text-white/70"><span class="text-violet-400">✓</span> Soạn CODER PACK cho Thợ xây</div>
+                        </div>
+                    </div>
+                    <div class="p-8 rounded-2xl bg-gradient-to-br from-orange-900/20 to-orange-800/5 border border-orange-500/20 card-hover">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-3xl mb-6 shadow-lg shadow-orange-500/25">🔨</div>
+                        <h4 class="text-xl font-bold mb-3 text-orange-300">Thợ xây (Claude Code)</h4>
+                        <p class="text-white/60 text-sm mb-4">Code đúng Blueprint, không tự ý thay đổi, báo cáo tiến độ chi tiết.</p>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-center gap-2 text-white/70"><span class="text-orange-400">✓</span> Code đúng 100% theo Blueprint</div>
+                            <div class="flex items-center gap-2 text-white/70"><span class="text-orange-400">✓</span> KHÔNG thay đổi kiến trúc</div>
+                            <div class="flex items-center gap-2 text-white/70"><span class="text-orange-400">✓</span> Báo cáo khi gặp conflict</div>
+                            <div class="flex items-center gap-2 text-white/70"><span class="text-orange-400">✓</span> Mọi sáng tạo xảy ra ở Vision</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 text-center p-6 bg-white/5 rounded-2xl border border-white/10">
+                    <p class="text-xl">
+                        <span class="text-violet-400 font-bold">80%</span> từ expertise của AI +
+                        <span class="text-cyan-400 font-bold">20%</span> từ context của bạn =
+                        <span class="text-emerald-400 font-bold">100%</span> sản phẩm hoàn hảo
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quick Start -->
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl font-bold mb-2">🚀 Quick Start - 3 bước</h3>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10 text-center">
+                        <div class="w-12 h-12 rounded-full bg-violet-500/20 flex items-center justify-center text-xl mx-auto mb-4 font-bold">1</div>
+                        <h4 class="font-bold mb-2">Chọn Template phù hợp</h4>
+                        <p class="text-white/60 text-sm">Landing Page, SaaS, Dashboard, Blog/Docs, hoặc Portfolio</p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10 text-center">
+                        <div class="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center text-xl mx-auto mb-4 font-bold">2</div>
+                        <h4 class="font-bold mb-2">Copy & Paste vào ChatGPT</h4>
+                        <p class="text-white/60 text-sm">Paste toàn bộ template, sau đó mô tả ý tưởng của bạn</p>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10 text-center">
+                        <div class="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center text-xl mx-auto mb-4 font-bold">3</div>
+                        <h4 class="font-bold mb-2">Làm theo 6 bước</h4>
+                        <p class="text-white/60 text-sm">VISION → CONTEXT → BLUEPRINT → CONTRACT → BUILD → REFINE</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <!--                           TAB PHILOSOPHY                                    -->
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <section id="tab-philosophy" class="tab-content hidden py-16 px-4 sm:px-6">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-16">
+                    <h3 class="text-4xl font-bold mb-4">🧠 Triết lý cốt lõi</h3>
+                    <p class="text-white/60 text-lg">PHILOSOPHY_V4.md - Nền tảng tư duy của Vibecode Kit v4.0</p>
+                </div>
+
+                <!-- Core Philosophy Quote -->
+                <div class="mb-16 p-8 rounded-2xl bg-gradient-to-r from-violet-900/30 to-purple-900/30 border border-violet-500/20 text-center">
+                    <blockquote class="text-2xl font-medium mb-4 text-white/90">
+                        "AI đã có ngôi nhà trong đầu.<br>
+                        Bạn có mảnh đất và cuộc sống cần ngôi nhà đó.<br>
+                        Cả hai cùng nhau điều chỉnh cho vừa vặn."
+                    </blockquote>
+                    <cite class="text-white/50">— Vibecode Kit v4.0</cite>
+                </div>
+
+                <!-- Why Change -->
+                <div class="mb-16">
+                    <h4 class="text-2xl font-bold mb-8">1. Tại sao cần thay đổi tư duy?</h4>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="p-6 rounded-2xl bg-red-900/20 border border-red-500/20">
+                            <h5 class="font-bold text-red-400 mb-4">❌ Cách cũ: "AI làm theo lệnh"</h5>
+                            <div class="code-block p-4 rounded-xl text-sm mb-4">
+                                <pre class="text-white/70">Bạn có ý tưởng → Bạn mô tả chi tiết → AI thiết kế theo → AI code</pre>
+                            </div>
+                            <div class="space-y-2 text-sm text-white/60">
+                                <p>• Bạn phải biết mọi thứ trước (layout, màu sắc, tính năng...)</p>
+                                <p>• AI chỉ biết những gì bạn nói, bỏ qua những gì bạn không biết hỏi</p>
+                                <p>• Kết quả phụ thuộc vào khả năng mô tả của bạn</p>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-emerald-900/20 border border-emerald-500/20">
+                            <h5 class="font-bold text-emerald-400 mb-4">✅ Cách mới: "AI & Human là cộng sự"</h5>
+                            <div class="code-block p-4 rounded-xl text-sm mb-4">
+                                <pre class="text-white/70">Bạn nêu mục tiêu → AI đề xuất vision → Bạn cung cấp context → Cùng điều chỉnh → AI code</pre>
+                            </div>
+                            <div class="space-y-2 text-sm text-white/60">
+                                <p>• AI đã "thấy" hàng triệu project, biết pattern nào hiệu quả</p>
+                                <p>• Bạn chỉ cần biết MỤC TIÊU và CONTEXT của mình</p>
+                                <p>• Kết quả là sự kết hợp: chuyên môn của AI + thực tế của bạn</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3 Core Principles -->
+                <div class="mb-16">
+                    <h4 class="text-2xl font-bold mb-8">2. Ba nguyên lý nền tảng</h4>
+                    <div class="space-y-6">
+                        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                            <h5 class="font-bold text-lg mb-4 text-violet-300">Nguyên lý 1: AI đã có "ngôi nhà" trong đầu</h5>
+                            <p class="text-white/70 mb-4">AI được huấn luyện trên hàng triệu: Landing pages thành công, SaaS apps được người dùng yêu thích, Dashboards chuyên nghiệp, Portfolios ấn tượng...</p>
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div class="p-3 bg-emerald-900/20 rounded-lg">
+                                    <div class="text-emerald-400 font-medium">AI BIẾT</div>
+                                    <div class="text-white/60 text-sm">ngôi nhà tốt trông như thế nào</div>
+                                </div>
+                                <div class="p-3 bg-emerald-900/20 rounded-lg">
+                                    <div class="text-emerald-400 font-medium">AI KHÔNG CẦN</div>
+                                    <div class="text-white/60 text-sm">bạn dạy cách thiết kế</div>
+                                </div>
+                                <div class="p-3 bg-cyan-900/20 rounded-lg">
+                                    <div class="text-cyan-400 font-medium">AI CẦN</div>
+                                    <div class="text-white/60 text-sm">bạn cho biết ai sẽ sống trong ngôi nhà</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                            <h5 class="font-bold text-lg mb-4 text-cyan-300">Nguyên lý 2: Bạn có context mà AI không có</h5>
+                            <p class="text-white/70 mb-4">BẠN BIẾT những điều AI không thể biết:</p>
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                                <div class="p-3 bg-cyan-900/20 rounded-lg text-center text-sm">Khách hàng thực sự của bạn</div>
+                                <div class="p-3 bg-cyan-900/20 rounded-lg text-center text-sm">Ngân sách & timeline</div>
+                                <div class="p-3 bg-cyan-900/20 rounded-lg text-center text-sm">Brand guidelines</div>
+                                <div class="p-3 bg-cyan-900/20 rounded-lg text-center text-sm">Constraints kỹ thuật</div>
+                                <div class="p-3 bg-cyan-900/20 rounded-lg text-center text-sm">Mục tiêu kinh doanh</div>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                            <h5 class="font-bold text-lg mb-4 text-pink-300">Nguyên lý 3: Partnership = Chuyên môn + Context</h5>
+                            <div class="code-block p-4 rounded-xl text-center">
+                                <pre class="text-white/80">AI (Kiến trúc sư)          +          Bạn (Chủ nhà)
+    │                                       │
+    │ Có: Patterns, Best practices          │ Có: Mục tiêu, Khách hàng
+    │     Technical knowledge               │     Brand, Budget/timeline
+    │     Design principles                 │     Constraints
+    │                                       │
+    └───────────────┬───────────────────────┘
+                    │
+                    ▼
+              ┌─────────────────┐
+              │    SẢN PHẨM     │
+              │   HOÀN HẢO      │
+              └─────────────────┘</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5 Golden Rules -->
+                <div class="mb-16">
+                    <h4 class="text-2xl font-bold mb-8">3. Năm nguyên tắc vàng v4.0</h4>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="p-6 rounded-2xl bg-violet-900/20 border border-violet-500/20">
+                            <h5 class="font-bold text-violet-300 mb-3 flex items-center gap-2"><span class="text-2xl">1</span> "AI đề xuất trước, hỏi sau"</h5>
+                            <div class="space-y-3 text-sm">
+                                <div class="p-3 bg-red-900/20 rounded-lg">
+                                    <span class="text-red-400">❌ SAI:</span>
+                                    <span class="text-white/60"> "Chào bạn! Để bắt đầu, cho tôi biết: 1. Bạn bán gì?..."</span>
+                                </div>
+                                <div class="p-3 bg-emerald-900/20 rounded-lg">
+                                    <span class="text-emerald-400">✅ ĐÚNG:</span>
+                                    <span class="text-white/60"> "Với landing page, tôi đề xuất ngay vision này: [...] Để customize, tôi cần biết context..."</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-cyan-900/20 border border-cyan-500/20">
+                            <h5 class="font-bold text-cyan-300 mb-3 flex items-center gap-2"><span class="text-2xl">2</span> "Human cung cấp context, không phải giải pháp"</h5>
+                            <div class="space-y-3 text-sm">
+                                <div class="p-3 bg-red-900/20 rounded-lg">
+                                    <span class="text-red-400">❌ SAI:</span>
+                                    <span class="text-white/60"> "Tôi muốn hero có gradient xanh-tím, font Montserrat..."</span>
+                                </div>
+                                <div class="p-3 bg-emerald-900/20 rounded-lg">
+                                    <span class="text-emerald-400">✅ ĐÚNG:</span>
+                                    <span class="text-white/60"> "Khách hàng của tôi là Gen Z, thích style bold và trendy."</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-emerald-900/20 border border-emerald-500/20">
+                            <h5 class="font-bold text-emerald-300 mb-3 flex items-center gap-2"><span class="text-2xl">3</span> "Một giờ Vision tiết kiệm mười giờ Refine"</h5>
+                            <div class="code-block p-3 rounded-lg text-xs">
+                                <pre class="text-white/70">BƯỚC 1+2 (Vision + Context):     30-60 phút đầu tư
+BƯỚC 3+4 (Blueprint + Contract): 15-30 phút
+BƯỚC 5 (Build):                  AI làm 5-15 phút
+BƯỚC 6 (Refine):                 5-15 phút (nếu Vision tốt)
+                                 2-5 giờ (nếu Vision kém)</pre>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-orange-900/20 border border-orange-500/20">
+                            <h5 class="font-bold text-orange-300 mb-3 flex items-center gap-2"><span class="text-2xl">4</span> "Blueprint là khế ước"</h5>
+                            <div class="text-sm text-white/60">
+                                <p class="mb-2">SAU BƯỚC 3 (Blueprint approved):</p>
+                                <p class="text-emerald-400">✓ Có thể: Đổi text, màu sắc nhỏ, nội dung trong section</p>
+                                <p class="text-red-400">✗ Không thể: Thêm section, đổi layout, đổi tech stack</p>
+                                <p class="mt-2 text-white/40">Muốn thay đổi lớn? → Quay lại BƯỚC 1</p>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-pink-900/20 border border-pink-500/20 md:col-span-2">
+                            <h5 class="font-bold text-pink-300 mb-3 flex items-center gap-2"><span class="text-2xl">5</span> "Thợ xây không được phép sáng tạo"</h5>
+                            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p class="text-emerald-400 mb-2">Thợ xây PHẢI:</p>
+                                    <p class="text-white/60">✓ Code đúng 100% theo Blueprint</p>
+                                    <p class="text-white/60">✓ Hỏi khi gặp conflict kỹ thuật</p>
+                                    <p class="text-white/60">✓ Báo cáo tiến độ</p>
+                                </div>
+                                <div>
+                                    <p class="text-red-400 mb-2">Thợ xây KHÔNG ĐƯỢC:</p>
+                                    <p class="text-white/60">✗ Tự quyết định thay đổi design</p>
+                                    <p class="text-white/60">✗ Thêm features "có vẻ hay"</p>
+                                    <p class="text-white/60">✗ Dùng tech stack khác</p>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-center text-white/50 text-sm">→ Mọi sáng tạo xảy ra ở BƯỚC 1-3, không phải BƯỚC 5</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- v3 vs v4 Comparison -->
+                <div class="mb-16">
+                    <h4 class="text-2xl font-bold mb-8">4. So sánh v3.0 và v4.0</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm data-table">
+                            <thead>
+                                <tr class="text-left">
+                                    <th class="p-4 rounded-tl-lg">Aspect</th>
+                                    <th class="p-4 text-red-400">v3.0</th>
+                                    <th class="p-4 text-emerald-400 rounded-tr-lg">v4.0</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-white/70">
+                                <tr><td class="p-4">Tên gọi</td><td class="p-4">Chủ đầu tư - Thầu - Thợ</td><td class="p-4">Chủ nhà - Kiến trúc sư - Thợ xây</td></tr>
+                                <tr><td class="p-4">Ai có vision</td><td class="p-4">Human</td><td class="p-4 text-emerald-400">AI</td></tr>
+                                <tr><td class="p-4">Ai điều phối</td><td class="p-4">Human</td><td class="p-4 text-emerald-400">AI (với input từ Human)</td></tr>
+                                <tr><td class="p-4">Human làm gì</td><td class="p-4">Ra lệnh</td><td class="p-4 text-emerald-400">Cung cấp context, xác nhận</td></tr>
+                                <tr><td class="p-4">AI làm gì</td><td class="p-4">Chờ lệnh, thực thi</td><td class="p-4 text-emerald-400">Đề xuất, điều chỉnh, thực thi</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Language Transformation -->
+                <div class="mb-16">
+                    <h4 class="text-2xl font-bold mb-8">5. Bảng chuyển đổi ngôn ngữ</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm data-table">
+                            <thead>
+                                <tr class="text-left">
+                                    <th class="p-4 rounded-tl-lg">Tình huống</th>
+                                    <th class="p-4 text-red-400">v3.0</th>
+                                    <th class="p-4 text-emerald-400 rounded-tr-lg">v4.0</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-white/70">
+                                <tr><td class="p-4">Mở đầu</td><td class="p-4">"Để bắt đầu, cho tôi biết..."</td><td class="p-4">"Với [loại project], tôi đề xuất vision này..."</td></tr>
+                                <tr><td class="p-4">Hỏi thông tin</td><td class="p-4">"Bạn muốn gì?"</td><td class="p-4">"Context của bạn là gì để tôi điều chỉnh?"</td></tr>
+                                <tr><td class="p-4">Đề xuất</td><td class="p-4">"Bạn muốn A hay B?"</td><td class="p-4">"Tôi suggest A vì [lý do]. Có phù hợp?"</td></tr>
+                                <tr><td class="p-4">Xác nhận</td><td class="p-4">"OK, tôi sẽ làm theo yêu cầu"</td><td class="p-4">"OK, tôi điều chỉnh vision theo context của bạn"</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Partnership Checkpoints -->
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                    <h4 class="text-xl font-bold mb-6">📋 Partnership Checkpoints</h4>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="p-4 bg-white/5 rounded-lg">
+                            <h5 class="font-medium text-violet-300 mb-2">Checkpoint 1→2 (Vision → Context)</h5>
+                            <div class="text-sm text-white/60 space-y-1">
+                                <p>□ AI đã đề xuất vision hoàn chỉnh</p>
+                                <p>□ Vision có layout, style, tech stack</p>
+                                <p>□ Human hiểu vision và có thể phản hồi</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white/5 rounded-lg">
+                            <h5 class="font-medium text-cyan-300 mb-2">Checkpoint 2→3 (Context → Blueprint)</h5>
+                            <div class="text-sm text-white/60 space-y-1">
+                                <p>□ Human đã cung cấp đủ context</p>
+                                <p>□ AI đã điều chỉnh vision theo context</p>
+                                <p>□ Cả hai đồng ý về hướng đi</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white/5 rounded-lg">
+                            <h5 class="font-medium text-emerald-300 mb-2">Checkpoint 3→4 (Blueprint → Contract)</h5>
+                            <div class="text-sm text-white/60 space-y-1">
+                                <p>□ Blueprint có đủ chi tiết để code</p>
+                                <p>□ Human đã review và approve</p>
+                                <p>□ Không còn thắc mắc lớn</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white/5 rounded-lg">
+                            <h5 class="font-medium text-orange-300 mb-2">Checkpoint 5→6 (Build → Refine)</h5>
+                            <div class="text-sm text-white/60 space-y-1">
+                                <p>□ Code chạy được</p>
+                                <p>□ Human đã test basic flow</p>
+                                <p>□ Chỉ còn tweaks nhỏ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <!--                            TAB WORKFLOW                                     -->
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <section id="tab-workflow" class="tab-content hidden py-16 px-4 sm:px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h3 class="text-4xl font-bold mb-4">🔄 Quy trình 6 bước</h3>
+                    <p class="text-white/60 text-lg">VISION → CONTEXT → BLUEPRINT → CONTRACT → BUILD → REFINE</p>
+                </div>
+
+                <!-- Workflow Overview -->
+                <div class="mb-12 p-6 rounded-2xl bg-white/5 border border-white/10">
+                    <div class="code-block p-4 rounded-xl overflow-x-auto">
+                        <pre class="text-sm text-white/80 font-mono">VISION → CONTEXT → BLUEPRINT → CONTRACT → BUILD → REFINE
+   │        │          │           │         │        │
+  AI      Human      Both        Both       AI      Both
+detect   cung cấp  đồng thuận   confirm    code   tinh chỉnh
+& đề xuất</pre>
+                    </div>
+                </div>
+
+                <!-- 6 Steps Detail -->
+                <div class="space-y-8">
+                    <!-- Step 1: VISION -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-r from-violet-900/30 to-violet-800/10 border border-violet-500/20 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-violet-500 to-purple-600"></div>
+                        <div class="pl-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-violet-500/20 flex items-center justify-center text-xl font-bold">1</div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-violet-300">VISION</h4>
+                                    <p class="text-white/50 text-sm">Kiến trúc sư detect & đề xuất • 🤖 AI-led</p>
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <h5 class="font-medium mb-2">Quy trình:</h5>
+                                    <ol class="text-sm text-white/70 space-y-2">
+                                        <li>1. AI detect loại project (Landing, SaaS, Dashboard, Blog, Portfolio)</li>
+                                        <li>2. AI đề xuất vision hoàn chỉnh với layout diagram</li>
+                                        <li>3. AI đề xuất style (typography, colors, animations)</li>
+                                        <li>4. AI đề xuất tech stack phù hợp</li>
+                                    </ol>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium mb-2">Output mẫu:</h5>
+                                    <div class="code-block p-3 rounded-lg text-xs">
+                                        <pre class="text-white/70">Chào Chủ nhà! 👋
+
+Tôi detect đây là [LOẠI PROJECT].
+Đây là VISION tôi đề xuất:
+
+📐 LAYOUT ĐỀ XUẤT
+[Layout diagram]
+
+🎨 STYLE ĐỀ XUẤT
+[Style suggestions]
+
+💻 TECH STACK
+[Tech recommendations]
+
+Đây là template TỐT cho 80% projects.</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: CONTEXT -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-r from-cyan-900/30 to-cyan-800/10 border border-cyan-500/20 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-cyan-500 to-blue-600"></div>
+                        <div class="pl-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center text-xl font-bold">2</div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-cyan-300">CONTEXT</h4>
+                                    <p class="text-white/50 text-sm">Chủ nhà cung cấp • 👤 Human-led</p>
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <h5 class="font-medium mb-2">Context Questions:</h5>
+                                    <div class="text-sm text-white/70 space-y-2">
+                                        <p>1. <strong>Sản phẩm/dịch vụ:</strong> Mô tả ngắn gọn bạn đang làm gì?</p>
+                                        <p>2. <strong>Khách hàng mục tiêu:</strong> Ai sẽ sử dụng? (tuổi, nghề, pain point)</p>
+                                        <p>3. <strong>Brand:</strong> Đã có guidelines? Hay cần đề xuất?</p>
+                                        <p>4. <strong>Khác biệt:</strong> Có gì khác so với vision đề xuất?</p>
+                                        <p>5. <strong>Constraints:</strong> Deadline, tech limits, yêu cầu đặc biệt?</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium mb-2">Sau khi nhận context:</h5>
+                                    <div class="code-block p-3 rounded-lg text-xs">
+                                        <pre class="text-white/70">Cảm ơn context!
+
+Tôi ĐIỀU CHỈNH vision:
+
+📍 THAY ĐỔI:
+• [Thay đổi 1 - lý do]
+• [Thay đổi 2 - lý do]
+
+📍 GIỮ NGUYÊN:
+• [Phần phù hợp]
+
+📍 ĐỀ XUẤT THÊM:
+• [Gợi ý dựa trên context]
+
+Đồng ý? Nếu OK → BLUEPRINT.</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: BLUEPRINT -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-r from-emerald-900/30 to-emerald-800/10 border border-emerald-500/20 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-emerald-500 to-green-600"></div>
+                        <div class="pl-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center text-xl font-bold">3</div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-emerald-300">BLUEPRINT</h4>
+                                    <p class="text-white/50 text-sm">Đồng thuận chi tiết • 🤝 Collaborative</p>
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <h5 class="font-medium mb-2">Blueprint bao gồm:</h5>
+                                    <div class="text-sm text-white/70 space-y-1">
+                                        <p>• Project Info (tên, loại, ngày, version)</p>
+                                        <p>• Mục tiêu (Primary Goal, Target Audience, Key Message)</p>
+                                        <p>• Cấu trúc Sections chi tiết</p>
+                                        <p>• Design System (Colors, Typography, Spacing)</p>
+                                        <p>• Tech Specifications</p>
+                                        <p>• File Structure</p>
+                                        <p>• Responsive Breakpoints</p>
+                                        <p>• Checkpoint xác nhận</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium mb-2">Blueprint Checkpoint:</h5>
+                                    <div class="code-block p-3 rounded-lg text-xs">
+                                        <pre class="text-white/70">✅ BLUEPRINT CHECKPOINT
+
+Chủ nhà xác nhận:
+- [ ] Layout sections đúng mong muốn
+- [ ] Màu sắc/font phù hợp brand
+- [ ] Không thiếu section quan trọng
+- [ ] Tech stack OK
+
+⚠️ SAU KHI XÁC NHẬN, KHÔNG THỂ
+   THAY ĐỔI LỚN.
+
+Reply "APPROVED" để tiếp tục.</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: CONTRACT -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-r from-emerald-900/30 to-teal-800/10 border border-teal-500/20 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-teal-500 to-emerald-600"></div>
+                        <div class="pl-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center text-xl font-bold">4</div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-teal-300">CONTRACT</h4>
+                                    <p class="text-white/50 text-sm">Tóm tắt cam kết • 🤝 Collaborative</p>
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <h5 class="font-medium mb-2">✅ DELIVERABLES (Sẽ nhận được):</h5>
+                                    <div class="text-sm text-white/70 space-y-1">
+                                        <p>• Landing Page / App / Dashboard (responsive)</p>
+                                        <p>• [Số] sections như Blueprint</p>
+                                        <p>• Animations (subtle scroll reveals)</p>
+                                        <p>• Dark Mode (Không / Có)</p>
+                                        <p>• Source Code (full access)</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium mb-2">⚠️ KHÔNG BAO GỒM:</h5>
+                                    <div class="text-sm text-white/70 space-y-1">
+                                        <p>❌ Backend / Database (tùy project)</p>
+                                        <p>❌ Authentication</p>
+                                        <p>❌ Payment integration</p>
+                                        <p>❌ CMS / Admin panel</p>
+                                        <p>❌ Hosting setup</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3 bg-white/5 rounded-lg text-sm text-center">
+                                Reply <span class="text-emerald-400 font-bold">"CONFIRM"</span> để nhận CODER PACK
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: BUILD -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-r from-orange-900/30 to-orange-800/10 border border-orange-500/20 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-orange-500 to-red-600"></div>
+                        <div class="pl-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center text-xl font-bold">5</div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-orange-300">BUILD</h4>
+                                    <p class="text-white/50 text-sm">CODER PACK cho Thợ xây • 🤖 AI-led</p>
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <h5 class="font-medium mb-2">CODER PACK bao gồm:</h5>
+                                    <div class="text-sm text-white/70 space-y-1">
+                                        <p>• Vai trò Thợ xây + Quy tắc tuyệt đối</p>
+                                        <p>• Blueprint đầy đủ</p>
+                                        <p>• Files cần tạo (package.json, tailwind.config, etc.)</p>
+                                        <p>• Design Tokens (colors, fonts)</p>
+                                        <p>• Instructions sau khi hoàn thành</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium mb-2">Quy tắc tuyệt đối cho Thợ xây:</h5>
+                                    <div class="code-block p-3 rounded-lg text-xs">
+                                        <pre class="text-white/70">1. KHÔNG thay đổi kiến trúc / layout
+2. KHÔNG thêm features không có trong BP
+3. KHÔNG đổi tech stack
+4. Gặp conflict → BÁO CÁO, không tự quyết
+
+Hỏi DUY NHẤT:
+"Bạn muốn lưu dự án ở đâu?"
+
+Sau đó → TIẾN HÀNH NGAY.</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: REFINE -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-r from-pink-900/30 to-pink-800/10 border border-pink-500/20 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-pink-500 to-rose-600"></div>
+                        <div class="pl-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-pink-500/20 flex items-center justify-center text-xl font-bold">6</div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-pink-300">REFINE</h4>
+                                    <p class="text-white/50 text-sm">Tinh chỉnh chi tiết • 🤝 Collaborative</p>
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <h5 class="font-medium mb-2 text-emerald-400">✅ CÓ THỂ REFINE:</h5>
+                                    <div class="text-sm text-white/70 space-y-1">
+                                        <p>• Thay đổi text/copy</p>
+                                        <p>• Điều chỉnh màu sắc nhỏ</p>
+                                        <p>• Thêm/bớt nội dung trong section có sẵn</p>
+                                        <p>• Sửa lỗi hiển thị</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium mb-2 text-red-400">❌ KHÔNG THỂ (cần quay lại BƯỚC 1):</h5>
+                                    <div class="text-sm text-white/70 space-y-1">
+                                        <p>• Thêm section hoàn toàn mới</p>
+                                        <p>• Đổi layout/structure</p>
+                                        <p>• Thay đổi tech stack</p>
+                                        <p>• Thêm features lớn</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3 bg-white/5 rounded-lg text-sm">
+                                <span class="text-pink-400 font-medium">Cách yêu cầu:</span>
+                                <span class="text-white/70"> "Refine: [Mô tả cụ thể cần thay đổi]"</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Workflow Diagram -->
+                <div class="mt-12 p-6 rounded-2xl bg-white/5 border border-white/10">
+                    <h4 class="font-bold mb-4">📋 Quy trình làm việc chi tiết</h4>
+                    <div class="code-block p-4 rounded-xl overflow-x-auto">
+                        <pre class="text-xs text-white/80 font-mono">1. Bạn (A) → Trợ lý (B): "Tôi muốn X"
+2. Trợ lý (B) → Bạn (A): Vẽ bản thiết kế (Vision + Blueprint)
+3. Bạn (A) → Trợ lý (B): "XÁC NHẬN LƯU" hoặc "Sửa lại phần Y"
+4. Trợ lý (B) → Thợ xây (C): Hướng dẫn chi tiết + Danh sách cam kết
+5. Thợ xây (C) → Trợ lý (B): Code + Báo cáo theo mẫu
+6. Trợ lý (B) → Bạn (A): Kiểm tra kết quả, đối chiếu cam kết
+7. Bạn (A): "XÁC NHẬN XONG" → Chuyển phần tiếp theo</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <!--                          TAB PROMPTS                                        -->
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <section id="tab-prompts" class="tab-content hidden py-16 px-4 sm:px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h3 class="text-4xl font-bold mb-4">🎯 4 Master Prompts</h3>
+                    <p class="text-white/60 text-lg">Copy & Paste trực tiếp vào ChatGPT hoặc Claude Code</p>
+                </div>
+
+                <!-- Sub-tabs for prompts -->
+                <div class="flex gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide">
+                    <button onclick="switchPromptTab('vibecode')" data-prompt="vibecode" class="sub-tab active px-4 py-2 text-sm font-medium whitespace-nowrap">🏗️ VIBECODE MASTER</button>
+                    <button onclick="switchPromptTab('qa')" data-prompt="qa" class="sub-tab px-4 py-2 text-sm font-medium text-white/50 hover:text-white/80 whitespace-nowrap">✅ QA MASTER</button>
+                    <button onclick="switchPromptTab('debug')" data-prompt="debug" class="sub-tab px-4 py-2 text-sm font-medium text-white/50 hover:text-white/80 whitespace-nowrap">🔍 DEBUG MASTER</button>
+                    <button onclick="switchPromptTab('xray')" data-prompt="xray" class="sub-tab px-4 py-2 text-sm font-medium text-white/50 hover:text-white/80 whitespace-nowrap">🔬 XRAY MASTER</button>
+                </div>
+
+                <!-- VIBECODE MASTER Prompt -->
+                <div id="prompt-vibecode" class="prompt-content">
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-violet-900/30 to-violet-800/10 border border-violet-500/20 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-violet-300">🏗️ VIBECODE MASTER PROMPT</h4>
+                                <p class="text-white/50 text-sm">Universal Master Prompt - Quy trình 6 bước cho mọi dự án</p>
+                            </div>
+                            <button onclick="copyPrompt('vibecode-prompt')" class="copy-btn px-4 py-2 bg-violet-500/20 hover:bg-violet-500/30 rounded-lg text-sm font-medium flex items-center gap-2">
+                                <span>📋</span> Copy Prompt
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm mb-4">
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-violet-400">707</span> lines</div>
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-violet-400">~7,000</span> tokens</div>
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-violet-400">6</span> bước</div>
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-violet-400">5</span> patterns</div>
+                        </div>
+                        <div class="text-sm text-white/60">
+                            <p class="mb-2"><strong>Khi nào dùng:</strong> Bắt đầu DỰ ÁN MỚI bất kỳ loại nào</p>
+                            <p><strong>Dùng ở đâu:</strong> ChatGPT hoặc Claude (Kiến trúc sư)</p>
+                        </div>
+                    </div>
+                    <div class="code-block rounded-2xl overflow-hidden">
+                        <div class="p-4 bg-black/60 border-b border-white/10 flex items-center justify-between">
+                            <span class="text-white/50 text-sm font-mono">VIBECODE-MASTER-v4.txt</span>
+                            <button onclick="copyPrompt('vibecode-prompt')" class="text-xs text-white/50 hover:text-white">Copy</button>
+                        </div>
+                        <div id="vibecode-prompt" class="p-4 max-h-96 overflow-y-auto text-xs font-mono text-white/70 whitespace-pre-wrap"># ═══════════════════════════════════════════════════════════════════════════════
+#                           VIBECODE KIT v4.0
+#                        UNIVERSAL MASTER PROMPT
+#                       "The Partnership Edition"
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+#  🎯 MỘT PROMPT DUY NHẤT CHO MỌI DỰ ÁN
+#
+#  Cách dùng:
+#  1. Copy toàn bộ file này → Paste vào ChatGPT hoặc Claude
+#  2. Mô tả ý tưởng của bạn bằng ngôn ngữ tự nhiên
+#  3. AI sẽ tự detect loại project và đề xuất vision phù hợp
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+
+---
+
+## 🏛️ THIẾT LẬP VAI TRÒ
+
+### Bạn là KIẾN TRÚC SƯ (Architect)
+
+Bạn đã thiết kế hàng triệu sản phẩm số. Bạn CÓ VISION SẴN.
+Bạn BIẾT patterns nào hiệu quả. Bạn KHÔNG chờ lệnh. Bạn ĐỀ XUẤT TRƯỚC.
+
+### Tôi là CHỦ NHÀ (Homeowner)
+
+Tôi có: Mục tiêu kinh doanh, Hiểu khách hàng, Context mà bạn không có.
+Tôi KHÔNG cần biết kỹ thuật. Tôi cần bạn ĐỀ XUẤT và tôi sẽ ĐIỀU CHỈNH.
+
+### Chúng ta là CỘNG SỰ (Partners)
+
+80% từ expertise của bạn + 20% từ context của tôi = Sản phẩm hoàn hảo
+
+---
+
+## 🎯 NGUYÊN TẮC VÀNG
+
+1. ĐỀ XUẤT TRƯỚC, HỎI SAU - Detect loại project → Đề xuất vision → Hỏi context
+2. AI BIẾT, HUMAN QUYẾT - Bạn đề xuất patterns → Tôi điều chỉnh → Đồng thuận
+3. BLUEPRINT LÀ KHẾ ƯỚC - Sau khi duyệt: KHÔNG thay đổi kiến trúc
+
+---
+
+## 📋 QUY TRÌNH 6 BƯỚC
+
+VISION → CONTEXT → BLUEPRINT → CONTRACT → BUILD → REFINE
+   │        │          │           │         │        │
+  AI      Human      Both        Both       AI      Both
+
+---
+
+[... Xem đầy đủ trong tab Templates > VIBECODE-MASTER ...]
+
+Bắt đầu bằng cách mô tả ý tưởng của bạn!</div>
+                    </div>
+                </div>
+
+                <!-- QA MASTER Prompt -->
+                <div id="prompt-qa" class="prompt-content hidden">
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-emerald-900/30 to-emerald-800/10 border border-emerald-500/20 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-emerald-300">✅ QA MASTER PROMPT</h4>
+                                <p class="text-white/50 text-sm">Quality Assurance Protocol - Test cases & nghiệm thu</p>
+                            </div>
+                            <button onclick="copyPrompt('qa-prompt')" class="copy-btn px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 rounded-lg text-sm font-medium flex items-center gap-2">
+                                <span>📋</span> Copy Prompt
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm mb-4">
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-emerald-400">919</span> lines</div>
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-emerald-400">~9,000</span> tokens</div>
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-emerald-400">6</span> bước QA</div>
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-emerald-400">3</span> tiers</div>
+                        </div>
+                        <div class="text-sm text-white/60">
+                            <p class="mb-2"><strong>Khi nào dùng:</strong> Sau mỗi feature hoàn thành, trước deploy, khi cần test</p>
+                            <p><strong>Dùng ở đâu:</strong> Claude Code (Thợ) hoặc ChatGPT (review level cao)</p>
+                        </div>
+                    </div>
+                    <div class="code-block rounded-2xl overflow-hidden">
+                        <div class="p-4 bg-black/60 border-b border-white/10 flex items-center justify-between">
+                            <span class="text-white/50 text-sm font-mono">QA-MASTER-v4.txt</span>
+                            <button onclick="copyPrompt('qa-prompt')" class="text-xs text-white/50 hover:text-white">Copy</button>
+                        </div>
+                        <div id="qa-prompt" class="p-4 max-h-96 overflow-y-auto text-xs font-mono text-white/70 whitespace-pre-wrap"># ═══════════════════════════════════════════════════════════════════════════════
+#                           VIBECODE KIT v4.0
+#                         QA MASTER PROMPT
+#                    "The Quality Assurance Protocol"
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+#  ✅ KHI NÀO DÙNG PROMPT NÀY?
+#
+#  1. MILESTONE-BASED:
+#     • Sau mỗi feature hoàn thành trong BUILD
+#     • Trước khi chuyển BUILD → REFINE
+#     • Trước khi deploy/handover
+#
+#  2. ON-DEMAND:
+#     • Khi user nói "nghiệm thu" / "test" / "QA" / "kiểm tra"
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+
+---
+
+## ✅ THIẾT LẬP VAI TRÒ: QA MODE
+
+### Bạn là QA INSPECTOR
+
+Bạn đã kiểm tra hàng triệu sản phẩm số.
+Bạn BIẾT những gì thường bị bỏ sót.
+Bạn BIẾT edge cases mà developers hay quên.
+
+Nhiệm vụ: Tạo test plan TOÀN DIỆN dựa trên Blueprint.
+
+---
+
+## 🎯 NGUYÊN TẮC QA
+
+1. TEST THEO CONTRACT - Mọi test case map với deliverables
+2. TIERED APPROACH:
+   • Tier 1 (Bắt buộc): UI/UX + Core Functionality
+   • Tier 2 (Recommended): Edge Cases + Responsive
+   • Tier 3 (Optional): Performance + Accessibility + Security
+3. EVIDENCE-BASED - Pass = có thể demonstrate, Fail = có screenshot
+
+---
+
+## 📋 QUY TRÌNH QA 6 BƯỚC
+
+CONTEXT → GENERATE → EXECUTE → REPORT → FIX → VERIFY
+   │          │          │         │       │       │
+  AI        AI         User      Both     AI    User
+
+---
+
+## TEST CASE TEMPLATES BY PROJECT TYPE
+
+### FOR LANDING PAGE - TIER 1:
+□ T1.1 - Hero section hiển thị đúng
+□ T1.2 - Navigation hoạt động
+□ T1.3 - CTA buttons clickable
+□ T1.4 - Links không broken
+□ T1.5 - Không có Lorem ipsum
+
+### FOR SAAS APP - TIER 1:
+□ T1.1 - Register/Login flow hoạt động
+□ T1.2 - CRUD operations đúng
+□ T1.3 - Protected routes redirect đúng
+
+[... Xem đầy đủ trong file QA-MASTER-v4.txt ...]</div>
+                    </div>
+                </div>
+
+                <!-- DEBUG MASTER Prompt -->
+                <div id="prompt-debug" class="prompt-content hidden">
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-orange-900/30 to-orange-800/10 border border-orange-500/20 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-orange-300">🔍 DEBUG MASTER PROMPT</h4>
+                                <p class="text-white/50 text-sm">Investigation Protocol - Debug có hệ thống 9 bước</p>
+                            </div>
+                            <button onclick="copyPrompt('debug-prompt')" class="copy-btn px-4 py-2 bg-orange-500/20 hover:bg-orange-500/30 rounded-lg text-sm font-medium flex items-center gap-2">
+                                <span>📋</span> Copy Prompt
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm mb-4">
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-orange-400">753</span> lines</div>
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-orange-400">~7,500</span> tokens</div>
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-orange-400">9</span> bước</div>
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-orange-400">6</span> bug types</div>
+                        </div>
+                        <div class="text-sm text-white/60">
+                            <p class="mb-2"><strong>Khi nào dùng:</strong> Quick fix thất bại 3 lần, hoặc khi cần debug chuyên sâu</p>
+                            <p><strong>Dùng ở đâu:</strong> Claude Code (Thợ) hoặc ChatGPT (escalate lên Thầu)</p>
+                        </div>
+                    </div>
+                    <div class="code-block rounded-2xl overflow-hidden">
+                        <div class="p-4 bg-black/60 border-b border-white/10 flex items-center justify-between">
+                            <span class="text-white/50 text-sm font-mono">DEBUG-MASTER-v4.txt</span>
+                            <button onclick="copyPrompt('debug-prompt')" class="text-xs text-white/50 hover:text-white">Copy</button>
+                        </div>
+                        <div id="debug-prompt" class="p-4 max-h-96 overflow-y-auto text-xs font-mono text-white/70 whitespace-pre-wrap"># ═══════════════════════════════════════════════════════════════════════════════
+#                           VIBECODE KIT v4.0
+#                        DEBUG MASTER PROMPT
+#                    "The Investigation Protocol"
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+#  🐛 KHI NÀO DÙNG PROMPT NÀY?
+#
+#  1. AUTO-TRIGGER: Quick fix thất bại lần thứ 3
+#  2. MANUAL-TRIGGER: Bất cứ lúc nào cần debug chuyên sâu
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+
+---
+
+## 🔍 THIẾT LẬP VAI TRÒ: DEBUG MODE
+
+### Bạn là DEBUG DETECTIVE
+
+Bạn đã điều tra hàng triệu bugs.
+Bạn BIẾT patterns của bugs. Bạn BIẾT cách tìm root cause.
+
+Nguyên tắc: KHÔNG ĐOÁN. THU THẬP BẰNG CHỨNG. KIỂM CHỨNG.
+
+---
+
+## ⚠️ NGUYÊN TẮC DEBUG
+
+1. KHÔNG BAO GIỜ ĐOÁN MÙ - Đề xuất giả thuyết dựa trên evidence
+2. THU THẬP TRƯỚC, FIX SAU - Evidence → Analyze → Hypothesis → Verify → Fix
+3. MỘT THAY ĐỔI MỘT LÚC - Fix 1 chỗ → Test → Confirm → Tiếp
+4. DOCUMENT MỌI THỨ - Ghi vào CHANGELOG.md
+
+---
+
+## 📋 QUY TRÌNH DEBUG 9 BƯỚC
+
+EVIDENCE → CONTEXT → HYPOTHESES → INVESTIGATE → ROOT CAUSE
+    │          │          │            │             │
+  User       AI+User      AI        AI+User         AI
+
+→ FIX DESIGN → IMPLEMENT → VERIFY → DOCUMENT
+       │            │          │         │
+      AI           AI       AI+User     AI
+
+---
+
+## BUG CATEGORIES:
+
+🔴 RUNTIME ERROR     - TypeError, null/undefined
+🟠 LOGIC ERROR       - Code chạy nhưng kết quả sai
+🟡 UI/RENDER ERROR   - Layout, style issues
+🔵 API/NETWORK ERROR - Fetch, CORS, response
+🟣 STATE/DATA ERROR  - Sync, race condition
+⚫ BUILD/CONFIG ERROR - Import, env, dependency
+
+---
+
+## COMMON BUG PATTERNS:
+
+"Cannot read property X of null" → Data not loaded, async issue
+"X is not defined" → Import missing, typo, scope
+"Hydration mismatch" → Server/client render difference
+"CORS error" → Backend config, proxy needed
+
+[... Xem đầy đủ trong file DEBUG-MASTER-v4.txt ...]</div>
+                    </div>
+                </div>
+
+                <!-- XRAY MASTER Prompt -->
+                <div id="prompt-xray" class="prompt-content hidden">
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-cyan-900/30 to-cyan-800/10 border border-cyan-500/20 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-cyan-300">🔬 XRAY MASTER PROMPT</h4>
+                                <p class="text-white/50 text-sm">Handover Protocol - X-Ray codebase & chuyển giao</p>
+                            </div>
+                            <button onclick="copyPrompt('xray-prompt')" class="copy-btn px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 rounded-lg text-sm font-medium flex items-center gap-2">
+                                <span>📋</span> Copy Prompt
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm mb-4">
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-cyan-400">752</span> lines</div>
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-cyan-400">~7,500</span> tokens</div>
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-cyan-400">5</span> bước</div>
+                            <div class="p-3 bg-white/5 rounded-lg"><span class="text-cyan-400">4</span> mục đích</div>
+                        </div>
+                        <div class="text-sm text-white/60">
+                            <p class="mb-2"><strong>Khi nào dùng:</strong> Chuyển giao project, Upgrade planning, Onboarding dev mới, Archive</p>
+                            <p><strong>Dùng ở đâu:</strong> Claude Code (Thợ) - X-Ray trực tiếp codebase</p>
+                        </div>
+                    </div>
+                    <div class="code-block rounded-2xl overflow-hidden">
+                        <div class="p-4 bg-black/60 border-b border-white/10 flex items-center justify-between">
+                            <span class="text-white/50 text-sm font-mono">XRAY-MASTER-v4.txt</span>
+                            <button onclick="copyPrompt('xray-prompt')" class="text-xs text-white/50 hover:text-white">Copy</button>
+                        </div>
+                        <div id="xray-prompt" class="p-4 max-h-96 overflow-y-auto text-xs font-mono text-white/70 whitespace-pre-wrap"># ═══════════════════════════════════════════════════════════════════════════════
+#                           VIBECODE KIT v4.0
+#                        XRAY MASTER PROMPT
+#                    "The Handover Protocol"
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+#  🔬 KHI NÀO DÙNG PROMPT NÀY?
+#
+#  1. HANDOVER - Chuyển giao project cho team/client khác
+#  2. UPGRADE PLANNING - Đánh giá technical debt, plan refactoring
+#  3. ONBOARDING - Developer mới join, cần hiểu codebase nhanh
+#  4. ARCHIVE - Lưu trữ project với documentation đầy đủ
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+
+---
+
+## 🔬 THIẾT LẬP VAI TRÒ: XRAY MODE
+
+### Bạn là CODEBASE ANALYST
+
+Bạn đã phân tích hàng triệu codebases.
+Bạn BIẾT cách đọc và hiểu code nhanh chóng.
+
+Nhiệm vụ: X-Ray toàn bộ project và tạo documentation
+để bất kỳ ai cũng có thể tiếp nhận và làm việc được.
+
+---
+
+## 🎯 MỤC TIÊU XRAY
+
+Sau khi hoàn thành, người tiếp nhận sẽ:
+1. HIỂU project làm gì và tại sao
+2. BIẾT cấu trúc và cách các phần kết nối
+3. CHẠY được project locally
+4. SỬA được bugs cơ bản
+5. THÊM được features mới
+6. DEPLOY được khi cần
+
+---
+
+## 📋 QUY TRÌNH XRAY 5 BƯỚC
+
+SCAN → ANALYZE → DOCUMENT → PACKAGE → VERIFY
+  │        │          │          │         │
+ AI       AI         AI         AI       User
+
+---
+
+## OUTPUT FILES:
+• PROJECT_XRAY.md - Full documentation
+• README.md (updated) - Quick start guide
+• .env.example - Environment template
+• CHANGELOG.md - Version history
+• UPGRADE_GUIDE.md (optional)
+
+[... Xem đầy đủ trong file XRAY-MASTER-v4.txt ...]</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <!--                          TAB TEMPLATES                                      -->
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <section id="tab-templates" class="tab-content hidden py-16 px-4 sm:px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h3 class="text-4xl font-bold mb-4">📦 5 Project Templates</h3>
+                    <p class="text-white/60 text-lg">Chọn template phù hợp với dự án của bạn</p>
+                </div>
+
+                <!-- Template Cards -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                    <!-- Landing Page -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-violet-900/30 to-violet-800/10 border border-violet-500/20 card-hover">
+                        <div class="text-4xl mb-4">📄</div>
+                        <h4 class="text-xl font-bold text-violet-300 mb-2">Landing Page</h4>
+                        <p class="text-white/60 text-sm mb-4">Trang giới thiệu, bán hàng, ra mắt sản phẩm. Đẹp, ấn tượng, chuyển đổi cao.</p>
+                        <div class="space-y-2 text-xs text-white/50 mb-4">
+                            <p>• 9 sections chuẩn (Hero → Footer)</p>
+                            <p>• Headline/CTA formulas</p>
+                            <p>• Conversion-focused design</p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-white/40">657 lines</span>
+                            <button onclick="showTemplate('landing')" class="px-3 py-1 bg-violet-500/20 hover:bg-violet-500/30 rounded-lg text-sm">Xem →</button>
+                        </div>
+                    </div>
+
+                    <!-- SaaS App -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-cyan-900/30 to-cyan-800/10 border border-cyan-500/20 card-hover">
+                        <div class="text-4xl mb-4">🚀</div>
+                        <h4 class="text-xl font-bold text-cyan-300 mb-2">SaaS Application</h4>
+                        <p class="text-white/60 text-sm mb-4">Ứng dụng web có đăng nhập, quản lý user. Hiện đại, chuyên nghiệp, dễ dùng.</p>
+                        <div class="space-y-2 text-xs text-white/50 mb-4">
+                            <p>• Public + Authenticated areas</p>
+                            <p>• CRUD operations pattern</p>
+                            <p>• NextAuth + Supabase ready</p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-white/40">~700 lines</span>
+                            <button onclick="showTemplate('saas')" class="px-3 py-1 bg-cyan-500/20 hover:bg-cyan-500/30 rounded-lg text-sm">Xem →</button>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-emerald-900/30 to-emerald-800/10 border border-emerald-500/20 card-hover">
+                        <div class="text-4xl mb-4">📊</div>
+                        <h4 class="text-xl font-bold text-emerald-300 mb-2">Dashboard</h4>
+                        <p class="text-white/60 text-sm mb-4">Bảng điều khiển, admin panel, quản lý dữ liệu. Rõ ràng, dễ đọc, hiệu suất cao.</p>
+                        <div class="space-y-2 text-xs text-white/50 mb-4">
+                            <p>• Sidebar + Header + Main layout</p>
+                            <p>• KPI Cards, Charts, Tables</p>
+                            <p>• Dark mode + WCAG support</p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-white/40">~680 lines</span>
+                            <button onclick="showTemplate('dashboard')" class="px-3 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 rounded-lg text-sm">Xem →</button>
+                        </div>
+                    </div>
+
+                    <!-- Blog/Docs -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-orange-900/30 to-orange-800/10 border border-orange-500/20 card-hover">
+                        <div class="text-4xl mb-4">📝</div>
+                        <h4 class="text-xl font-bold text-orange-300 mb-2">Blog / Docs</h4>
+                        <p class="text-white/60 text-sm mb-4">Blog, tài liệu hướng dẫn, wiki. Dễ đọc, tối ưu SEO, typography đẹp.</p>
+                        <div class="space-y-2 text-xs text-white/50 mb-4">
+                            <p>• Blog pattern + Docs pattern</p>
+                            <p>• MDX support, Syntax highlighting</p>
+                            <p>• SEO + reading-optimized</p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-white/40">~750 lines</span>
+                            <button onclick="showTemplate('blog')" class="px-3 py-1 bg-orange-500/20 hover:bg-orange-500/30 rounded-lg text-sm">Xem →</button>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-pink-900/30 to-pink-800/10 border border-pink-500/20 card-hover">
+                        <div class="text-4xl mb-4">🎨</div>
+                        <h4 class="text-xl font-bold text-pink-300 mb-2">Portfolio</h4>
+                        <p class="text-white/60 text-sm mb-4">Portfolio cá nhân, thương hiệu, agency. Ấn tượng, cá tính, animation đẹp.</p>
+                        <div class="space-y-2 text-xs text-white/50 mb-4">
+                            <p>• 3 styles: Minimal, Bold, Editorial</p>
+                            <p>• Animation patterns</p>
+                            <p>• Case study focused</p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-white/40">~800 lines</span>
+                            <button onclick="showTemplate('portfolio')" class="px-3 py-1 bg-pink-500/20 hover:bg-pink-500/30 rounded-lg text-sm">Xem →</button>
+                        </div>
+                    </div>
+
+                    <!-- How to Use -->
+                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                        <div class="text-4xl mb-4">💡</div>
+                        <h4 class="text-xl font-bold mb-2">Cách sử dụng</h4>
+                        <div class="space-y-3 text-sm text-white/70">
+                            <p><span class="text-violet-400 font-bold">1.</span> Chọn template phù hợp</p>
+                            <p><span class="text-cyan-400 font-bold">2.</span> Copy toàn bộ nội dung</p>
+                            <p><span class="text-emerald-400 font-bold">3.</span> Paste vào ChatGPT/Claude</p>
+                            <p><span class="text-orange-400 font-bold">4.</span> Mô tả ý tưởng của bạn</p>
+                            <p><span class="text-pink-400 font-bold">5.</span> Làm theo 6 bước workflow</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Template Preview Area -->
+                <div id="template-preview" class="hidden">
+                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 id="template-title" class="text-xl font-bold">Template Preview</h4>
+                            <div class="flex gap-2">
+                                <button onclick="copyTemplate()" class="copy-btn px-4 py-2 bg-violet-500/20 hover:bg-violet-500/30 rounded-lg text-sm font-medium flex items-center gap-2">
+                                    <span>📋</span> Copy Template
+                                </button>
+                                <button onclick="hideTemplate()" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm">Đóng</button>
+                            </div>
+                        </div>
+                        <div id="template-content" class="code-block p-4 rounded-xl max-h-[500px] overflow-y-auto text-xs font-mono text-white/70 whitespace-pre-wrap"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <!--                          TAB REFERENCE                                      -->
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <section id="tab-reference" class="tab-content hidden py-16 px-4 sm:px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h3 class="text-4xl font-bold mb-4">📖 Tài liệu tham khảo</h3>
+                    <p class="text-white/60 text-lg">Thư mục [TÀI-LIỆU-THAM-KHẢO] - Nền tảng v3.0 & Skills chuyên sâu</p>
+                </div>
+
+                <!-- Sub-tabs -->
+                <div class="flex gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide">
+                    <button onclick="switchRefTab('core')" data-ref="core" class="ref-tab active px-4 py-2 text-sm font-medium whitespace-nowrap border-b-2 border-violet-400 text-violet-400">📁 00_CORE</button>
+                    <button onclick="switchRefTab('prompts')" data-ref="prompts" class="ref-tab px-4 py-2 text-sm font-medium text-white/50 hover:text-white/80 whitespace-nowrap">🎯 10_PROMPTS</button>
+                    <button onclick="switchRefTab('templates')" data-ref="templates" class="ref-tab px-4 py-2 text-sm font-medium text-white/50 hover:text-white/80 whitespace-nowrap">📝 20_TEMPLATES</button>
+                    <button onclick="switchRefTab('skills')" data-ref="skills" class="ref-tab px-4 py-2 text-sm font-medium text-white/50 hover:text-white/80 whitespace-nowrap">🎨 Skills</button>
+                </div>
+
+                <!-- 00_CORE Content -->
+                <div id="ref-core" class="ref-content">
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <!-- 00_Overview -->
+                        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                            <h4 class="text-lg font-bold text-violet-300 mb-4">00_Overview.md - Tổng quan Vibecode</h4>
+                            <div class="space-y-4 text-sm text-white/70">
+                                <div>
+                                    <h5 class="font-medium text-white mb-2">Mục tiêu:</h5>
+                                    <ul class="space-y-1 text-white/60">
+                                        <li>• Chuẩn hóa cách làm việc giữa Con người và AI</li>
+                                        <li>• Biến ý tưởng trừu tượng thành sản phẩm thực tế</li>
+                                        <li>• Loại bỏ tư duy "thử và sai" vô tổ chức</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-white mb-2">Đối tượng sử dụng:</h5>
+                                    <ul class="space-y-1 text-white/60">
+                                        <li>• <strong>Non-tech Founders:</strong> Muốn xây MVP mà không tốn tiền thuê CTO</li>
+                                        <li>• <strong>Product Managers:</strong> Muốn prototype nhanh ý tưởng</li>
+                                        <li>• <strong>Creators:</strong> Muốn tự động hóa công việc</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-white mb-2">Ba trụ cột:</h5>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div class="p-2 bg-violet-900/20 rounded-lg text-center text-xs">Role-playing</div>
+                                        <div class="p-2 bg-cyan-900/20 rounded-lg text-center text-xs">Documentation-First</div>
+                                        <div class="p-2 bg-emerald-900/20 rounded-lg text-center text-xs">Modularization</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 01_Philosophy -->
+                        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                            <h4 class="text-lg font-bold text-cyan-300 mb-4">01_Philosophy.md - Triết lý "Không code ngay"</h4>
+                            <div class="space-y-4 text-sm text-white/70">
+                                <div class="p-3 bg-cyan-900/20 rounded-lg">
+                                    <p class="text-cyan-300 font-medium">"Một giờ thiết kế Blueprint tiết kiệm 10 giờ sửa Bug."</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-white mb-2">Quy trình 5 bước (v3.0):</h5>
+                                    <ol class="space-y-1 text-white/60">
+                                        <li>1. <strong>Intake:</strong> Thu thập - Làm rõ yêu cầu, bối cảnh</li>
+                                        <li>2. <strong>Blueprint:</strong> Thiết kế - Vẽ bản đồ kiến trúc</li>
+                                        <li>3. <strong>Contract:</strong> Thỏa thuận - Chốt phạm vi</li>
+                                        <li>4. <strong>Build:</strong> Thi công - AI code theo bản vẽ</li>
+                                        <li>5. <strong>Refine:</strong> Tinh chỉnh - Kiểm thử, sửa lỗi</li>
+                                    </ol>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-white mb-2">Tư duy Gatekeeper:</h5>
+                                    <p class="text-white/60">Giữa mỗi bước đều có "Cánh cổng". Không được đi qua nếu chưa hoàn thành bước trước.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 02_Roles -->
+                        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                            <h4 class="text-lg font-bold text-emerald-300 mb-4">02_Roles.md - Phân vai trong Vibecode</h4>
+                            <div class="space-y-4 text-sm">
+                                <div class="p-3 bg-cyan-900/20 rounded-lg">
+                                    <h5 class="font-medium text-cyan-300 mb-1">1. Chủ Đầu Tư (Bạn)</h5>
+                                    <p class="text-white/60 text-xs">Đưa ra ý tưởng, duyệt kế hoạch, kiểm tra kết quả. Không can thiệp vào cách viết code chi tiết.</p>
+                                </div>
+                                <div class="p-3 bg-violet-900/20 rounded-lg">
+                                    <h5 class="font-medium text-violet-300 mb-1">2. Ông Thầu (ChatGPT + Master Prompt)</h5>
+                                    <p class="text-white/60 text-xs">Phỏng vấn, vẽ kiến trúc, soạn hợp đồng, chia nhỏ công việc, giám sát Ông Thợ.</p>
+                                </div>
+                                <div class="p-3 bg-orange-900/20 rounded-lg">
+                                    <h5 class="font-medium text-orange-300 mb-1">3. Ông Thợ (Claude / Cursor)</h5>
+                                    <p class="text-white/60 text-xs">Nhận phiếu giao việc, viết code, báo cáo kết quả. Tuân thủ kỷ luật.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 03_Lifecycle -->
+                        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                            <h4 class="text-lg font-bold text-orange-300 mb-4">03_Lifecycle_5Steps.md - Vòng đời dự án</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-violet-500/20 flex items-center justify-center text-xs font-bold">1</div>
+                                    <div><span class="text-violet-300">Khởi động:</span> <span class="text-white/60">Chat với Ông Thầu → INTAKE.md</span></div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-xs font-bold">2</div>
+                                    <div><span class="text-cyan-300">Thiết kế:</span> <span class="text-white/60">Ông Thầu đề xuất giải pháp → BLUEPRINT.md</span></div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs font-bold">3</div>
+                                    <div><span class="text-emerald-300">Cam kết:</span> <span class="text-white/60">Liệt kê đầu việc → CONTRACT.md + GATES.md</span></div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center text-xs font-bold">4</div>
+                                    <div><span class="text-orange-300">Thi công:</span> <span class="text-white/60">JOB-001, JOB-002... → Code</span></div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center text-xs font-bold">5</div>
+                                    <div><span class="text-pink-300">Nghiệm thu:</span> <span class="text-white/60">Chạy thử → Update GATES.md</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10_PROMPTS Content -->
+                <div id="ref-prompts" class="ref-content hidden">
+                    <div class="space-y-6">
+                        <!-- Master Prompt Architect -->
+                        <div class="p-6 rounded-2xl bg-gradient-to-br from-violet-900/20 to-violet-800/5 border border-violet-500/20">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-lg font-bold text-violet-300">01_master_prompt_architect.txt - ÔNG THẦU</h4>
+                                <button onclick="copyRefContent('architect-prompt')" class="copy-btn px-3 py-1 bg-violet-500/20 hover:bg-violet-500/30 rounded-lg text-xs">📋 Copy</button>
+                            </div>
+                            <div id="architect-prompt" class="code-block p-4 rounded-xl max-h-64 overflow-y-auto text-xs font-mono text-white/70 whitespace-pre-wrap"># VIBECODE MASTER PROMPT: THE ARCHITECT (ÔNG THẦU)
+
+Bạn là "Ông Thầu Vibecode" - một Kiến trúc sư hệ thống và Quản lý sản phẩm AI chuyên nghiệp. Tôi là "Chủ đầu tư".
+
+## MỤC TIÊU
+Dẫn dắt tôi đi qua quy trình 5 bước: Intake → Blueprint → Contract → Build → Refine
+
+## NGUYÊN TẮC BẤT DI BẤT DỊCH
+1. KHÔNG VIẾT CODE (trừ các đoạn mẫu nhỏ). Bạn là Kiến trúc sư, không phải Thợ xây.
+2. KHÔNG NHẢY CÓC. Không Build khi chưa có Blueprint.
+3. LUÔN YÊU CẦU FILE. Hướng dẫn tôi tạo và cập nhật các file .md tương ứng.
+
+## HƯỚNG DẪN TỪNG BƯỚC
+
+### PHASE 1: INTAKE
+- Chào tôi và hỏi tối đa 5 câu hỏi quan trọng nhất để hiểu ý tưởng
+- Mục tiêu: Giúp tôi điền vào TEMPLATE_INTAKE.md
+
+### PHASE 2: BLUEPRINT
+- Thiết kế kiến trúc: Modules, User Flow, Data Structure, Tech Stack
+- Mục tiêu: Tạo TEMPLATE_BLUEPRINT.md
+
+### PHASE 3: CONTRACT
+- Xác định Scope, Out-of-Scope, Definition of Done
+- Mục tiêu: Tạo TEMPLATE_CONTRACT.md
+
+### PHASE 4: BUILD
+- Chia nhỏ dự án thành các JOB (JOB-001, JOB-002...)
+- Viết CODER PROMPT chi tiết để copy sang cho AI Coder
+
+### PHASE 5: REFINE
+- Hỗ trợ debug nếu Ông Thợ làm sai
+
+## CÂU LỆNH KHỞI ĐẦU
+"Chào Chủ đầu tư Vibecode. Tôi đã sẵn sàng. Ý tưởng dự án hôm nay của bạn là gì?"</div>
+                        </div>
+
+                        <!-- Master Prompt Coder -->
+                        <div class="p-6 rounded-2xl bg-gradient-to-br from-orange-900/20 to-orange-800/5 border border-orange-500/20">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-lg font-bold text-orange-300">02_master_prompt_coder.txt - ÔNG THỢ</h4>
+                                <button onclick="copyRefContent('coder-prompt')" class="copy-btn px-3 py-1 bg-orange-500/20 hover:bg-orange-500/30 rounded-lg text-xs">📋 Copy</button>
+                            </div>
+                            <div id="coder-prompt" class="code-block p-4 rounded-xl max-h-64 overflow-y-auto text-xs font-mono text-white/70 whitespace-pre-wrap"># VIBECODE MASTER PROMPT: THE BUILDER (ÔNG THỢ)
+
+Bạn là "Ông Thợ Vibecode" (Expert Developer). Nhiệm vụ của bạn là nhận lệnh và viết code chất lượng cao, an toàn, dễ bảo trì.
+
+## INPUT BẠN SẼ NHẬN
+1. Context: Các file thiết kế (BLUEPRINT.md, CONTRACT.md)
+2. Task: Một JOB BRIEF cụ thể
+
+## QUY TẮC LÀM VIỆC
+1. Chỉ làm đúng việc được giao: Không tự ý thay đổi kiến trúc hệ thống
+2. Code hoàn chỉnh: Không dùng placeholders kiểu "// rest of code here"
+3. Giải thích: Sau khi code, hãy giải thích ngắn gọn cách chạy và cách Test
+4. Báo cáo: Liệt kê các file bạn đã tạo hoặc chỉnh sửa
+
+Hãy chờ tôi gửi thông tin dự án và Job Brief.</div>
+                        </div>
+
+                        <!-- Quick Commands -->
+                        <div class="p-6 rounded-2xl bg-gradient-to-br from-cyan-900/20 to-cyan-800/5 border border-cyan-500/20">
+                            <h4 class="text-lg font-bold text-cyan-300 mb-4">03_quick_commands.md - Lệnh nhanh cho Ông Thầu</h4>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="p-3 bg-white/5 rounded-lg">
+                                    <code class="text-cyan-400">/status</code>
+                                    <p class="text-white/60 text-xs mt-1">Báo cáo dự án đang ở giai đoạn nào? Tiếp theo cần làm gì?</p>
+                                </div>
+                                <div class="p-3 bg-white/5 rounded-lg">
+                                    <code class="text-violet-400">/blueprint</code>
+                                    <p class="text-white/60 text-xs mt-1">Tạo nội dung cho file BLUEPRINT.md dựa trên đã thảo luận</p>
+                                </div>
+                                <div class="p-3 bg-white/5 rounded-lg">
+                                    <code class="text-emerald-400">/job [tên tính năng]</code>
+                                    <p class="text-white/60 text-xs mt-1">Viết Job Brief (Coder Prompt) để đưa cho Ông Thợ</p>
+                                </div>
+                                <div class="p-3 bg-white/5 rounded-lg">
+                                    <code class="text-orange-400">/fix</code>
+                                    <p class="text-white/60 text-xs mt-1">Ông Thợ làm bị lỗi này [paste lỗi], phân tích và viết lại hướng dẫn</p>
+                                </div>
+                                <div class="p-3 bg-white/5 rounded-lg md:col-span-2">
+                                    <code class="text-pink-400">/review</code>
+                                    <p class="text-white/60 text-xs mt-1">Đánh giá lại kiến trúc hiện tại, có gì rủi ro không?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 20_TEMPLATES Content -->
+                <div id="ref-templates" class="ref-content hidden">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- TEMPLATE_INTAKE -->
+                        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                            <h4 class="text-lg font-bold text-violet-300 mb-4">TEMPLATE_INTAKE.md</h4>
+                            <div class="code-block p-4 rounded-xl text-xs font-mono text-white/70 whitespace-pre-wrap max-h-48 overflow-y-auto"># INTAKE - Dữ liệu đầu vào
+
+**Dự án:** ...
+**Ngày tạo:** ...
+
+## 1. Mục tiêu (Goal)
+- Sản phẩm này dùng để làm gì?
+- Thành công trông như thế nào?
+
+## 2. Đối tượng (Audience)
+- Ai là người dùng chính?
+- Họ có am hiểu công nghệ không?
+
+## 3. Chức năng cốt lõi (Core Features)
+- Feature 1: ...
+- Feature 2: ...
+
+## 4. Ràng buộc (Constraints)
+- Tech Stack (nếu có): ...
+- Thời gian/Ngân sách: ...
+
+## 5. Tài nguyên (Resources)
+- Link tham khảo: ...
+- Dữ liệu có sẵn: ...</div>
+                        </div>
+
+                        <!-- TEMPLATE_BLUEPRINT -->
+                        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                            <h4 class="text-lg font-bold text-cyan-300 mb-4">TEMPLATE_BLUEPRINT.md</h4>
+                            <div class="code-block p-4 rounded-xl text-xs font-mono text-white/70 whitespace-pre-wrap max-h-48 overflow-y-auto"># BLUEPRINT - Bản vẽ kiến trúc
+
+**Trạng thái:** DRAFT / FINAL
+
+## 1. Tổng quan hệ thống
+(Mô tả ngắn gọn cách hệ thống hoạt động)
+
+## 2. Tech Stack
+- Frontend: ...
+- Backend: ...
+- Database: ...
+- AI Model: ...
+
+## 3. Cấu trúc thư mục
+project_root/
+├── src/
+├── data/
+└── ...
+
+## 4. Modules & Luồng dữ liệu
+- Module A: Nhiệm vụ...
+- Module B: Nhiệm vụ...
+- User Flow: Bước 1 -> Bước 2 -> Bước 3
+
+## 5. Cấu trúc dữ liệu (Schema)
+- Table Users: ...
+- Table Posts: ...</div>
+                        </div>
+
+                        <!-- TEMPLATE_CONTRACT -->
+                        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                            <h4 class="text-lg font-bold text-emerald-300 mb-4">TEMPLATE_CONTRACT.md</h4>
+                            <div class="code-block p-4 rounded-xl text-xs font-mono text-white/70 whitespace-pre-wrap max-h-48 overflow-y-auto"># CONTRACT - Hợp đồng thi công
+
+## 1. Scope (Phạm vi công việc)
+- [ ] Tính năng A
+- [ ] Tính năng B
+
+## 2. Out-of-Scope (Không làm)
+- [ ] Tính năng C (để Phase 2)
+- [ ] Mobile App (chỉ làm Web)
+
+## 3. Definition of Done
+- Code chạy không lỗi cú pháp
+- Đã kiểm thử chức năng chính
+- Có file README hướng dẫn chạy
+
+## 4. Các Gate (Cổng kiểm soát)
+- Gate 1: Hoàn thành khung sườn
+- Gate 2: Hoàn thành chức năng cốt lõi
+- Gate 3: Hoàn thành UI/UX</div>
+                        </div>
+
+                        <!-- TEMPLATE_JOB_BRIEF -->
+                        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                            <h4 class="text-lg font-bold text-orange-300 mb-4">TEMPLATE_JOB_BRIEF.md</h4>
+                            <div class="code-block p-4 rounded-xl text-xs font-mono text-white/70 whitespace-pre-wrap max-h-48 overflow-y-auto"># JOB BRIEF: [MÃ CÔNG VIỆC]
+
+**Gửi Ông Thợ (Coder):**
+
+## 1. Context (Bối cảnh)
+Chúng ta đang xây dựng module [Tên Module].
+File liên quan: [List các file cần đọc]
+
+## 2. Task (Nhiệm vụ)
+Hãy viết code để thực hiện:
+- [ ] Việc 1
+- [ ] Việc 2
+
+## 3. Input / Output
+- Input: ...
+- Output: ...
+
+## 4. Technical Constraints
+- Dùng thư viện: ...
+- Style code: ...
+
+## 5. Definition of Done cho Job này
+- Chạy được lệnh ...
+- Output ra đúng format ...</div>
+                        </div>
+
+                        <!-- TEMPLATE_GATES -->
+                        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 md:col-span-2">
+                            <h4 class="text-lg font-bold text-pink-300 mb-4">TEMPLATE_GATES.md - Nhật ký dự án</h4>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs data-table">
+                                    <thead>
+                                        <tr class="text-left"><th class="p-2">Gate</th><th class="p-2">Tên Gate</th><th class="p-2">Trạng thái</th><th class="p-2">Ngày hoàn thành</th><th class="p-2">Ghi chú</th></tr>
+                                    </thead>
+                                    <tbody class="text-white/60">
+                                        <tr><td class="p-2">1</td><td class="p-2">Setup</td><td class="p-2 text-emerald-400">DONE</td><td class="p-2">2023-10-01</td><td class="p-2">Đã cài env</td></tr>
+                                        <tr><td class="p-2">2</td><td class="p-2">Core MVP</td><td class="p-2 text-yellow-400">PENDING</td><td class="p-2">...</td><td class="p-2">...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Content -->
+                <div id="ref-skills" class="ref-content hidden">
+                    <div class="space-y-8">
+                        <!-- UI/Frontend Aesthetics -->
+                        <div class="p-6 rounded-2xl bg-gradient-to-br from-violet-900/20 to-violet-800/5 border border-violet-500/20">
+                            <h4 class="text-xl font-bold text-violet-300 mb-4">🎨 Frontend Aesthetics Skill</h4>
+                            <p class="text-white/60 text-sm mb-6">Core UI/UX skill for creating distinctive, polished interfaces. Prevents "AI slop" - generic designs.</p>
+
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <!-- Typography -->
+                                <div class="space-y-4">
+                                    <h5 class="font-medium text-white">Typography</h5>
+                                    <div class="text-sm">
+                                        <p class="text-red-400 mb-2">❌ Avoid Generic:</p>
+                                        <p class="text-white/50 text-xs">Arial, Helvetica, Inter (overused), Roboto, Open Sans</p>
+                                    </div>
+                                    <div class="text-sm">
+                                        <p class="text-emerald-400 mb-2">✅ Recommended:</p>
+                                        <div class="grid grid-cols-2 gap-2 text-xs">
+                                            <div class="p-2 bg-white/5 rounded"><strong>Display:</strong> Cal Sans, Instrument Serif, Space Grotesk</div>
+                                            <div class="p-2 bg-white/5 rounded"><strong>Body:</strong> Plus Jakarta Sans, Outfit, Satoshi, DM Sans</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Colors -->
+                                <div class="space-y-4">
+                                    <h5 class="font-medium text-white">Color System</h5>
+                                    <div class="text-sm">
+                                        <p class="text-cyan-400 mb-2">💡 Use hsl() function:</p>
+                                        <div class="code-block p-2 rounded text-xs">
+                                            <pre class="text-white/60">/* CORRECT */
+--color-primary: hsl(220, 100%, 60%);
+--color-surface: hsl(230, 30%, 15%);
+
+/* WRONG - Missing hsl() wrapper */
+--color-primary: 220 100% 60%;</pre>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm">
+                                        <p class="text-red-400 mb-2">❌ Avoid:</p>
+                                        <p class="text-white/50 text-xs">Purple-to-pink gradients (AI cliche), Neon colors without purpose</p>
+                                    </div>
+                                </div>
+
+                                <!-- Motion -->
+                                <div class="space-y-4">
+                                    <h5 class="font-medium text-white">Motion & Animation</h5>
+                                    <div class="code-block p-2 rounded text-xs">
+                                        <pre class="text-white/60">/* Card hover - subtle lift */
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
+}
+
+/* Duration: 150-300ms for micro, 300-500ms for macro */
+/* Always respect prefers-reduced-motion */</pre>
+                                    </div>
+                                </div>
+
+                                <!-- Backgrounds -->
+                                <div class="space-y-4">
+                                    <h5 class="font-medium text-white">Backgrounds & Depth</h5>
+                                    <div class="code-block p-2 rounded text-xs">
+                                        <pre class="text-white/60">/* Glassmorphism card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Dot pattern */
+background-image: radial-gradient(
+  circle, rgba(255, 255, 255, 0.1) 1px,
+  transparent 1px
+);
+background-size: 24px 24px;</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accessibility -->
+                        <div class="p-6 rounded-2xl bg-gradient-to-br from-emerald-900/20 to-emerald-800/5 border border-emerald-500/20">
+                            <h4 class="text-xl font-bold text-emerald-300 mb-4">♿ Accessibility (WCAG AA) Skill</h4>
+                            <p class="text-white/60 text-sm mb-6">Ensure interfaces are usable by everyone, meeting WCAG 2.1 AA standards.</p>
+
+                            <div class="grid md:grid-cols-3 gap-6">
+                                <div class="space-y-3">
+                                    <h5 class="font-medium text-white">Color Contrast</h5>
+                                    <div class="text-xs text-white/60 space-y-1">
+                                        <p>• Normal text (<18px): <span class="text-emerald-400">4.5:1</span></p>
+                                        <p>• Large text (≥18px bold): <span class="text-emerald-400">3:1</span></p>
+                                        <p>• UI components: <span class="text-emerald-400">3:1</span></p>
+                                    </div>
+                                </div>
+                                <div class="space-y-3">
+                                    <h5 class="font-medium text-white">Keyboard Navigation</h5>
+                                    <div class="text-xs text-white/60 space-y-1">
+                                        <p>• Never remove focus outline without replacement</p>
+                                        <p>• Use :focus-visible for custom styles</p>
+                                        <p>• Ensure logical tab order</p>
+                                    </div>
+                                </div>
+                                <div class="space-y-3">
+                                    <h5 class="font-medium text-white">Semantic HTML</h5>
+                                    <div class="text-xs text-white/60 space-y-1">
+                                        <p>• Use correct elements: button, a, nav, main</p>
+                                        <p>• Logical heading hierarchy (h1 → h2 → h3)</p>
+                                        <p>• Proper alt text for images</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Copy Skills -->
+                        <div class="p-6 rounded-2xl bg-gradient-to-br from-cyan-900/20 to-cyan-800/5 border border-cyan-500/20">
+                            <h4 class="text-xl font-bold text-cyan-300 mb-4">✍️ Headline & CTA Optimization Skills</h4>
+
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <!-- Headline Formulas -->
+                                <div class="space-y-4">
+                                    <h5 class="font-medium text-white">Headline Formulas (The 4U Framework)</h5>
+                                    <div class="grid grid-cols-2 gap-2 text-xs">
+                                        <div class="p-2 bg-white/5 rounded text-center">Useful</div>
+                                        <div class="p-2 bg-white/5 rounded text-center">Urgent</div>
+                                        <div class="p-2 bg-white/5 rounded text-center">Unique</div>
+                                        <div class="p-2 bg-white/5 rounded text-center">Ultra-specific</div>
+                                    </div>
+                                    <div class="space-y-2 text-xs">
+                                        <div class="p-2 bg-violet-900/20 rounded">
+                                            <span class="text-violet-400">[Action] + [Outcome] + [Without Pain]</span>
+                                            <p class="text-white/50 mt-1">"Build landing pages in minutes without writing code"</p>
+                                        </div>
+                                        <div class="p-2 bg-cyan-900/20 rounded">
+                                            <span class="text-cyan-400">How to [Outcome] [Timeframe]</span>
+                                            <p class="text-white/50 mt-1">"How to launch your SaaS in a weekend"</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- CTA Formulas -->
+                                <div class="space-y-4">
+                                    <h5 class="font-medium text-white">CTA Copy Formulas</h5>
+                                    <div class="space-y-2 text-xs">
+                                        <div class="p-2 bg-emerald-900/20 rounded">
+                                            <p class="text-emerald-400">✅ Strong CTAs:</p>
+                                            <p class="text-white/50">"Start building free", "Get instant access", "Claim your discount"</p>
+                                        </div>
+                                        <div class="p-2 bg-red-900/20 rounded">
+                                            <p class="text-red-400">❌ Weak CTAs:</p>
+                                            <p class="text-white/50">"Submit", "Click here", "Sign up", "Learn more"</p>
+                                        </div>
+                                        <div class="p-2 bg-white/5 rounded">
+                                            <p class="text-white/70">💡 Tip: Use first person</p>
+                                            <p class="text-white/50">"Start my free trial" > "Start your free trial"</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Performance -->
+                        <div class="p-6 rounded-2xl bg-gradient-to-br from-orange-900/20 to-orange-800/5 border border-orange-500/20">
+                            <h4 class="text-xl font-bold text-orange-300 mb-4">⚡ Web Performance Skill</h4>
+                            <p class="text-white/60 text-sm mb-6">Optimize for Core Web Vitals and fast user experience.</p>
+
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <div class="p-4 bg-white/5 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-emerald-400">≤2.5s</div>
+                                    <div class="text-xs text-white/60 mt-1">LCP (Largest Contentful Paint)</div>
+                                </div>
+                                <div class="p-4 bg-white/5 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-emerald-400">≤200ms</div>
+                                    <div class="text-xs text-white/60 mt-1">INP (Interaction to Next Paint)</div>
+                                </div>
+                                <div class="p-4 bg-white/5 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-emerald-400">≤0.1</div>
+                                    <div class="text-xs text-white/60 mt-1">CLS (Cumulative Layout Shift)</div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 grid md:grid-cols-2 gap-4 text-xs">
+                                <div class="space-y-2">
+                                    <p class="text-white font-medium">LCP Optimization:</p>
+                                    <ul class="text-white/60 space-y-1">
+                                        <li>• Preload critical images</li>
+                                        <li>• Use priority prop in Next.js Image</li>
+                                        <li>• Inline critical CSS</li>
+                                    </ul>
+                                </div>
+                                <div class="space-y-2">
+                                    <p class="text-white font-medium">Bundle Size Targets:</p>
+                                    <ul class="text-white/60 space-y-1">
+                                        <li>• Total JS (initial): <200KB gzipped</li>
+                                        <li>• Per-route JS: <50KB gzipped</li>
+                                        <li>• Total CSS: <50KB gzipped</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <!--                          TAB APPENDIX                                       -->
+        <!-- ══════════════════════════════════════════════════════════════════════════ -->
+        <section id="tab-appendix" class="tab-content hidden py-16 px-4 sm:px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h3 class="text-4xl font-bold mb-4">📚 Phụ lục</h3>
+                    <p class="text-white/60 text-lg">Tech Stacks, Font Pairing, Color Psychology, Common Patterns</p>
+                </div>
+
+                <!-- Tech Stack Recommendations -->
+                <div class="mb-12">
+                    <h4 class="text-2xl font-bold mb-6">💻 Tech Stack Recommendations</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm data-table">
+                            <thead>
+                                <tr class="text-left">
+                                    <th class="p-4 rounded-tl-lg">Project Type</th>
+                                    <th class="p-4 rounded-tr-lg">Recommended Stack</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-white/70">
+                                <tr><td class="p-4">Landing Page</td><td class="p-4">Next.js + Tailwind + Framer Motion</td></tr>
+                                <tr><td class="p-4">SaaS App</td><td class="p-4">Next.js + Tailwind + Supabase + NextAuth</td></tr>
+                                <tr><td class="p-4">Dashboard</td><td class="p-4">Next.js + Tailwind + Recharts + Shadcn</td></tr>
+                                <tr><td class="p-4">Blog</td><td class="p-4">Next.js + MDX + Tailwind</td></tr>
+                                <tr><td class="p-4">Docs</td><td class="p-4">Next.js + MDX + Tailwind (hoặc Docusaurus)</td></tr>
+                                <tr><td class="p-4">Portfolio</td><td class="p-4">Next.js + Tailwind + Framer Motion</td></tr>
+                                <tr><td class="p-4">E-commerce</td><td class="p-4">Next.js + Tailwind + Stripe + Supabase</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Font Pairing -->
+                <div class="mb-12">
+                    <h4 class="text-2xl font-bold mb-6">🔤 Font Pairing</h4>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <h5 class="font-bold text-violet-300 mb-2">Modern Tech</h5>
+                            <p class="text-white/60 text-sm">Plus Jakarta Sans + Inter</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <h5 class="font-bold text-cyan-300 mb-2">Professional</h5>
+                            <p class="text-white/60 text-sm">DM Sans + Source Sans Pro</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <h5 class="font-bold text-emerald-300 mb-2">Creative</h5>
+                            <p class="text-white/60 text-sm">Playfair Display + Lato</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <h5 class="font-bold text-orange-300 mb-2">Friendly</h5>
+                            <p class="text-white/60 text-sm">Poppins + Open Sans</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <h5 class="font-bold text-pink-300 mb-2">Elegant</h5>
+                            <p class="text-white/60 text-sm">Cormorant Garamond + Montserrat</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <h5 class="font-bold text-amber-300 mb-2">Startup</h5>
+                            <p class="text-white/60 text-sm">Space Grotesk + Work Sans</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color Psychology -->
+                <div class="mb-12">
+                    <h4 class="text-2xl font-bold mb-6">🎨 Color Psychology</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <div class="p-4 rounded-xl text-center" style="background: #2563EB20; border: 1px solid #2563EB50;">
+                            <div class="w-12 h-12 rounded-full mx-auto mb-2" style="background: #2563EB;"></div>
+                            <p class="font-medium text-sm">Trust/Professional</p>
+                            <p class="text-xs text-white/50">#2563EB</p>
+                        </div>
+                        <div class="p-4 rounded-xl text-center" style="background: #F9731620; border: 1px solid #F9731650;">
+                            <div class="w-12 h-12 rounded-full mx-auto mb-2" style="background: #F97316;"></div>
+                            <p class="font-medium text-sm">Energy/Action</p>
+                            <p class="text-xs text-white/50">#F97316</p>
+                        </div>
+                        <div class="p-4 rounded-xl text-center" style="background: #22C55E20; border: 1px solid #22C55E50;">
+                            <div class="w-12 h-12 rounded-full mx-auto mb-2" style="background: #22C55E;"></div>
+                            <p class="font-medium text-sm">Growth/Health</p>
+                            <p class="text-xs text-white/50">#22C55E</p>
+                        </div>
+                        <div class="p-4 rounded-xl text-center" style="background: #7C3AED20; border: 1px solid #7C3AED50;">
+                            <div class="w-12 h-12 rounded-full mx-auto mb-2" style="background: #7C3AED;"></div>
+                            <p class="font-medium text-sm">Luxury/Premium</p>
+                            <p class="text-xs text-white/50">#7C3AED</p>
+                        </div>
+                        <div class="p-4 rounded-xl text-center" style="background: #EF444420; border: 1px solid #EF444450;">
+                            <div class="w-12 h-12 rounded-full mx-auto mb-2" style="background: #EF4444;"></div>
+                            <p class="font-medium text-sm">Warning/Urgency</p>
+                            <p class="text-xs text-white/50">#EF4444</p>
+                        </div>
+                        <div class="p-4 rounded-xl text-center" style="background: #6B728020; border: 1px solid #6B728050;">
+                            <div class="w-12 h-12 rounded-full mx-auto mb-2" style="background: #6B7280;"></div>
+                            <p class="font-medium text-sm">Neutral/Modern</p>
+                            <p class="text-xs text-white/50">#6B7280</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Headline Formulas -->
+                <div class="mb-12">
+                    <h4 class="text-2xl font-bold mb-6">✍️ Headline Formulas</h4>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <p class="text-violet-300 font-medium mb-2">[Số] + [Timeframe] + [Outcome]</p>
+                            <p class="text-white/60 text-sm italic">"7 ngày để landing page chuyển đổi 3x"</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <p class="text-cyan-300 font-medium mb-2">[Verb] + [Object] + [Benefit]</p>
+                            <p class="text-white/60 text-sm italic">"Biến visitors thành khách hàng trung thành"</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <p class="text-emerald-300 font-medium mb-2">[Question that resonates]</p>
+                            <p class="text-white/60 text-sm italic">"Tired of landing pages that don't convert?"</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <p class="text-orange-300 font-medium mb-2">[Bold statement]</p>
+                            <p class="text-white/60 text-sm italic">"Landing page của bạn đang làm mất 70% khách hàng"</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10 md:col-span-2">
+                            <p class="text-pink-300 font-medium mb-2">How to [achieve outcome] without [pain point]</p>
+                            <p class="text-white/60 text-sm italic">"Cách tăng conversion mà không cần biết code"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Formulas -->
+                <div class="mb-12">
+                    <h4 class="text-2xl font-bold mb-6">🎯 CTA Formulas</h4>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <p class="text-violet-300 font-medium mb-2">[Action verb] + [Value]</p>
+                            <p class="text-white/60 text-sm italic">"Nhận bản demo miễn phí"</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <p class="text-cyan-300 font-medium mb-2">[Action] + [Timeframe]</p>
+                            <p class="text-white/60 text-sm italic">"Bắt đầu trong 30 giây"</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <p class="text-emerald-300 font-medium mb-2">[Get] + [Desired outcome]</p>
+                            <p class="text-white/60 text-sm italic">"Nhận blueprint landing page"</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <p class="text-orange-300 font-medium mb-2">[Yes], [Positive statement]</p>
+                            <p class="text-white/60 text-sm italic">"Có, tôi muốn tăng doanh thu"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kit Files Summary -->
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                    <h4 class="text-xl font-bold mb-4">📁 Tổng hợp Files trong Kit</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm data-table">
+                            <thead>
+                                <tr class="text-left">
+                                    <th class="p-3 rounded-tl-lg">File</th>
+                                    <th class="p-3">Lines</th>
+                                    <th class="p-3">Tokens</th>
+                                    <th class="p-3 rounded-tr-lg">Mục đích</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-white/70">
+                                <tr><td class="p-3">VIBECODE-MASTER-v4.txt</td><td class="p-3">707</td><td class="p-3">~7,000</td><td class="p-3">Universal Master Prompt</td></tr>
+                                <tr><td class="p-3">PHILOSOPHY_V4.md</td><td class="p-3">614</td><td class="p-3">~6,000</td><td class="p-3">Triết lý Partnership</td></tr>
+                                <tr><td class="p-3">QA-MASTER-v4.txt</td><td class="p-3">919</td><td class="p-3">~9,000</td><td class="p-3">Quality Assurance Protocol</td></tr>
+                                <tr><td class="p-3">DEBUG-MASTER-v4.txt</td><td class="p-3">753</td><td class="p-3">~7,500</td><td class="p-3">Investigation Protocol</td></tr>
+                                <tr><td class="p-3">XRAY-MASTER-v4.txt</td><td class="p-3">752</td><td class="p-3">~7,500</td><td class="p-3">Handover Protocol</td></tr>
+                                <tr><td class="p-3">Templates/*.txt</td><td class="p-3">~3,500</td><td class="p-3">~35,000</td><td class="p-3">5 Project Templates</td></tr>
+                                <tr class="font-bold bg-violet-900/20"><td class="p-3">TOTAL</td><td class="p-3">~7,245</td><td class="p-3">~72,000</td><td class="p-3">Complete Knowledge Base</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 border-t border-white/10 py-8 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-sm">⚡</div>
+                <span class="font-bold">Vibecode Kit v4.0</span>
+            </div>
+            <p class="text-white/50 text-sm mb-2">"The Partnership Edition" - AI & Human: Cùng nhau, tốt hơn</p>
+            <p class="text-white/30 text-xs">Built with ❤️ by Lâm Nguyễn | Complete Knowledge Base from vibecode-kit V4.zip</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Tab switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('text-white/50');
+            });
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('text-white/50');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Prompt tab switching
+        function switchPromptTab(promptId) {
+            document.querySelectorAll('.prompt-content').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.sub-tab').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('text-white/50');
+            });
+            document.getElementById('prompt-' + promptId).classList.remove('hidden');
+            const activeBtn = document.querySelector(`[data-prompt="${promptId}"]`);
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('text-white/50');
+        }
+
+        // Copy prompt
+        function copyPrompt(promptId) {
+            const content = document.getElementById(promptId).textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                showToast('✅ Đã copy prompt!');
+            });
+        }
+
+        // Show toast
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast px-4 py-3 bg-emerald-500 text-white rounded-xl shadow-lg mb-2';
+            toast.textContent = message;
+            document.getElementById('toast-container').appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Reference tab switching
+        function switchRefTab(refId) {
+            document.querySelectorAll('.ref-content').forEach(r => r.classList.add('hidden'));
+            document.querySelectorAll('.ref-tab').forEach(btn => {
+                btn.classList.remove('active', 'border-b-2', 'border-violet-400', 'text-violet-400');
+                btn.classList.add('text-white/50');
+            });
+            document.getElementById('ref-' + refId).classList.remove('hidden');
+            const activeBtn = document.querySelector(`[data-ref="${refId}"]`);
+            activeBtn.classList.add('active', 'border-b-2', 'border-violet-400', 'text-violet-400');
+            activeBtn.classList.remove('text-white/50');
+        }
+
+        // Copy reference content
+        function copyRefContent(elementId) {
+            const content = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                showToast('✅ Đã copy nội dung!');
+            });
+        }
+
+        // Template data
+        const templates = {
+            landing: {
+                title: '📄 LANDING PAGE Template v4.0',
+                content: `# ═══════════════════════════════════════════════════════════════════════════════
+#                        VIBECODE KIT v4.0 - LANDING PAGE
+#                           "The Partnership Edition"
+# ═══════════════════════════════════════════════════════════════════════════════
+
+## 🏛️ THIẾT LẬP VAI TRÒ
+
+### Bạn là KIẾN TRÚC SƯ Landing Page
+
+Bạn đã thiết kế hàng triệu landing page thành công.
+Bạn CÓ VISION SẴN. Bạn KHÔNG chờ lệnh. Bạn ĐỀ XUẤT TRƯỚC.
+
+### Tôi là CHỦ NHÀ
+
+Tôi có mục tiêu, khách hàng, context mà bạn không có.
+Tôi cần bạn ĐỀ XUẤT và tôi sẽ ĐIỀU CHỈNH.
+
+---
+
+## 📐 LAYOUT ĐỀ XUẤT (9 sections)
+
+1. HERO - Headline (8-12 từ) + Subheadline + CTA
+2. SOCIAL PROOF - Logo bar / Stats / Mini testimonial
+3. PROBLEM/PAIN POINTS - 3 vấn đề khách hàng gặp
+4. SOLUTION - 3-4 benefits với icons
+5. HOW IT WORKS - 3 bước đơn giản
+6. TESTIMONIALS - 3 reviews thật
+7. PRICING/CTA - Giá + Guarantee
+8. FAQ - 5-7 câu hỏi
+9. FINAL CTA + FOOTER
+
+---
+
+## 💻 TECH STACK
+
+• Framework: Next.js 14 (App Router)
+• Styling: Tailwind CSS
+• Animations: Framer Motion
+• Icons: Lucide React
+
+[... Copy đầy đủ từ file LANDING-PAGE-v4.txt ...]`
+            },
+            saas: {
+                title: '🚀 SAAS APP Template v4.0',
+                content: `# ═══════════════════════════════════════════════════════════════════════════════
+#                        VIBECODE KIT v4.0 - SAAS APP
+#                           "The Partnership Edition"
+# ═══════════════════════════════════════════════════════════════════════════════
+
+## 📐 ARCHITECTURE ĐỀ XUẤT
+
+PUBLIC PAGES:
+├── Landing page (marketing)
+├── Pricing page
+├── Login / Register
+└── Forgot Password
+
+AUTHENTICATED AREA:
+├── Dashboard (overview)
+├── [Core Feature 1]
+├── [Core Feature 2]
+├── [Core Feature 3]
+├── Settings
+└── Profile
+
+ADMIN (optional):
+├── User Management
+└── Analytics
+
+---
+
+## 🎯 CORE FEATURES (phổ biến)
+
+• Authentication (email/password, OAuth)
+• User profiles & settings
+• CRUD operations
+• Search & Filter
+• User roles/permissions
+• Notifications
+• Data export
+
+---
+
+## 💻 TECH STACK
+
+• Frontend: Next.js 14 + Tailwind
+• Backend: Next.js API Routes
+• Database: Supabase / Prisma + PostgreSQL
+• Auth: NextAuth.js
+
+[... Copy đầy đủ từ file SAAS-APP-v4.txt ...]`
+            },
+            dashboard: {
+                title: '📊 DASHBOARD Template v4.0',
+                content: `# ═══════════════════════════════════════════════════════════════════════════════
+#                        VIBECODE KIT v4.0 - DASHBOARD
+#                           "The Partnership Edition"
+# ═══════════════════════════════════════════════════════════════════════════════
+
+## 📐 LAYOUT ĐỀ XUẤT
+
+┌──────────────────────────────────────────────────────────┐
+│  ┌──────┐ ┌────────────────────────────────────────────┐ │
+│  │      │ │                  HEADER                    │ │
+│  │      │ │  Search | Notifications | Profile         │ │
+│  │      │ └────────────────────────────────────────────┘ │
+│  │  S   │ ┌────────────────────────────────────────────┐ │
+│  │  I   │ │              MAIN CONTENT                  │ │
+│  │  D   │ │  • KPI Cards (4-6 metrics)                │ │
+│  │  E   │ │  • Charts (Line, Bar, Pie)                │ │
+│  │  B   │ │  • Tables (sortable, filterable)          │ │
+│  │  A   │ └────────────────────────────────────────────┘ │
+│  │  R   │                                                │
+│  └──────┘                                                │
+└──────────────────────────────────────────────────────────┘
+
+---
+
+## 📊 DATA VISUALIZATION
+
+• KPI Cards: 4-6 metrics chính
+• Line charts: trends over time
+• Bar charts: comparisons
+• Pie/Donut: distributions
+• Tables: detailed data với pagination
+
+---
+
+## 🎨 STYLE
+
+• Clean, data-focused
+• High contrast for readability
+• Dark mode support (recommended)
+• WCAG AA compliance
+
+[... Copy đầy đủ từ file DASHBOARD-v4.txt ...]`
+            },
+            blog: {
+                title: '📝 BLOG/DOCS Template v4.0',
+                content: `# ═══════════════════════════════════════════════════════════════════════════════
+#                        VIBECODE KIT v4.0 - BLOG/DOCS
+#                           "The Partnership Edition"
+# ═══════════════════════════════════════════════════════════════════════════════
+
+## 📐 BLOG PATTERN
+
+Homepage:
+├── Featured posts (hero)
+├── Recent posts (grid/list)
+└── Categories sidebar
+
+Post Page:
+├── Title + Meta (date, author, read time)
+├── Featured image
+├── Content (MDX)
+├── Author bio
+└── Related posts
+
+---
+
+## 📐 DOCS PATTERN
+
+┌──────────────────────────────────────────────────────────┐
+│  ┌──────────┐ ┌────────────────────────┐ ┌──────────┐   │
+│  │ Sidebar  │ │     Main Content       │ │   TOC    │   │
+│  │ (nav)    │ │     (MDX)              │ │ (right)  │   │
+│  │          │ │                        │ │          │   │
+│  │ • Guide  │ │  # Heading             │ │ • H2     │   │
+│  │   • P1   │ │  Content here...       │ │ • H2     │   │
+│  │   • P2   │ │  \`\`\`code\`\`\`            │ │   • H3   │   │
+│  │ • API    │ │                        │ │          │   │
+│  └──────────┘ └────────────────────────┘ └──────────┘   │
+│  + Search (global)                                       │
+└──────────────────────────────────────────────────────────┘
+
+---
+
+## 📝 TYPOGRAPHY (optimized for reading)
+
+• Font: 18px body, 1.8 line-height
+• Headings: Clear hierarchy (h1 → h2 → h3)
+• Code blocks: Syntax highlighting
+• Reading width: max 65ch
+
+[... Copy đầy đủ từ file BLOG-DOCS-v4.txt ...]`
+            },
+            portfolio: {
+                title: '🎨 PORTFOLIO Template v4.0',
+                content: `# ═══════════════════════════════════════════════════════════════════════════════
+#                        VIBECODE KIT v4.0 - PORTFOLIO
+#                           "The Partnership Edition"
+# ═══════════════════════════════════════════════════════════════════════════════
+
+## 📐 3 STYLE OPTIONS
+
+OPTION A - MINIMAL (cho Developers, Writers)
+• Clean, whitespace-heavy
+• Typography-driven
+• Subtle animations
+• Content-focused
+
+OPTION B - BOLD (cho Designers, Creatives)
+• Strong visual impact
+• Large imagery
+• Creative layouts
+• Expressive animations
+
+OPTION C - EDITORIAL (cho Agencies, Studios)
+• Magazine-style
+• Case study focused
+• Professional tone
+• Balanced text/image
+
+---
+
+## 📐 SECTIONS (typical)
+
+• Hero (name + tagline + CTA)
+• About (story + skills)
+• Work (3-6 featured projects)
+• Project detail pages
+• Services (if applicable)
+• Contact
+
+---
+
+## 🎬 ANIMATION PATTERNS
+
+• Scroll reveals (fade up)
+• Image hover (scale + overlay)
+• Text animations (typing, fade)
+• Page transitions
+• Reduced motion support
+
+[... Copy đầy đủ từ file PORTFOLIO-v4.txt ...]`
+            }
+        };
+
+        // Show template
+        function showTemplate(templateId) {
+            const template = templates[templateId];
+            document.getElementById('template-title').textContent = template.title;
+            document.getElementById('template-content').textContent = template.content;
+            document.getElementById('template-preview').classList.remove('hidden');
+            document.getElementById('template-preview').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Hide template
+        function hideTemplate() {
+            document.getElementById('template-preview').classList.add('hidden');
+        }
+
+        // Copy template
+        function copyTemplate() {
+            const content = document.getElementById('template-content').textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                showToast('✅ Đã copy template!');
+            });
+        }
+    </script>
+</body>
+</html>

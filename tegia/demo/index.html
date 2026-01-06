@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tề Gia - Interactive Prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0A0A0B;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --bg-card-solid: #141416;
+            --bg-elevated: rgba(255, 255, 255, 0.08);
+
+            --white: #FFFFFF;
+            --text-primary: #FAFAFA;
+            --text-secondary: #A1A1AA;
+            --text-muted: #71717A;
+
+            --accent-gold: #F5A623;
+            --accent-orange: #FF6B35;
+            --accent-rose: #FF3366;
+            --accent-violet: #8B5CF6;
+            --accent-cyan: #06B6D4;
+            --accent-emerald: #10B981;
+            --accent-red: #EF4444;
+
+            --gradient-gold: linear-gradient(135deg, #F5A623 0%, #FF6B35 100%);
+            --gradient-success: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
+            --gradient-danger: linear-gradient(135deg, #EF4444 0%, #FF3366 100%);
+            --gradient-purple: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+
+            --border: rgba(255, 255, 255, 0.08);
+            --border-light: rgba(255, 255, 255, 0.12);
+
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-glow: 0 0 40px rgba(245, 166, 35, 0.15);
+
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+
+            --font-main: 'Space Grotesk', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: #0F0F12;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* Ambient Background */
+        .ambient {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(245, 166, 35, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(6, 182, 212, 0.04) 0%, transparent 50%);
+            z-index: -1;
+            animation: ambientPulse 10s ease-in-out infinite;
+        }
+
+        @keyframes ambientPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Phone Frame */
+        .phone {
+            width: 390px;
+            height: 844px;
+            background: linear-gradient(145deg, #1a1a1d 0%, #0a0a0b 100%);
+            border-radius: 54px;
+            padding: 12px;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.1),
+                0 50px 100px -20px rgba(0,0,0,0.8),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        .phone::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border-radius: 48px;
+            border: 1px solid rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            border-radius: 44px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Dynamic Island */
+        .island {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 126px;
+            height: 37px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 12px;
+            gap: 6px;
+        }
+
+        .island-dot {
+            width: 12px;
+            height: 12px;
+            background: #1a1a1d;
+            border-radius: 50%;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            height: 54px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 28px 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .status-icons {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+        }
+
+        /* App Container */
+        .app {
+            height: calc(100% - 54px);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Screens */
+        .view {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateX(20px);
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .view.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        /* Header */
+        .header {
+            padding: 8px 20px 16px;
+            flex-shrink: 0;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .greeting {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--bg-dark);
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title .icon {
+            font-size: 24px;
+        }
+
+        /* Content */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 16px 100px;
+            scroll-behavior: smooth;
+        }
+
+        .content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Quick Actions Grid */
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .quick-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 8px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .quick-btn:hover {
+            background: var(--bg-elevated);
+            border-color: var(--border-light);
+            transform: translateY(-2px);
+        }
+
+        .quick-btn:active {
+            transform: scale(0.95);
+        }
+
+        .quick-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .quick-icon.gold { background: linear-gradient(135deg, rgba(245,166,35,0.2), rgba(255,107,53,0.1)); }
+        .quick-icon.purple { background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(236,72,153,0.1)); }
+        .quick-icon.rose { background: linear-gradient(135deg, rgba(255,51,102,0.2), rgba(245,166,35,0.1)); }
+        .quick-icon.cyan { background: linear-gradient(135deg, rgba(6,182,212,0.2), rgba(16,185,129,0.1)); }
+
+        .quick-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--border-light);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .card-title .emoji {
+            font-size: 18px;
+        }
+
+        .card-action {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-gold);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 100px;
+            background: rgba(245, 166, 35, 0.1);
+            transition: all 0.2s;
+        }
+
+        .card-action:hover {
+            background: rgba(245, 166, 35, 0.2);
+        }
+
+        /* Finance Stats */
+        .finance-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            padding: 16px;
+            border-radius: var(--radius-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+        }
+
+        .stat-card.income {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .stat-card.income::before {
+            background: var(--accent-emerald);
+        }
+
+        .stat-card.expense {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(255, 51, 102, 0.05));
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .stat-card.expense::before {
+            background: var(--accent-red);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .stat-value.income {
+            color: var(--accent-emerald);
+        }
+
+        .stat-value.expense {
+            color: var(--accent-red);
+        }
+
+        .stat-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 100px;
+            margin-top: 8px;
+        }
+
+        .stat-change.positive {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-emerald);
+        }
+
+        .stat-change.negative {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background: var(--gradient-gold);
+            border: none;
+            padding: 24px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .balance-card::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -20%;
+            width: 150px;
+            height: 150px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 50%;
+        }
+
+        .balance-label {
+            font-size: 13px;
+            color: rgba(0,0,0,0.6);
+            margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .balance-value {
+            font-family: var(--font-mono);
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--bg-dark);
+            position: relative;
+            z-index: 1;
+        }
+
+        .balance-sub {
+            font-size: 12px;
+            color: rgba(0,0,0,0.5);
+            margin-top: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Category Progress */
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .category-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .category-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--bg-elevated);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .category-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .category-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .category-bar {
+            height: 6px;
+            background: var(--bg-elevated);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .category-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .category-fill.gold { background: var(--gradient-gold); }
+        .category-fill.red { background: var(--gradient-danger); }
+        .category-fill.green { background: var(--gradient-success); }
+
+        .category-amount {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: right;
+        }
+
+        .category-budget {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Event List */
+        .event-item {
+            display: flex;
+            gap: 14px;
+            padding: 14px;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-md);
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+
+        .event-item:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .event-date {
+            width: 52px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .event-day {
+            font-family: var(--font-mono);
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .event-month {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .event-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .event-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .event-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .event-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 100px;
+            background: rgba(245, 166, 35, 0.15);
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .event-badge.urgent {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+        }
+
+        /* Member List */
+        .member-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-md);
+            margin-bottom: 10px;
+        }
+
+        .member-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--bg-dark);
+            flex-shrink: 0;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .member-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .member-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 100px;
+            background: rgba(245, 166, 35, 0.15);
+            color: var(--accent-gold);
+        }
+
+        /* Gift Record */
+        .gift-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-md);
+            margin-bottom: 10px;
+        }
+
+        .gift-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .gift-icon.out {
+            background: rgba(239, 68, 68, 0.15);
+        }
+
+        .gift-icon.in {
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .gift-info {
+            flex: 1;
+        }
+
+        .gift-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .gift-event {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .gift-amount {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .gift-amount.out {
+            color: var(--accent-red);
+        }
+
+        .gift-amount.in {
+            color: var(--accent-emerald);
+        }
+
+        /* AI Chat */
+        .ai-header {
+            background: var(--gradient-purple);
+            padding: 24px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .ai-avatar {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 12px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-subtitle {
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-chat {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+        }
+
+        .ai-message {
+            margin-bottom: 16px;
+        }
+
+        .ai-message.bot {
+            display: flex;
+            gap: 10px;
+        }
+
+        .ai-msg-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gradient-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .ai-msg-content {
+            max-width: 85%;
+            padding: 14px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .ai-message.bot .ai-msg-content {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border-top-left-radius: 4px;
+        }
+
+        .ai-message.user .ai-msg-content {
+            background: var(--gradient-gold);
+            color: var(--bg-dark);
+            margin-left: auto;
+            border-top-right-radius: 4px;
+        }
+
+        .ai-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .ai-suggest-btn {
+            padding: 10px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ai-suggest-btn:hover {
+            background: var(--bg-elevated);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .ai-input-area {
+            padding: 12px 16px;
+            background: var(--bg-card-solid);
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+        }
+
+        .ai-input {
+            flex: 1;
+            padding: 14px 18px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-family: var(--font-main);
+            font-size: 14px;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .ai-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .ai-input:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .ai-send {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-gold);
+            border: none;
+            border-radius: 50%;
+            color: var(--bg-dark);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ai-send:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Transaction Form */
+        .form-container {
+            padding: 24px 20px;
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .form-tabs {
+            display: flex;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-md);
+            padding: 4px;
+            margin-bottom: 32px;
+        }
+
+        .form-tab {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            font-family: var(--font-main);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .form-tab.active {
+            background: var(--bg-card-solid);
+            color: var(--text-primary);
+        }
+
+        .form-tab.expense.active {
+            color: var(--accent-red);
+        }
+
+        .form-tab.income.active {
+            color: var(--accent-emerald);
+        }
+
+        .amount-wrapper {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .amount-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .amount-input {
+            font-family: var(--font-mono);
+            font-size: 52px;
+            font-weight: 700;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            text-align: center;
+            width: 100%;
+            outline: none;
+        }
+
+        .amount-input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        .currency {
+            font-size: 20px;
+            color: var(--text-muted);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .cat-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 14px 8px;
+            background: var(--bg-elevated);
+            border: 2px solid transparent;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cat-option:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .cat-option.selected {
+            border-color: var(--accent-gold);
+            background: rgba(245, 166, 35, 0.1);
+        }
+
+        .cat-emoji {
+            font-size: 26px;
+        }
+
+        .cat-name {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-field {
+            margin-bottom: 20px;
+        }
+
+        .field-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .field-input {
+            width: 100%;
+            padding: 16px 18px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-family: var(--font-main);
+            font-size: 15px;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .field-input:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--gradient-gold);
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: var(--font-main);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--bg-dark);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 16px;
+        }
+
+        .submit-btn:hover {
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+
+        /* Bottom Navigation */
+        .tab-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            background: rgba(20, 20, 22, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+        }
+
+        .tab-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .tab-item.active .tab-icon {
+            color: var(--accent-gold);
+        }
+
+        .tab-label {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .tab-item.active .tab-label {
+            color: var(--accent-gold);
+        }
+
+        .tab-item.center {
+            position: relative;
+        }
+
+        .tab-item.center .tab-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            margin-top: -24px;
+            color: var(--bg-dark);
+            font-size: 26px;
+            box-shadow: 0 4px 20px rgba(245, 166, 35, 0.4);
+        }
+
+        /* Toast */
+        .toast {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
+            padding: 14px 24px;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 200;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-color: var(--accent-emerald);
+        }
+
+        .toast.success::before {
+            content: '✓';
+            color: var(--accent-emerald);
+        }
+
+        /* Responsive */
+        @media (max-width: 420px) {
+            body {
+                padding: 0;
+                align-items: flex-start;
+            }
+
+            .phone {
+                width: 100%;
+                height: 100vh;
+                height: 100dvh;
+                border-radius: 0;
+                padding: 0;
+            }
+
+            .screen {
+                border-radius: 0;
+            }
+
+            .island {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient"></div>
+
+    <div class="phone">
+        <div class="screen">
+            <div class="island">
+                <div class="island-dot"></div>
+            </div>
+
+            <div class="status-bar">
+                <span>9:41</span>
+                <span class="status-icons">
+                    <span>📶</span>
+                    <span>🔋</span>
+                </span>
+            </div>
+
+            <div class="app">
+                <!-- Home View -->
+                <div class="view active" id="view-home">
+                    <div class="header">
+                        <div class="header-top">
+                            <span class="greeting">Xin chào, Gia chủ 👋</span>
+                            <div class="avatar">A</div>
+                        </div>
+                        <div class="header-title">
+                            <span class="icon">🏠</span>
+                            Gia đình Nguyễn
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <div class="quick-grid">
+                            <button class="quick-btn" onclick="switchView('view-add')">
+                                <div class="quick-icon gold">💰</div>
+                                <span class="quick-label">Thu chi</span>
+                            </button>
+                            <button class="quick-btn" onclick="switchView('view-events')">
+                                <div class="quick-icon purple">📅</div>
+                                <span class="quick-label">Sự kiện</span>
+                            </button>
+                            <button class="quick-btn" onclick="switchView('view-gifts')">
+                                <div class="quick-icon rose">🎁</div>
+                                <span class="quick-label">Ơn nghĩa</span>
+                            </button>
+                            <button class="quick-btn" onclick="switchView('view-ai')">
+                                <div class="quick-icon cyan">🤖</div>
+                                <span class="quick-label">Quản Gia</span>
+                            </button>
+                        </div>
+
+                        <div class="balance-card card">
+                            <div class="balance-label">Còn lại tháng này</div>
+                            <div class="balance-value">+6.500.000đ</div>
+                            <div class="balance-sub">Ngân sách còn 26% • Tốt hơn tháng trước</div>
+                        </div>
+
+                        <div class="finance-stats">
+                            <div class="stat-card income">
+                                <div class="stat-label">Thu nhập</div>
+                                <div class="stat-value income">25.0M</div>
+                                <span class="stat-change positive">↑ 5%</span>
+                            </div>
+                            <div class="stat-card expense">
+                                <div class="stat-label">Chi tiêu</div>
+                                <div class="stat-value expense">18.5M</div>
+                                <span class="stat-change positive">↓ 15%</span>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">
+                                    <span class="emoji">📊</span>
+                                    Chi tiêu theo danh mục
+                                </span>
+                                <a href="#" class="card-action">Xem tất cả</a>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">🍜</div>
+                                <div class="category-info">
+                                    <div class="category-name">Ăn uống</div>
+                                    <div class="category-bar">
+                                        <div class="category-fill gold" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="category-amount">6.0M</div>
+                                    <div class="category-budget">/ 7M</div>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">📚</div>
+                                <div class="category-info">
+                                    <div class="category-name">Học phí</div>
+                                    <div class="category-bar">
+                                        <div class="category-fill red" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="category-amount">4.0M</div>
+                                    <div class="category-budget">/ 4M</div>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">💡</div>
+                                <div class="category-info">
+                                    <div class="category-name">Điện nước</div>
+                                    <div class="category-bar">
+                                        <div class="category-fill green" style="width: 60%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="category-amount">1.2M</div>
+                                    <div class="category-budget">/ 2M</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">
+                                    <span class="emoji">📅</span>
+                                    Sắp tới
+                                </span>
+                                <a href="#" class="card-action" onclick="switchView('view-events')">Xem lịch</a>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <div class="event-day">26</div>
+                                    <div class="event-month">Th12</div>
+                                </div>
+                                <div class="event-info">
+                                    <div class="event-title">🎂 Sinh nhật Bé Na</div>
+                                    <div class="event-meta">Bé Na tròn 8 tuổi</div>
+                                </div>
+                                <span class="event-badge">3 ngày</span>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <div class="event-day">15</div>
+                                    <div class="event-month">Âm</div>
+                                </div>
+                                <div class="event-info">
+                                    <div class="event-title">🙏 Giỗ Ông nội</div>
+                                    <div class="event-meta">15/7 Âm lịch • Nhà thờ họ</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(255,51,102,0.05)); border-color: rgba(239,68,68,0.2);">
+                            <div class="card-header">
+                                <span class="card-title">
+                                    <span class="emoji">🔔</span>
+                                    Cần chú ý
+                                </span>
+                            </div>
+                            <div class="event-item" style="background: rgba(239,68,68,0.1);">
+                                <div class="event-date">
+                                    <div class="event-day" style="font-size: 20px; background: none; -webkit-text-fill-color: var(--accent-red);">📄</div>
+                                </div>
+                                <div class="event-info">
+                                    <div class="event-title">CCCD sắp hết hạn</div>
+                                    <div class="event-meta">Nguyễn Văn A • còn 14 ngày</div>
+                                </div>
+                                <span class="event-badge urgent">Khẩn</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Members View -->
+                <div class="view" id="view-members">
+                    <div class="header">
+                        <div class="header-title">
+                            <span class="icon">👨‍👩‍👧‍👦</span>
+                            Thành viên
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Gia đình Nguyễn • 5 người</span>
+                            </div>
+                            <div class="member-item">
+                                <div class="member-avatar" style="background: var(--gradient-gold);">A</div>
+                                <div class="member-info">
+                                    <div class="member-name">Nguyễn Văn A</div>
+                                    <div class="member-role">Gia chủ • 42 tuổi</div>
+                                </div>
+                                <span class="member-badge">👑 Admin</span>
+                            </div>
+                            <div class="member-item">
+                                <div class="member-avatar" style="background: var(--gradient-purple);">H</div>
+                                <div class="member-info">
+                                    <div class="member-name">Trần Thị H</div>
+                                    <div class="member-role">Vợ • 38 tuổi</div>
+                                </div>
+                            </div>
+                            <div class="member-item">
+                                <div class="member-avatar" style="background: var(--gradient-success);">B</div>
+                                <div class="member-info">
+                                    <div class="member-name">Nguyễn Văn B</div>
+                                    <div class="member-role">Con trai • 15 tuổi</div>
+                                </div>
+                            </div>
+                            <div class="member-item">
+                                <div class="member-avatar" style="background: linear-gradient(135deg, #F59E0B, #FF6B35);">N</div>
+                                <div class="member-info">
+                                    <div class="member-name">Nguyễn Thị Na</div>
+                                    <div class="member-role">Con gái • 7 tuổi</div>
+                                </div>
+                            </div>
+                            <div class="member-item">
+                                <div class="member-avatar" style="background: linear-gradient(135deg, #6B7280, #4B5563);">L</div>
+                                <div class="member-info">
+                                    <div class="member-name">Nguyễn Thị L</div>
+                                    <div class="member-role">Mẹ chồng • 68 tuổi</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="submit-btn">➕ Thêm thành viên</button>
+                    </div>
+                </div>
+
+                <!-- Events View -->
+                <div class="view" id="view-events">
+                    <div class="header">
+                        <div class="header-title">
+                            <span class="icon">📅</span>
+                            Sự kiện
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Tháng 12/2024</span>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <div class="event-day">24</div>
+                                    <div class="event-month">Th12</div>
+                                </div>
+                                <div class="event-info">
+                                    <div class="event-title">🎄 Giáng sinh</div>
+                                    <div class="event-meta">Cả gia đình</div>
+                                </div>
+                                <span class="event-badge urgent">Hôm nay</span>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <div class="event-day">26</div>
+                                    <div class="event-month">Th12</div>
+                                </div>
+                                <div class="event-info">
+                                    <div class="event-title">🎂 Sinh nhật Bé Na</div>
+                                    <div class="event-meta">Tiệc tại nhà • 18:00</div>
+                                </div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <div class="event-day">28</div>
+                                    <div class="event-month">Th12</div>
+                                </div>
+                                <div class="event-info">
+                                    <div class="event-title">💒 Đám cưới con Bác Năm</div>
+                                    <div class="event-meta">Nhà hàng Kim Long</div>
+                                </div>
+                                <span class="event-badge">🎁 1-1.5M</span>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <div class="event-day">31</div>
+                                    <div class="event-month">Th12</div>
+                                </div>
+                                <div class="event-info">
+                                    <div class="event-title">🎉 Giao thừa</div>
+                                    <div class="event-meta">Countdown đón năm mới</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">🌙 Âm lịch - Tháng Giêng 2025</span>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <div class="event-day">1</div>
+                                    <div class="event-month">Tết</div>
+                                </div>
+                                <div class="event-info">
+                                    <div class="event-title">🧧 Mùng 1 Tết Ất Tỵ</div>
+                                    <div class="event-meta">Năm mới 2025</div>
+                                </div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <div class="event-day">15</div>
+                                    <div class="event-month">Âm</div>
+                                </div>
+                                <div class="event-info">
+                                    <div class="event-title">🙏 Giỗ Ông nội</div>
+                                    <div class="event-meta">Rằm tháng Giêng</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gifts View -->
+                <div class="view" id="view-gifts">
+                    <div class="header">
+                        <div class="header-title">
+                            <span class="icon">🎁</span>
+                            Sổ Ơn Nghĩa
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="finance-stats">
+                            <div class="stat-card expense">
+                                <div class="stat-label">Đã cho/mừng</div>
+                                <div class="stat-value expense">12.5M</div>
+                            </div>
+                            <div class="stat-card income">
+                                <div class="stat-label">Đã nhận</div>
+                                <div class="stat-value income">8.2M</div>
+                            </div>
+                        </div>
+
+                        <div class="balance-card card" style="background: linear-gradient(135deg, #8B5CF6, #EC4899);">
+                            <div class="balance-label" style="color: rgba(255,255,255,0.7);">Cần trả lại</div>
+                            <div class="balance-value" style="color: white;">4.300.000đ</div>
+                            <div class="balance-sub" style="color: rgba(255,255,255,0.6);">Dựa trên lịch sử ơn nghĩa</div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Gần đây</span>
+                            </div>
+                            <div class="gift-item">
+                                <div class="gift-icon out">🎁</div>
+                                <div class="gift-info">
+                                    <div class="gift-name">Bác Hai</div>
+                                    <div class="gift-event">Đám cưới con gái • 15/12</div>
+                                </div>
+                                <div class="gift-amount out">-500k</div>
+                            </div>
+                            <div class="gift-item">
+                                <div class="gift-icon in">🧧</div>
+                                <div class="gift-info">
+                                    <div class="gift-name">Cô Ba</div>
+                                    <div class="gift-event">Thôi nôi Bé Na • 10/12</div>
+                                </div>
+                                <div class="gift-amount in">+200k</div>
+                            </div>
+                            <div class="gift-item">
+                                <div class="gift-icon out">💐</div>
+                                <div class="gift-info">
+                                    <div class="gift-name">Chú Tư</div>
+                                    <div class="gift-event">Tang lễ • 05/12</div>
+                                </div>
+                                <div class="gift-amount out">-300k</div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="background: var(--gradient-gold); border: none;">
+                            <div class="card-header">
+                                <span class="card-title" style="color: var(--bg-dark);">
+                                    <span class="emoji">💡</span>
+                                    Gợi ý Quản Gia AI
+                                </span>
+                            </div>
+                            <p style="font-size: 14px; color: rgba(0,0,0,0.7); line-height: 1.6;">
+                                <strong style="color: var(--bg-dark);">Đám cưới con Bác Năm</strong> ngày 28/12. Năm 2020 nhà Bác Năm mừng cưới anh B <strong style="color: var(--bg-dark);">1.000.000đ</strong>.<br><br>
+                                👉 Đề xuất mừng: <strong style="color: var(--bg-dark);">1.000.000 - 1.500.000đ</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Chat View -->
+                <div class="view" id="view-ai">
+                    <div class="ai-header">
+                        <div class="ai-avatar">🤖</div>
+                        <div class="ai-title">Quản Gia AI</div>
+                        <div class="ai-subtitle">Trợ lý thông minh cho gia đình</div>
+                    </div>
+                    <div class="ai-chat" id="ai-chat">
+                        <div class="ai-message bot">
+                            <div class="ai-msg-avatar">🤖</div>
+                            <div class="ai-msg-content">
+                                Xin chào Gia chủ! 👋<br><br>
+                                Tháng này chi tiêu đang ở mức <strong>74%</strong> ngân sách, thấp hơn tháng trước 15%. Tuyệt vời! 🎉<br><br>
+                                Tôi có thể giúp gì cho bạn?
+                                <div class="ai-suggestions">
+                                    <button class="ai-suggest-btn" onclick="sendAI('Phân tích chi tiêu')">📊 Phân tích chi tiêu</button>
+                                    <button class="ai-suggest-btn" onclick="sendAI('Sự kiện sắp tới')">📅 Sự kiện sắp tới</button>
+                                    <button class="ai-suggest-btn" onclick="sendAI('Gợi ý tiết kiệm')">💰 Gợi ý tiết kiệm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ai-input-area">
+                        <input type="text" class="ai-input" placeholder="Hỏi Quản Gia..." id="ai-input" onkeypress="if(event.key==='Enter')sendAI()">
+                        <button class="ai-send" onclick="sendAI()">➤</button>
+                    </div>
+                </div>
+
+                <!-- Add Transaction View -->
+                <div class="view" id="view-add">
+                    <div class="form-container">
+                        <h2 class="form-title">Thêm giao dịch</h2>
+
+                        <div class="form-tabs">
+                            <button class="form-tab expense active" onclick="setType('expense', this)">Chi tiêu</button>
+                            <button class="form-tab income" onclick="setType('income', this)">Thu nhập</button>
+                        </div>
+
+                        <div class="amount-wrapper">
+                            <div class="amount-label">Số tiền</div>
+                            <input type="text" class="amount-input" placeholder="0" id="amount" inputmode="numeric">
+                            <span class="currency">đ</span>
+                        </div>
+
+                        <div class="field-label">Danh mục</div>
+                        <div class="category-grid">
+                            <div class="cat-option selected" onclick="selectCat(this)">
+                                <span class="cat-emoji">🍜</span>
+                                <span class="cat-name">Ăn uống</span>
+                            </div>
+                            <div class="cat-option" onclick="selectCat(this)">
+                                <span class="cat-emoji">🛒</span>
+                                <span class="cat-name">Đi chợ</span>
+                            </div>
+                            <div class="cat-option" onclick="selectCat(this)">
+                                <span class="cat-emoji">⛽</span>
+                                <span class="cat-name">Xăng xe</span>
+                            </div>
+                            <div class="cat-option" onclick="selectCat(this)">
+                                <span class="cat-emoji">💡</span>
+                                <span class="cat-name">Điện nước</span>
+                            </div>
+                            <div class="cat-option" onclick="selectCat(this)">
+                                <span class="cat-emoji">📚</span>
+                                <span class="cat-name">Học phí</span>
+                            </div>
+                            <div class="cat-option" onclick="selectCat(this)">
+                                <span class="cat-emoji">🎁</span>
+                                <span class="cat-name">Hiếu hỉ</span>
+                            </div>
+                            <div class="cat-option" onclick="selectCat(this)">
+                                <span class="cat-emoji">🏥</span>
+                                <span class="cat-name">Y tế</span>
+                            </div>
+                            <div class="cat-option" onclick="selectCat(this)">
+                                <span class="cat-emoji">📝</span>
+                                <span class="cat-name">Khác</span>
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <div class="field-label">Mô tả</div>
+                            <input type="text" class="field-input" placeholder="Ví dụ: Đi chợ sáng">
+                        </div>
+
+                        <button class="submit-btn" onclick="saveTxn()">✓ Lưu giao dịch</button>
+                    </div>
+                </div>
+
+                <!-- Tab Bar -->
+                <nav class="tab-bar">
+                    <button class="tab-item active" onclick="switchView('view-home')">
+                        <span class="tab-icon">🏠</span>
+                        <span class="tab-label">Trang chủ</span>
+                    </button>
+                    <button class="tab-item" onclick="switchView('view-members')">
+                        <span class="tab-icon">👨‍👩‍👧‍👦</span>
+                        <span class="tab-label">Thành viên</span>
+                    </button>
+                    <button class="tab-item center" onclick="switchView('view-add')">
+                        <span class="tab-icon">➕</span>
+                    </button>
+                    <button class="tab-item" onclick="switchView('view-gifts')">
+                        <span class="tab-icon">🎁</span>
+                        <span class="tab-label">Ơn nghĩa</span>
+                    </button>
+                    <button class="tab-item" onclick="switchView('view-ai')">
+                        <span class="tab-icon">🤖</span>
+                        <span class="tab-label">Quản Gia</span>
+                    </button>
+                </nav>
+
+                <!-- Toast -->
+                <div class="toast" id="toast"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // View switching
+        function switchView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            const tabMap = { 'view-home': 0, 'view-members': 1, 'view-add': 2, 'view-gifts': 3, 'view-ai': 4 };
+            if (tabMap[viewId] !== undefined) {
+                document.querySelectorAll('.tab-item')[tabMap[viewId]].classList.add('active');
+            }
+        }
+
+        // Transaction type
+        function setType(type, btn) {
+            document.querySelectorAll('.form-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // Category selection
+        function selectCat(el) {
+            document.querySelectorAll('.cat-option').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        // Save transaction
+        function saveTxn() {
+            showToast('Đã lưu giao dịch!');
+            setTimeout(() => switchView('view-home'), 600);
+        }
+
+        // Toast
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast success show';
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // AI Chat
+        const aiResponses = {
+            'Phân tích chi tiêu': `📊 <strong>Phân tích tháng 12:</strong><br><br>
+• Tổng chi: 18.5 triệu (74% ngân sách)<br>
+• Ăn uống: 6.0M ⚠️ vượt 500k<br>
+• Học phí: 4.0M ✓ đúng kế hoạch<br>
+• Điện nước: 1.2M ✓ tiết kiệm 300k<br><br>
+💡 Giảm ăn ngoài 2 lần/tuần có thể tiết kiệm ~800k/tháng.`,
+
+            'Sự kiện sắp tới': `📅 <strong>Tuần này:</strong><br><br>
+• 26/12: 🎂 Sinh nhật Bé Na (còn 2 ngày)<br>
+  → Đã đặt bánh kem, cần mua quà<br><br>
+• 28/12: 💒 Đám cưới con Bác Năm<br>
+  → Gợi ý mừng: 1-1.5 triệu<br><br>
+• 31/12: 🎉 Giao thừa<br>
+  → Họp gia đình lúc 20:00`,
+
+            'Gợi ý tiết kiệm': `💰 <strong>Gợi ý tiết kiệm:</strong><br><br>
+1. <strong>Nấu ăn tại nhà</strong> nhiều hơn<br>
+   → Tiết kiệm ~1.2 triệu/tháng<br><br>
+2. <strong>Mua sắm theo danh sách</strong><br>
+   → Tránh mua impulsive ~500k<br><br>
+3. <strong>Đặt mục tiêu tiết kiệm</strong><br>
+   → Quỹ du lịch: 2 triệu/tháng<br><br>
+📌 Tổng tiết kiệm tiềm năng: <strong>~2 triệu/tháng</strong>!`
+        };
+
+        function sendAI(text) {
+            const input = document.getElementById('ai-input');
+            const msg = text || input.value.trim();
+            if (!msg) return;
+
+            const chat = document.getElementById('ai-chat');
+
+            // User message
+            chat.innerHTML += `
+                <div class="ai-message user">
+                    <div class="ai-msg-content">${msg}</div>
+                </div>
+            `;
+
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+
+            // Bot response
+            setTimeout(() => {
+                const response = aiResponses[msg] ||
+                    `Tôi hiểu bạn muốn hỏi về "${msg}". Hãy để tôi phân tích...<br><br>Bạn có thể hỏi cụ thể hơn về tài chính, sự kiện, hoặc quan hệ gia đình nhé! 😊`;
+
+                chat.innerHTML += `
+                    <div class="ai-message bot">
+                        <div class="ai-msg-avatar">🤖</div>
+                        <div class="ai-msg-content">${response}</div>
+                    </div>
+                `;
+                chat.scrollTop = chat.scrollHeight;
+            }, 800);
+        }
+
+        // Format amount
+        document.getElementById('amount')?.addEventListener('input', function(e) {
+            let val = e.target.value.replace(/[^\d]/g, '');
+            if (val) val = parseInt(val).toLocaleString('vi-VN');
+            e.target.value = val;
+        });
+    </script>
+</body>
+</html>

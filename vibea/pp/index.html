@@ -1,0 +1,2288 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIBEPIPE - Nền tảng Vibecoding với AI-as-Pipeline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --primary-dark: #E55A2B;
+      --secondary: #1A1A2E;
+      --accent: #16C79A;
+      --accent-light: #1EE3B6;
+      --bg-dark: #0F0F1A;
+      --bg-card: #1A1A2E;
+      --bg-elevated: #252542;
+      --text-primary: #F5F5F7;
+      --text-secondary: #9CA3AF;
+      --text-muted: #6B7280;
+      --border: #2D2D4A;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --error: #EF4444;
+      --purple: #8B5CF6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(255, 107, 53, 0.6); }
+    }
+
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .animate-slide-up {
+      animation: slide-up 0.6s ease-out forwards;
+    }
+
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .animate-pulse-glow {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: rgba(15, 15, 26, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-logo-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, #FF6B35 0%, #FF8F6B 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: white;
+    }
+
+    .nav-logo-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      background: linear-gradient(135deg, #FF6B35 0%, #FF8F6B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+    }
+
+    .nav-link.active {
+      background: linear-gradient(135deg, #FF6B35 0%, #FF8F6B 100%);
+      color: white;
+    }
+
+    .nav-cta {
+      padding: 10px 24px;
+      background: linear-gradient(135deg, #16C79A 0%, #1EE3B6 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(22, 199, 154, 0.3);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 40px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-1 {
+      position: absolute;
+      top: 20%;
+      left: 10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+
+    .hero-bg-2 {
+      position: absolute;
+      bottom: 10%;
+      right: 10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(22, 199, 154, 0.15) 0%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+
+    .hero-container {
+      max-width: 1200px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(255, 107, 53, 0.1);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      border-radius: 100px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .hero-title-gradient {
+      background: linear-gradient(135deg, #FF6B35 0%, #FF8F6B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 18px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 500px;
+    }
+
+    .hero-desc strong {
+      color: var(--accent);
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .btn-primary {
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #FF6B35 0%, #FF8F6B 100%);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+    }
+
+    .btn-secondary {
+      padding: 16px 32px;
+      background: transparent;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      cursor: pointer;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      background: rgba(255, 107, 53, 0.1);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+    }
+
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .stat-value.green { color: var(--accent); }
+    .stat-value.orange { color: var(--primary); }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Hero Visual */
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-card {
+      background: linear-gradient(135deg, #1A1A2E 0%, #252542 100%);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .role-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    .role-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid;
+      border-radius: 16px;
+      opacity: 0;
+      animation: slide-up 0.5s ease-out forwards;
+    }
+
+    .role-card:nth-child(1) { border-color: rgba(255, 107, 53, 0.3); animation-delay: 0.1s; }
+    .role-card:nth-child(2) { border-color: rgba(22, 199, 154, 0.3); animation-delay: 0.2s; }
+    .role-card:nth-child(3) { border-color: rgba(139, 92, 246, 0.3); animation-delay: 0.3s; }
+
+    .role-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .role-icon.orange { background: rgba(255, 107, 53, 0.2); color: var(--primary); }
+    .role-icon.green { background: rgba(22, 199, 154, 0.2); color: var(--accent); }
+    .role-icon.purple { background: rgba(139, 92, 246, 0.2); color: var(--purple); }
+
+    .role-info {
+      flex: 1;
+    }
+
+    .role-name {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .role-tool {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .role-tag {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .role-tag.orange { background: rgba(255, 107, 53, 0.15); color: var(--primary); }
+    .role-tag.green { background: rgba(22, 199, 154, 0.15); color: var(--accent); }
+    .role-tag.purple { background: rgba(139, 92, 246, 0.15); color: var(--purple); }
+
+    .hero-floating-badge {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #16C79A 0%, #1EE3B6 100%);
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 10px 40px rgba(22, 199, 154, 0.3);
+      color: white;
+    }
+
+    /* Section Common */
+    section {
+      padding: 100px 40px;
+    }
+
+    .section-dark {
+      background: var(--bg-card);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Paradigm Section */
+    .paradigm-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .paradigm-tab {
+      padding: 14px 28px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-primary);
+      cursor: pointer;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      transition: all 0.3s ease;
+    }
+
+    .paradigm-tab.active {
+      background: linear-gradient(135deg, #16C79A 0%, #1EE3B6 100%);
+      border: none;
+      font-weight: 600;
+    }
+
+    .paradigm-tab.old.active {
+      background: var(--bg-elevated);
+    }
+
+    .paradigm-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .paradigm-content {
+      padding: 32px;
+      background: rgba(22, 199, 154, 0.05);
+      border: 1px solid rgba(22, 199, 154, 0.2);
+      border-radius: 20px;
+    }
+
+    .paradigm-content.old {
+      background: rgba(255, 255, 255, 0.02);
+      border-color: var(--border);
+    }
+
+    .paradigm-header {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .paradigm-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .paradigm-icon.green { background: linear-gradient(135deg, #16C79A 0%, #1EE3B6 100%); }
+    .paradigm-icon.gray { background: var(--bg-elevated); }
+
+    .paradigm-list {
+      list-style: none;
+    }
+
+    .paradigm-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 10px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .paradigm-item svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .code-panel {
+      padding: 32px;
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .code-filename {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .code-badge {
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .code-badge.green { background: rgba(22, 199, 154, 0.1); color: var(--accent); }
+    .code-badge.red { background: rgba(239, 68, 68, 0.1); color: var(--error); }
+
+    .code-block {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* Roles Section */
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .role-detail-card {
+      padding: 32px;
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 24px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+
+    .role-detail-card:hover {
+      transform: scale(1.02);
+    }
+
+    .role-detail-card.orange:hover { border-color: var(--primary); }
+    .role-detail-card.green:hover { border-color: var(--accent); }
+    .role-detail-card.purple:hover { border-color: var(--purple); }
+
+    .role-detail-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .role-detail-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .role-detail-icon.orange { background: rgba(255, 107, 53, 0.2); }
+    .role-detail-icon.green { background: rgba(22, 199, 154, 0.2); }
+    .role-detail-icon.purple { background: rgba(139, 92, 246, 0.2); }
+
+    .role-detail-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .role-detail-name.orange { color: var(--primary); }
+    .role-detail-name.green { color: var(--accent); }
+    .role-detail-name.purple { color: var(--purple); }
+
+    .role-detail-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .role-detail-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .role-tasks {
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .role-tasks-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .role-tasks-list {
+      list-style: none;
+    }
+
+    .role-task-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    /* Workflow Section */
+    .workflow-timeline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 60px;
+      position: relative;
+    }
+
+    .workflow-line {
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      right: 10%;
+      height: 4px;
+      background: var(--border);
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+
+    .workflow-line-progress {
+      height: 100%;
+      background: linear-gradient(135deg, #FF6B35 0%, #FF8F6B 100%);
+      transition: width 0.5s ease;
+    }
+
+    .workflow-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .workflow-step-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      border: 3px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: all 0.3s ease;
+      margin-bottom: 12px;
+    }
+
+    .workflow-step.active .workflow-step-number,
+    .workflow-step.completed .workflow-step-number {
+      background: linear-gradient(135deg, #FF6B35 0%, #FF8F6B 100%);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    .workflow-step-name {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 120px;
+    }
+
+    .workflow-step.active .workflow-step-name {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .workflow-detail {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      padding: 40px;
+      background: var(--bg-dark);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .workflow-detail-phase {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(255, 107, 53, 0.1);
+      border-radius: 100px;
+      margin-bottom: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--primary);
+    }
+
+    .workflow-detail-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .workflow-detail-subtitle {
+      font-size: 18px;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .workflow-detail-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .workflow-code {
+      padding: 24px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+
+    .workflow-code-comment {
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .workflow-code-content {
+      color: var(--accent);
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    /* Templates Section */
+    .templates-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 32px;
+    }
+
+    .templates-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .template-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .template-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .template-btn.active {
+      background: linear-gradient(135deg, #FF6B35 0%, #FF8F6B 100%);
+      border-color: transparent;
+    }
+
+    .template-btn-icon {
+      color: var(--primary);
+    }
+
+    .template-btn.active .template-btn-icon {
+      color: white;
+    }
+
+    .template-btn-name {
+      font-weight: 500;
+      font-size: 15px;
+      color: var(--text-primary);
+    }
+
+    .template-btn.active .template-btn-name {
+      color: white;
+    }
+
+    .template-btn-folder {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .template-btn.active .template-btn-folder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .template-preview {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .template-preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-elevated);
+    }
+
+    .template-preview-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .template-preview-ext {
+      padding: 4px 10px;
+      background: var(--bg-dark);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .copy-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #16C79A 0%, #1EE3B6 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .copy-btn.copied {
+      background: var(--success);
+    }
+
+    .template-preview-content {
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      overflow: auto;
+      max-height: 500px;
+      white-space: pre-wrap;
+    }
+
+    .template-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 40px;
+      color: var(--text-muted);
+    }
+
+    .template-empty svg {
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    /* Magic Phrases Section */
+    .magic-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .magic-item {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 28px 32px;
+      background: var(--bg-dark);
+      border: 2px solid;
+      border-radius: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .magic-item:hover {
+      transform: translateX(8px);
+    }
+
+    .magic-item.green { border-color: rgba(22, 199, 154, 0.3); }
+    .magic-item.green:hover { border-color: var(--accent); }
+    .magic-item.orange { border-color: rgba(255, 107, 53, 0.3); }
+    .magic-item.orange:hover { border-color: var(--primary); }
+    .magic-item.purple { border-color: rgba(139, 92, 246, 0.3); }
+    .magic-item.purple:hover { border-color: var(--purple); }
+
+    .magic-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .magic-number.green { background: rgba(22, 199, 154, 0.2); color: var(--accent); }
+    .magic-number.orange { background: rgba(255, 107, 53, 0.2); color: var(--primary); }
+    .magic-number.purple { background: rgba(139, 92, 246, 0.2); color: var(--purple); }
+
+    .magic-content {
+      flex: 1;
+    }
+
+    .magic-phrase {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .magic-phrase.green { color: var(--accent); }
+    .magic-phrase.orange { color: var(--primary); }
+    .magic-phrase.purple { color: var(--purple); }
+
+    .magic-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+    }
+
+    /* Tracker Section */
+    .tracker-input {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tracker-input input {
+      flex: 1;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s ease;
+      font-family: 'Be Vietnam Pro', sans-serif;
+    }
+
+    .tracker-input input:focus {
+      border-color: var(--primary);
+    }
+
+    .tracker-input input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      padding: 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+    }
+
+    .project-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .project-name {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .project-time {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .project-status {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .project-status.active {
+      background: rgba(255, 107, 53, 0.1);
+      color: var(--primary);
+    }
+
+    .project-status.planning {
+      background: rgba(22, 199, 154, 0.1);
+      color: var(--accent);
+    }
+
+    .project-phase {
+      margin-bottom: 20px;
+    }
+
+    .project-phase-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .project-phase-label {
+      color: var(--text-muted);
+    }
+
+    .project-phase-value {
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--bg-dark);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(135deg, #16C79A 0%, #1EE3B6 100%);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .project-commits {
+      padding: 16px;
+      background: var(--bg-dark);
+      border-radius: 12px;
+    }
+
+    .project-commits-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .project-commits-label {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .project-commits-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .progress-bar-small {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-bar-small .progress-bar-fill {
+      background: linear-gradient(135deg, #FF6B35 0%, #FF8F6B 100%);
+    }
+
+    /* Footer */
+    .footer {
+      padding: 60px 40px 40px;
+      background: var(--bg-dark);
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #FF6B35 0%, #FF8F6B 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: white;
+    }
+
+    .footer-logo-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .footer-text {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Hidden */
+    .hidden {
+      display: none !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .hero-title {
+        font-size: 42px;
+      }
+
+      .paradigm-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .roles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .templates-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .workflow-detail {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      section {
+        padding: 60px 20px;
+      }
+
+      .hero {
+        padding: 80px 20px 40px;
+      }
+
+      .hero-title {
+        font-size: 32px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .hero-stats {
+        flex-wrap: wrap;
+        gap: 24px;
+      }
+
+      .workflow-timeline {
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-logo">
+      <div class="nav-logo-icon">VP</div>
+      <span class="nav-logo-text">VIBEPIPE</span>
+    </div>
+    <div class="nav-links">
+      <a href="#home" class="nav-link active" data-page="home">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Trang chủ
+      </a>
+      <a href="#paradigm" class="nav-link" data-page="learn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+        Tìm hiểu
+      </a>
+      <a href="#workflow" class="nav-link" data-page="workflow">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+        Quy trình
+      </a>
+      <a href="#templates" class="nav-link" data-page="templates">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
+        Mẫu tài liệu
+      </a>
+      <a href="#tracker" class="nav-link" data-page="tracker">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        Theo dõi
+      </a>
+    </div>
+    <button class="nav-cta">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+      Bắt đầu ngay
+    </button>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-bg-1"></div>
+    <div class="hero-bg-2"></div>
+    <div class="hero-container">
+      <div class="animate-slide-up">
+        <div class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Phương pháp AI-as-Pipeline
+        </div>
+        <h1 class="hero-title">
+          <span>Biến ý tưởng thành</span><br>
+          <span class="hero-title-gradient">phần mềm thực tế</span>
+        </h1>
+        <p class="hero-desc">
+          <strong>Vibecoding</strong> - Phương pháp làm việc có cấu trúc giúp bạn cộng tác hiệu quả với AI để xây dựng phần mềm, <em>không cần biết lập trình</em>.
+        </p>
+        <div class="hero-buttons">
+          <a href="#paradigm" class="btn-primary animate-pulse-glow">
+            Khám phá ngay
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="#templates" class="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+            Xem tài liệu
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="stat-value green">-87%</div>
+            <div class="stat-label">Giảm code</div>
+          </div>
+          <div>
+            <div class="stat-value orange">+1,100%</div>
+            <div class="stat-label">Tăng khả năng</div>
+          </div>
+          <div>
+            <div class="stat-value">3</div>
+            <div class="stat-label">Vai trò rõ ràng</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual animate-float">
+        <div class="hero-card">
+          <div class="hero-card-grid"></div>
+          <div class="role-cards">
+            <div class="role-card">
+              <div class="role-icon orange">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div class="role-info">
+                <div class="role-name">Chủ Dự Án</div>
+                <div class="role-tool">Bạn</div>
+              </div>
+              <span class="role-tag orange">Owner</span>
+            </div>
+            <div class="role-card">
+              <div class="role-icon green">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+              </div>
+              <div class="role-info">
+                <div class="role-name">Kiến Trúc Sư</div>
+                <div class="role-tool">ChatGPT / Claude</div>
+              </div>
+              <span class="role-tag green">Architect</span>
+            </div>
+            <div class="role-card">
+              <div class="role-icon purple">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
+              </div>
+              <div class="role-info">
+                <div class="role-name">Thợ Xây</div>
+                <div class="role-tool">Claude Code</div>
+              </div>
+              <span class="role-tag purple">Builder</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-floating-badge">Human-as-Tool</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Paradigm Section -->
+  <section class="section-dark" id="paradigm">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Sự đảo ngược mô hình</h2>
+        <p class="section-desc">Từ "AI như Công cụ" sang "AI như Đường ống" - kiến thức đã tồn tại, chỉ cần trích xuất</p>
+      </div>
+
+      <div class="paradigm-tabs">
+        <button class="paradigm-tab old" data-paradigm="tool">AI-as-Tool (Cũ)</button>
+        <button class="paradigm-tab active" data-paradigm="pipeline">AI-as-Pipeline (Mới)</button>
+      </div>
+
+      <div class="paradigm-grid">
+        <div class="paradigm-content" id="paradigm-content">
+          <h3 class="paradigm-header">
+            <div class="paradigm-icon green">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            AI như Đường ống
+          </h3>
+          <ul class="paradigm-list" id="paradigm-list">
+            <li class="paradigm-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16C79A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              AI sở hữu kiến thức từ huấn luyện
+            </li>
+            <li class="paradigm-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16C79A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Con người điều phối luồng đầu ra
+            </li>
+            <li class="paradigm-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16C79A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Chất lượng phụ thuộc vào chuyên môn AI
+            </li>
+            <li class="paradigm-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16C79A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Chỉ cần mô tả mục tiêu
+            </li>
+          </ul>
+        </div>
+
+        <div class="code-panel">
+          <div class="code-header">
+            <span class="code-filename" id="code-filename">publishing_profile.py</span>
+            <span class="code-badge green" id="code-badge">819 dòng mã, 0 file quy tắc</span>
+          </div>
+          <pre class="code-block" id="code-block">NOVEL_PROFILE = """
+You are translating a novel.
+Apply professional publishing
+standards as used by Penguin
+Random House:
+- Preserve chapter structure
+- Maintain dialogue authenticity
+- Keep character voice consistent
+"""
+
+def translate_novel(text):
+    return claude.translate(
+        text,
+        instructions=NOVEL_PROFILE
+    )</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roles Section -->
+  <section id="roles">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Ba vai trò trong Vibecoding</h2>
+        <p class="section-desc">Mỗi vai trò có nhiệm vụ riêng biệt, phối hợp như một đội ngũ xây dựng chuyên nghiệp</p>
+      </div>
+
+      <div class="roles-grid">
+        <!-- Owner -->
+        <div class="role-detail-card orange">
+          <div class="role-detail-header">
+            <div class="role-detail-icon orange">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+          </div>
+          <h3 class="role-detail-name orange">Chủ Dự Án</h3>
+          <p class="role-detail-subtitle">Project Owner • Bạn</p>
+          <p class="role-detail-desc">Đưa ra yêu cầu, phê duyệt thiết kế và nghiệm thu sản phẩm</p>
+          <div class="role-tasks">
+            <h4 class="role-tasks-title">Nhiệm vụ chính</h4>
+            <ul class="role-tasks-list">
+              <li class="role-task-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Nói rõ ý tưởng
+              </li>
+              <li class="role-task-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Phê duyệt bản vẽ
+              </li>
+              <li class="role-task-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Ra quyết định
+              </li>
+              <li class="role-task-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Nghiệm thu
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Architect -->
+        <div class="role-detail-card green">
+          <div class="role-detail-header">
+            <div class="role-detail-icon green">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16C79A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+            </div>
+          </div>
+          <h3 class="role-detail-name green">Kiến Trúc Sư</h3>
+          <p class="role-detail-subtitle">Architect • ChatGPT / Claude</p>
+          <p class="role-detail-desc">Hỏi để hiểu rõ, vẽ bản thiết kế, kiểm tra chất lượng</p>
+          <div class="role-tasks">
+            <h4 class="role-tasks-title">Nhiệm vụ chính</h4>
+            <ul class="role-tasks-list">
+              <li class="role-task-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16C79A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Đặt câu hỏi làm rõ
+              </li>
+              <li class="role-task-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16C79A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Tạo bản thiết kế
+              </li>
+              <li class="role-task-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16C79A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Viết danh sách yêu cầu
+              </li>
+              <li class="role-task-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16C79A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Kiểm tra kết quả
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Builder -->
+        <div class="role-detail-card purple">
+          <div class="role-detail-header">
+            <div class="role-detail-icon purple">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
+            </div>
+          </div>
+          <h3 class="role-detail-name purple">Thợ Xây</h3>
+          <p class="role-detail-subtitle">Builder • Claude Code</p>
+          <p class="role-detail-desc">Nhận hướng dẫn chi tiết và viết code xây dựng sản phẩm</p>
+          <div class="role-tasks">
+            <h4 class="role-tasks-title">Nhiệm vụ chính</h4>
+            <ul class="role-tasks-list">
+              <li class="role-task-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Nhận hướng dẫn
+              </li>
+              <li class="role-task-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Viết code
+              </li>
+              <li class="role-task-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Báo cáo tiến độ
+              </li>
+              <li class="role-task-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Sửa lỗi
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflow Section -->
+  <section class="section-dark" id="workflow">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Quy trình AI-as-Pipeline</h2>
+        <p class="section-desc">5 giai đoạn để trích xuất sản phẩm hoàn chỉnh từ kiến thức của AI</p>
+      </div>
+
+      <div class="workflow-timeline">
+        <div class="workflow-line">
+          <div class="workflow-line-progress" id="workflow-progress" style="width: 0%;"></div>
+        </div>
+        <div class="workflow-step active" data-step="1">
+          <div class="workflow-step-number">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="workflow-step-name">Trích xuất tầm nhìn</span>
+        </div>
+        <div class="workflow-step" data-step="2">
+          <div class="workflow-step-number">2</div>
+          <span class="workflow-step-name">Tạo bản thiết kế</span>
+        </div>
+        <div class="workflow-step" data-step="3">
+          <div class="workflow-step-number">3</div>
+          <span class="workflow-step-name">Chia nhỏ ngữ nghĩa</span>
+        </div>
+        <div class="workflow-step" data-step="4">
+          <div class="workflow-step-number">4</div>
+          <span class="workflow-step-name">Triển khai lặp</span>
+        </div>
+        <div class="workflow-step" data-step="5">
+          <div class="workflow-step-number">5</div>
+          <span class="workflow-step-name">Tích hợp</span>
+        </div>
+      </div>
+
+      <div class="workflow-detail">
+        <div>
+          <div class="workflow-detail-phase">Phase <span id="phase-number">1</span></div>
+          <h3 class="workflow-detail-title" id="workflow-title">Vision Extraction</h3>
+          <p class="workflow-detail-subtitle" id="workflow-subtitle">Trích xuất tầm nhìn</p>
+          <p class="workflow-detail-desc" id="workflow-desc">Mô tả dự án bằng ngôn ngữ tự nhiên</p>
+        </div>
+        <div class="workflow-code">
+          <div class="workflow-code-comment">// Algorithm snippet</div>
+          <div class="workflow-code-content" id="workflow-code">V ← LLM.extract_vision(D)
+V ← Human.confirm_or_modify(V)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Templates Section -->
+  <section id="templates">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Mẫu tài liệu sẵn dùng</h2>
+        <p class="section-desc">Copy và sử dụng ngay các mẫu tài liệu chuẩn cho dự án Vibecoding của bạn</p>
+      </div>
+
+      <div class="templates-grid">
+        <div class="templates-list">
+          <button class="template-btn" data-template="intro">
+            <svg class="template-btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div>
+              <div class="template-btn-name">Giới thiệu dự án</div>
+              <div class="template-btn-folder">00-TongQuan/</div>
+            </div>
+          </button>
+          <button class="template-btn" data-template="blueprint">
+            <svg class="template-btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div>
+              <div class="template-btn-name">Bản thiết kế tổng quát</div>
+              <div class="template-btn-folder">10-BanThietKe/</div>
+            </div>
+          </button>
+          <button class="template-btn" data-template="commitment">
+            <svg class="template-btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div>
+              <div class="template-btn-name">Danh sách cam kết</div>
+              <div class="template-btn-folder">20-DanhSachYeuCau/</div>
+            </div>
+          </button>
+          <button class="template-btn" data-template="instruction">
+            <svg class="template-btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div>
+              <div class="template-btn-name">Hướng dẫn cho Thợ Xây</div>
+              <div class="template-btn-folder">30-HuongDanAI/</div>
+            </div>
+          </button>
+          <button class="template-btn" data-template="release">
+            <svg class="template-btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div>
+              <div class="template-btn-name">Ghi chú phát hành</div>
+              <div class="template-btn-folder">50-PhienBan/</div>
+            </div>
+          </button>
+        </div>
+
+        <div class="template-preview">
+          <div class="template-empty" id="template-empty">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg>
+            <p>Chọn một mẫu tài liệu để xem</p>
+          </div>
+          <div class="hidden" id="template-content-wrapper">
+            <div class="template-preview-header">
+              <div class="template-preview-info">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span id="template-name-display">Tên template</span>
+                <span class="template-preview-ext">.md</span>
+              </div>
+              <button class="copy-btn" id="copy-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                Copy template
+              </button>
+            </div>
+            <pre class="template-preview-content" id="template-content"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Magic Phrases Section -->
+  <section class="section-dark" id="magic">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Ba "Câu thần chú" 🪄</h2>
+        <p class="section-desc">Sử dụng nhất quán để quy trình làm việc rõ ràng</p>
+      </div>
+
+      <div class="magic-list">
+        <div class="magic-item green">
+          <div class="magic-number green">1</div>
+          <div class="magic-content">
+            <div class="magic-phrase green">"XÁC NHẬN LƯU"</div>
+            <div class="magic-desc">Khi đồng ý với tài liệu, lưu làm phiên bản chính thức</div>
+          </div>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16C79A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        </div>
+        <div class="magic-item orange">
+          <div class="magic-number orange">2</div>
+          <div class="magic-content">
+            <div class="magic-phrase orange">"XÁC NHẬN LÀM"</div>
+            <div class="magic-desc">Khi sẵn sàng để Thợ xây bắt đầu công việc</div>
+          </div>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        </div>
+        <div class="magic-item purple">
+          <div class="magic-number purple">3</div>
+          <div class="magic-content">
+            <div class="magic-phrase purple">"XÁC NHẬN XONG"</div>
+            <div class="magic-desc">Khi đã kiểm tra và hoàn toàn hài lòng với kết quả</div>
+          </div>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tracker Section -->
+  <section id="tracker">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Theo dõi dự án</h2>
+        <p class="section-desc">Quản lý và theo dõi tiến độ các dự án Vibecoding của bạn</p>
+      </div>
+
+      <div class="tracker-input">
+        <input type="text" id="project-input" placeholder="Tên dự án mới...">
+        <button class="btn-primary" id="add-project-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          Tạo mới
+        </button>
+      </div>
+
+      <div class="projects-grid" id="projects-grid">
+        <div class="project-card">
+          <div class="project-header">
+            <div>
+              <h3 class="project-name">Website Dịch Tài Liệu</h3>
+              <div class="project-time">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                2 giờ trước
+              </div>
+            </div>
+            <span class="project-status active">Đang làm</span>
+          </div>
+          <div class="project-phase">
+            <div class="project-phase-header">
+              <span class="project-phase-label">Giai đoạn</span>
+              <span class="project-phase-value">3/5 - Chia nhỏ ngữ nghĩa</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width: 60%;"></div>
+            </div>
+          </div>
+          <div class="project-commits">
+            <div class="project-commits-header">
+              <span class="project-commits-label">Cam kết hoàn thành</span>
+              <span class="project-commits-value">8/15</span>
+            </div>
+            <div class="progress-bar-small">
+              <div class="progress-bar-fill" style="width: 53%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <div class="footer-logo-icon">VP</div>
+        <span class="footer-logo-text">VIBEPIPE</span>
+      </div>
+      <p class="footer-text">Dựa trên nghiên cứu "AI as Pipeline" & phương pháp Vibecoding</p>
+      <div class="footer-text">Made with 💜 for Vietnamese developers</div>
+    </div>
+  </footer>
+
+  <script>
+    // Templates Data
+    const templates = {
+      intro: {
+        name: 'Giới thiệu dự án',
+        content: `DỰ ÁN: [Tên dự án]
+NGÀY BẮT ĐẦU: [DD/MM/YYYY]
+
+1. DỰ ÁN LÀM GÌ?
+[Mô tả ngắn gọn mục đích của dự án]
+
+2. AI SẼ DÙNG?
+[Đối tượng người dùng mục tiêu]
+
+3. GIẢI QUYẾT VẤN ĐỀ GÌ?
+[Vấn đề cần giải quyết]
+
+4. THÀNH CÔNG KHI NÀO?
+- [ ] Tiêu chí 1
+- [ ] Tiêu chí 2
+- [ ] Tiêu chí 3
+
+5. KHÔNG LÀM GÌ?
+- Không hỗ trợ [X]
+- Không làm [Y]
+
+6. HOÀN THÀNH KHI NÀO?
+Phiên bản 1: [Thời gian dự kiến]`
+      },
+      blueprint: {
+        name: 'Bản thiết kế tổng quát',
+        content: `# BẢN THIẾT KẾ TỔNG QUÁT
+Dự án: [Tên dự án]
+Phiên bản: 1.0
+Ngày tạo: [DD/MM/YYYY]
+
+## 1. NGƯỜI DÙNG VÀ NHU CẦU
+- Đối tượng: [Mô tả người dùng]
+- Nhu cầu chính: [Liệt kê nhu cầu]
+
+## 2. LUỒNG SỬ DỤNG CHÍNH
+1. [Bước 1] → [Kết quả]
+2. [Bước 2] → [Kết quả]
+3. [Bước 3] → [Kết quả]
+
+## 3. CÁC PHẦN CHÍNH CẦN XÂY DỰNG
+### A. Giao diện người dùng (Frontend)
+- [Component 1]
+- [Component 2]
+
+### B. Hệ thống phía sau (Backend)
+- [Service 1]
+- [Service 2]
+
+## 4. GIỚI HẠN VÀ QUY TẮC
+- [Giới hạn 1]
+- [Quy tắc 1]
+
+## 5. TIÊU CHÍ HOÀN THÀNH
+- [ ] Tiêu chí 1
+- [ ] Tiêu chí 2`
+      },
+      commitment: {
+        name: 'Danh sách cam kết',
+        content: `# DANH SÁCH CAM KẾT
+Chức năng: [Tên chức năng]
+Ngày tạo: [DD/MM/YYYY]
+
+| ID | Cam kết | Cách kiểm tra | Trạng thái |
+|----|---------|---------------|------------|
+| C-01 | [Mô tả cam kết 1] | [Cách kiểm tra] | ⬜ Chưa |
+| C-02 | [Mô tả cam kết 2] | [Cách kiểm tra] | ⬜ Chưa |
+| C-03 | [Mô tả cam kết 3] | [Cách kiểm tra] | ⬜ Chưa |
+
+## QUY TẮC CAM KẾT
+✓ Cụ thể và không mơ hồ
+✓ Có thể kiểm tra được
+✓ Tập trung vào kết quả
+
+## TRẠNG THÁI
+- ⬜ Chưa làm
+- 🔄 Đang làm
+- ✅ Đã xong
+- ❌ Thất bại`
+      },
+      instruction: {
+        name: 'Hướng dẫn cho Thợ Xây',
+        content: `# HƯỚNG DẪN CHO THỢ XÂY
+Nhiệm vụ: [Tên nhiệm vụ]
+Ngày: [DD/MM/YYYY]
+
+## 1. BỐI CẢNH
+Chúng ta đang xây dựng [mô tả], là một phần của [dự án lớn hơn].
+
+## 2. TÀI LIỆU THAM KHẢO
+- Bản thiết kế: [Link/Tên file]
+- Danh sách cam kết: [Link/Tên file]
+
+## 3. NHIỆM VỤ CỤ THỂ
+Nhiệm vụ của bạn là:
+- [Nhiệm vụ 1]
+- [Nhiệm vụ 2]
+
+## 4. CÔNG NGHỆ SỬ DỤNG
+- [Framework/Library 1]
+- [Framework/Library 2]
+
+## 5. KẾ HOẠCH THỰC HIỆN (ĐỀ XUẤT)
+1. Bước 1: [Mô tả]
+2. Bước 2: [Mô tả]
+3. Bước 3: [Mô tả]
+
+## 6. MẪU BÁO CÁO
+Sau khi hoàn thành, vui lòng báo cáo theo mẫu:
+TRẠNG THÁI: [Hoàn thành/Chưa xong]
+ĐÃ LÀM:
+- [Việc 1]
+- [Việc 2]
+CÒN LẠI:
+- [Việc còn lại]
+VẤN ĐỀ GẶP PHẢI:
+- [Vấn đề nếu có]`
+      },
+      release: {
+        name: 'Ghi chú phát hành',
+        content: `# GHI CHÚ PHÁT HÀNH
+Phiên bản: V[X.X]
+Ngày phát hành: [DD/MM/YYYY]
+
+## 🆕 CÓ GÌ MỚI
+- [Tính năng mới 1]
+- [Tính năng mới 2]
+
+## 🔧 ĐÃ SỬA LỖI
+- [Lỗi đã sửa 1]
+- [Lỗi đã sửa 2]
+
+## ⚠️ VẤN ĐỀ ĐÃ BIẾT
+- [Vấn đề 1]: [Mô tả và workaround]
+
+## ✅ ĐÃ KIỂM TRA
+- [Kịch bản kiểm tra 1]: PASS
+- [Kịch bản kiểm tra 2]: PASS
+
+## 📋 KẾ HOẠCH TIẾP THEO
+Phiên bản tiếp theo sẽ bao gồm:
+- [Tính năng dự kiến 1]
+- [Tính năng dự kiến 2]`
+      }
+    };
+
+    // Workflow Data
+    const workflowData = [
+      { name: 'Vision Extraction', nameVi: 'Trích xuất tầm nhìn', desc: 'Mô tả dự án bằng ngôn ngữ tự nhiên', code: 'V ← LLM.extract_vision(D)\nV ← Human.confirm_or_modify(V)' },
+      { name: 'Blueprint Generation', nameVi: 'Tạo bản thiết kế', desc: 'AI tạo bản thiết kế tổng thể', code: 'B ← LLM.generate_blueprint(V)\nB ← Human.approve(B)' },
+      { name: 'Semantic Chunking', nameVi: 'Chia nhỏ ngữ nghĩa', desc: 'Phân chia dự án thành các phần có ý nghĩa', code: '{chunk₁, ..., chunkₙ} ← \n    LLM.semantic_chunk(B)\nsequence ← \n    LLM.optimal_sequence({chunkᵢ})' },
+      { name: 'Iterative Implementation', nameVi: 'Triển khai lặp', desc: 'Xây dựng từng phần với Human-as-Tool', code: 'for chunkᵢ in sequence:\n    context ← Context.prepare(B)\n    codeᵢ ← LLM.implement(chunkᵢ)\n    result ← Human.validate(codeᵢ)\n    Context.update(codeᵢ)' },
+      { name: 'Integration', nameVi: 'Tích hợp', desc: 'Ghép các phần thành sản phẩm hoàn chỉnh', code: 'C ← integrate({code₁, ..., codeₙ})\nreturn C  // Complete product' }
+    ];
+
+    // Paradigm Data
+    const paradigmData = {
+      pipeline: {
+        title: 'AI như Đường ống',
+        iconClass: 'green',
+        items: [
+          'AI sở hữu kiến thức từ huấn luyện',
+          'Con người điều phối luồng đầu ra',
+          'Chất lượng phụ thuộc vào chuyên môn AI',
+          'Chỉ cần mô tả mục tiêu'
+        ],
+        filename: 'publishing_profile.py',
+        badge: '819 dòng mã, 0 file quy tắc',
+        badgeClass: 'green',
+        code: `NOVEL_PROFILE = """
+You are translating a novel.
+Apply professional publishing
+standards as used by Penguin
+Random House:
+- Preserve chapter structure
+- Maintain dialogue authenticity
+- Keep character voice consistent
+"""
+
+def translate_novel(text):
+    return claude.translate(
+        text,
+        instructions=NOVEL_PROFILE
+    )`
+      },
+      tool: {
+        title: 'AI như Công cụ',
+        iconClass: 'gray',
+        items: [
+          'Con người mã hoá kiến thức thành luật',
+          'AI thực thi theo luật đã định',
+          'Chất lượng phụ thuộc vào chất lượng luật',
+          'Cần viết nhiều code/rules'
+        ],
+        filename: 'novel_rules.py',
+        badge: '6,577 dòng mã, 15+ file quy tắc',
+        badgeClass: 'red',
+        code: `NOVEL_RULES = {
+  "chapter_format": r"^Chapter\\s+",
+  "dialogue_handling": {
+    "opening_quote": '"',
+    "closing_quote": '"',
+    "attribution_patterns": [
+      r'said\\s+(\\w+)',
+      r'(\\w+)\\s+replied',
+      # ... 50+ patterns more
+    ]
+  },
+  "paragraph_indent": "1.5em",
+  # ... 200+ more rules
+}`
+      }
+    };
+
+    // State
+    let currentWorkflowStep = 1;
+    let currentParadigm = 'pipeline';
+    let selectedTemplate = null;
+
+    // DOM Elements
+    const paradigmTabs = document.querySelectorAll('.paradigm-tab');
+    const paradigmContent = document.getElementById('paradigm-content');
+    const paradigmList = document.getElementById('paradigm-list');
+    const codeFilename = document.getElementById('code-filename');
+    const codeBadge = document.getElementById('code-badge');
+    const codeBlock = document.getElementById('code-block');
+    const workflowSteps = document.querySelectorAll('.workflow-step');
+    const workflowProgress = document.getElementById('workflow-progress');
+    const phaseNumber = document.getElementById('phase-number');
+    const workflowTitle = document.getElementById('workflow-title');
+    const workflowSubtitle = document.getElementById('workflow-subtitle');
+    const workflowDesc = document.getElementById('workflow-desc');
+    const workflowCode = document.getElementById('workflow-code');
+    const templateBtns = document.querySelectorAll('.template-btn');
+    const templateEmpty = document.getElementById('template-empty');
+    const templateContentWrapper = document.getElementById('template-content-wrapper');
+    const templateNameDisplay = document.getElementById('template-name-display');
+    const templateContent = document.getElementById('template-content');
+    const copyBtn = document.getElementById('copy-btn');
+    const projectInput = document.getElementById('project-input');
+    const addProjectBtn = document.getElementById('add-project-btn');
+    const projectsGrid = document.getElementById('projects-grid');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    // Paradigm Tab Switching
+    paradigmTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const paradigm = tab.dataset.paradigm;
+        currentParadigm = paradigm;
+
+        paradigmTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        updateParadigmContent(paradigm);
+      });
+    });
+
+    function updateParadigmContent(paradigm) {
+      const data = paradigmData[paradigm];
+
+      // Update content box
+      paradigmContent.className = paradigm === 'pipeline' ? 'paradigm-content' : 'paradigm-content old';
+
+      // Update header
+      const header = paradigmContent.querySelector('.paradigm-header');
+      header.innerHTML = `
+        <div class="paradigm-icon ${data.iconClass}">
+          ${paradigm === 'pipeline'
+            ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
+            : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>'
+          }
+        </div>
+        ${data.title}
+      `;
+
+      // Update list
+      const checkColor = paradigm === 'pipeline' ? '#16C79A' : '#6B7280';
+      paradigmList.innerHTML = data.items.map(item => `
+        <li class="paradigm-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${checkColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            ${paradigm === 'pipeline'
+              ? '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>'
+              : '<circle cx="12" cy="12" r="10"/>'
+            }
+          </svg>
+          ${item}
+        </li>
+      `).join('');
+
+      // Update code panel
+      codeFilename.textContent = data.filename;
+      codeBadge.textContent = data.badge;
+      codeBadge.className = `code-badge ${data.badgeClass}`;
+      codeBlock.textContent = data.code;
+    }
+
+    // Workflow Step Switching
+    workflowSteps.forEach(step => {
+      step.addEventListener('click', () => {
+        const stepNum = parseInt(step.dataset.step);
+        setWorkflowStep(stepNum);
+      });
+    });
+
+    function setWorkflowStep(stepNum) {
+      currentWorkflowStep = stepNum;
+
+      workflowSteps.forEach(step => {
+        const num = parseInt(step.dataset.step);
+        step.classList.remove('active', 'completed');
+
+        if (num < stepNum) {
+          step.classList.add('completed');
+          step.querySelector('.workflow-step-number').innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+        } else if (num === stepNum) {
+          step.classList.add('active');
+          step.querySelector('.workflow-step-number').innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+        } else {
+          step.querySelector('.workflow-step-number').textContent = num;
+        }
+      });
+
+      workflowProgress.style.width = `${((stepNum - 1) / 4) * 100}%`;
+
+      const data = workflowData[stepNum - 1];
+      phaseNumber.textContent = stepNum;
+      workflowTitle.textContent = data.name;
+      workflowSubtitle.textContent = data.nameVi;
+      workflowDesc.textContent = data.desc;
+      workflowCode.textContent = data.code;
+    }
+
+    // Template Selection
+    templateBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const templateId = btn.dataset.template;
+        selectedTemplate = templateId;
+
+        templateBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        templateEmpty.classList.add('hidden');
+        templateContentWrapper.classList.remove('hidden');
+
+        const template = templates[templateId];
+        templateNameDisplay.textContent = template.name;
+        templateContent.textContent = template.content;
+      });
+    });
+
+    // Copy Template
+    copyBtn.addEventListener('click', () => {
+      if (!selectedTemplate) return;
+
+      const text = templates[selectedTemplate].content;
+      navigator.clipboard.writeText(text).then(() => {
+        copyBtn.classList.add('copied');
+        copyBtn.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Đã copy!
+        `;
+
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyBtn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            Copy template
+          `;
+        }, 2000);
+      });
+    });
+
+    // Add Project
+    let projectCount = 1;
+    addProjectBtn.addEventListener('click', addProject);
+    projectInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') addProject();
+    });
+
+    function addProject() {
+      const name = projectInput.value.trim();
+      if (!name) return;
+
+      projectCount++;
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      card.innerHTML = `
+        <div class="project-header">
+          <div>
+            <h3 class="project-name">${name}</h3>
+            <div class="project-time">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Vừa tạo
+            </div>
+          </div>
+          <span class="project-status planning">Lên kế hoạch</span>
+        </div>
+        <div class="project-phase">
+          <div class="project-phase-header">
+            <span class="project-phase-label">Giai đoạn</span>
+            <span class="project-phase-value">1/5 - Trích xuất tầm nhìn</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-bar-fill" style="width: 20%;"></div>
+          </div>
+        </div>
+        <div class="project-commits">
+          <div class="project-commits-header">
+            <span class="project-commits-label">Cam kết hoàn thành</span>
+            <span class="project-commits-value">0/0</span>
+          </div>
+          <div class="progress-bar-small">
+            <div class="progress-bar-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+      `;
+
+      projectsGrid.appendChild(card);
+      projectInput.value = '';
+    }
+
+    // Smooth scroll for nav links
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+
+    // Initialize
+    setWorkflowStep(1);
+  </script>
+</body>
+</html>
