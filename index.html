@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1 Người - Khi Một Là Con Số Trọn Vẹn Nhất</title>
-    <meta name="description" content="Dự án Build in Public dành cho những người làm việc độc lập. Công cụ đơn giản, hiệu quả, chi phí thấp.">
+    <title>Tập Đoàn 1 Người - Vui Vẻ & Chuyên Nghiệp</title>
+    <meta name="description" content="Mô hình doanh nghiệp 1 người vận hành bởi AI Squad.">
     <link rel="icon" type="image/png" href="logo.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,9 +26,9 @@
             --text-primary: #f0f6fc;
             --text-secondary: #8b949e;
             --text-muted: #6e7681;
-            --accent-start: #00d4ff;
-            --accent-end: #0099cc;
-            --accent-glow: rgba(0, 212, 255, 0.15);
+            --accent-start: #79c0ff; /* Light Blue for fun */
+            --accent-end: #d2a8ff; /* Purple for AI */
+            --accent-glow: rgba(56, 139, 253, 0.15);
             --gradient: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
             --font-main: 'Be Vietnam Pro', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
@@ -57,12 +57,10 @@
             z-index: -1;
             opacity: 0.4;
             background-image:
-                radial-gradient(circle at 20% 50%, var(--accent-glow) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(0, 153, 204, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 40% 80%, rgba(0, 212, 255, 0.08) 0%, transparent 40%);
+                radial-gradient(circle at 20% 50%, rgba(121, 192, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(210, 168, 255, 0.1) 0%, transparent 40%);
         }
 
-        /* Grid pattern overlay */
         .grid-overlay {
             position: fixed;
             top: 0;
@@ -78,19 +76,19 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
         /* Header */
         header {
-            padding: 60px 0 80px;
+            padding: 60px 0 60px;
             text-align: center;
         }
 
         .logo-wrapper {
-            margin-bottom: 48px;
+            margin-bottom: 40px;
             animation: fadeInDown 0.8s ease-out;
         }
 
@@ -105,10 +103,7 @@
         }
 
         .logo:hover {
-            transform: scale(1.05) translateY(-4px);
-            box-shadow:
-                0 0 60px var(--accent-glow),
-                0 30px 60px rgba(0, 0, 0, 0.4);
+            transform: scale(1.05) rotate(5deg);
         }
 
         .hero-text {
@@ -116,11 +111,11 @@
         }
 
         h1 {
-            font-size: clamp(2.2rem, 6vw, 3.5rem);
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            letter-spacing: -0.5px;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
         }
 
         h1 .highlight {
@@ -131,33 +126,27 @@
         }
 
         .tagline {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--text-secondary);
-            font-weight: 300;
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .tagline code {
-            font-family: var(--font-mono);
-            background: var(--bg-card);
-            padding: 4px 10px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            font-size: 0.9em;
-            color: var(--accent-start);
-        }
-
-        /* Terminal-style intro */
+        /* Terminal */
         .terminal {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
-            margin: 40px 0;
+            margin: 40px auto;
+            max-width: 700px;
             overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
             animation: fadeInUp 0.8s ease-out 0.4s both;
         }
 
         .terminal-header {
-            background: var(--bg-dark);
+            background: #21262d;
             padding: 12px 16px;
             display: flex;
             align-items: center;
@@ -165,382 +154,181 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .terminal-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
+        .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
         .terminal-dot.red { background: #ff5f56; }
         .terminal-dot.yellow { background: #ffbd2e; }
         .terminal-dot.green { background: #27ca40; }
-
-        .terminal-title {
-            font-family: var(--font-mono);
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-left: 8px;
-        }
+        .terminal-title { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); margin-left: 8px; }
 
         .terminal-body {
             padding: 24px;
             font-family: var(--font-mono);
             font-size: 14px;
             line-height: 1.8;
+            text-align: left;
         }
 
-        .terminal-line {
-            margin-bottom: 8px;
+        .terminal-prompt { color: var(--accent-start); font-weight: bold; }
+        .terminal-command { color: var(--text-primary); }
+        .terminal-output { color: var(--text-secondary); display: block; margin-bottom: 8px; }
+        .terminal-success { color: #3fb950; }
+
+        /* Sections */
+        section {
+            margin: 80px 0;
         }
 
-        .terminal-prompt {
-            color: var(--accent-start);
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 32px;
+            text-align: center;
         }
 
-        .terminal-command {
-            color: var(--text-primary);
-        }
-
-        .terminal-output {
-            color: var(--text-secondary);
-            padding-left: 20px;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 18px;
-            background: var(--accent-start);
-            animation: blink 1s infinite;
-            vertical-align: text-bottom;
-            margin-left: 4px;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        /* Main content */
-        main {
-            padding: 20px 0 60px;
-        }
-
-        .manifesto {
+        /* Team Grid */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
             animation: fadeInUp 0.8s ease-out 0.6s both;
         }
 
-        .manifesto p {
-            margin-bottom: 1.5em;
-            color: var(--text-secondary);
-            font-weight: 300;
-        }
-
-        .manifesto p strong {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        .manifesto p em {
-            color: var(--accent-start);
-            font-style: normal;
-        }
-
-        .quote-card {
-            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-hover) 100%);
-            border: 1px solid var(--border);
-            border-left: 3px solid var(--accent-start);
-            padding: 28px 32px;
-            margin: 32px 0;
-            border-radius: 0 12px 12px 0;
-            position: relative;
-        }
-
-        .quote-card::before {
-            content: '"';
-            position: absolute;
-            top: 10px;
-            left: 16px;
-            font-size: 4rem;
-            color: var(--accent-start);
-            opacity: 0.2;
-            font-family: Georgia, serif;
-            line-height: 1;
-        }
-
-        .quote-card p {
-            margin: 0;
-            font-style: italic;
-            color: var(--text-primary);
-            font-weight: 400;
-        }
-
-        /* Features Grid */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin: 48px 0;
-            animation: fadeInUp 0.8s ease-out 0.8s both;
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 28px 24px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--gradient);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover {
-            border-color: var(--accent-end);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .feature-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 16px;
-            display: block;
-        }
-
-        .feature-card h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-
-        .feature-card p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin: 0;
-            font-weight: 300;
-        }
-
-        /* Subscribe section */
-        .subscribe {
+        .team-member {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 48px 40px;
+            padding: 24px;
             text-align: center;
-            margin: 60px 0;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-end);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .avatar {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: inline-block;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        .member-name {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            font-size: 1.1rem;
+        }
+
+        .member-role {
+            font-family: var(--font-mono);
+            color: var(--accent-start);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+        }
+
+        .project-card {
+            background: linear-gradient(145deg, var(--bg-card), var(--bg-card-hover));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
             position: relative;
             overflow: hidden;
-            animation: fadeInUp 0.8s ease-out 1s both;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
         }
 
-        .subscribe::before {
-            content: '';
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-start);
+        }
+
+        .project-badge {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
-            opacity: 0.5;
-        }
-
-        .subscribe-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .subscribe h2 {
-            font-size: 1.5rem;
+            top: 20px;
+            right: 20px;
+            background: rgba(56, 139, 253, 0.1);
+            color: var(--accent-start);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
             font-weight: 600;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
             margin-bottom: 12px;
+            font-weight: 700;
         }
 
-        .subscribe p {
+        .project-desc {
             color: var(--text-secondary);
-            margin-bottom: 28px;
-            font-weight: 300;
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
-        .subscribe-form {
-            display: flex;
-            gap: 12px;
-            max-width: 440px;
+        .project-link {
+            margin-top: 20px;
+            display: inline-block;
+            color: var(--accent-end);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Manifesto */
+        .manifesto-box {
+            background: rgba(22, 27, 34, 0.8);
+            border: 1px dashed var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .manifesto-box p {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            max-width: 700px;
             margin: 0 auto;
         }
 
-        .subscribe-form input {
-            flex: 1;
-            padding: 16px 20px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            font-family: var(--font-main);
-            font-size: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .subscribe-form input:focus {
-            outline: none;
-            border-color: var(--accent-start);
-            box-shadow: 0 0 0 3px var(--accent-glow);
-        }
-
-        .subscribe-form input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .btn-primary {
-            padding: 16px 32px;
-            background: var(--gradient);
-            color: var(--bg-dark);
-            border: none;
-            border-radius: 10px;
-            font-family: var(--font-main);
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
-        }
-
-        /* Closing statement */
-        .closing {
-            text-align: center;
-            padding: 40px 0;
-            animation: fadeInUp 0.8s ease-out 1.2s both;
-        }
-
-        .closing p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            font-weight: 300;
-            margin-bottom: 16px;
-        }
-
-        .closing .signature {
-            font-family: var(--font-mono);
+        .highlight-text {
             color: var(--accent-start);
-            font-size: 0.95rem;
+            font-weight: 600;
         }
 
         /* Footer */
         footer {
-            padding: 40px 0;
             text-align: center;
+            padding: 60px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
             border-top: 1px solid var(--border);
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            margin-bottom: 20px;
-        }
-
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent-start);
-        }
-
-        .copyright {
-            font-family: var(--font-mono);
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .copyright span {
-            color: var(--accent-start);
         }
 
         /* Animations */
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-            header {
-                padding: 40px 0 60px;
-            }
-
-            .logo {
-                width: 80px;
-                height: 80px;
-            }
-
-            .terminal-body {
-                padding: 16px;
-                font-size: 12px;
-            }
-
-            .subscribe {
-                padding: 32px 24px;
-            }
-
-            .subscribe-form {
-                flex-direction: column;
-            }
-
-            .btn-primary {
-                width: 100%;
-            }
-
-            .footer-links {
-                flex-direction: column;
-                gap: 16px;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
@@ -548,110 +336,100 @@
     <div class="grid-overlay"></div>
 
     <div class="container">
+        <!-- Hero Section -->
         <header>
             <div class="logo-wrapper">
-                <img src="logo.png" alt="1 Người Logo" class="logo">
+                <img src="logo.png" alt="Logo Tập Đoàn" class="logo">
             </div>
             <div class="hero-text">
-                <h1>Khi <span class="highlight">Một</span> Là Con Số<br>Trọn Vẹn Nhất</h1>
-                <p class="tagline">Build in Public <code>#1nguoi</code></p>
+                <h1>Tập Đoàn <span class="highlight">1 Người</span></h1>
+                <p class="tagline">Vận hành bởi một con người & Biệt đội AI hùng hậu</p>
             </div>
         </header>
 
+        <!-- Terminal Intro -->
         <div class="terminal">
             <div class="terminal-header">
                 <span class="terminal-dot red"></span>
                 <span class="terminal-dot yellow"></span>
                 <span class="terminal-dot green"></span>
-                <span class="terminal-title">~/1nguoi</span>
+                <span class="terminal-title">admin@1nguoi-corp:~$</span>
             </div>
             <div class="terminal-body">
                 <div class="terminal-line">
-                    <span class="terminal-prompt">→</span>
-                    <span class="terminal-command">whoami</span>
+                    <span class="terminal-prompt">$</span>
+                    <span class="terminal-command">init_corporation --mode=joyful</span>
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-output">Một developer làm việc độc lập</span>
+                    <span class="terminal-output">>> Initializing One-Person Empire...</span>
+                    <span class="terminal-output">>> Recruiting AI Board of Directors... Done.</span>
+                    <span class="terminal-output">>> Establishing Subsidiaries... Done.</span>
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-prompt">→</span>
-                    <span class="terminal-command">cat mission.txt</span>
+                    <span class="terminal-prompt">$</span>
+                    <span class="terminal-command">status</span>
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-output">Xây dựng công cụ đơn giản cho Solopreneur</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-prompt">→</span>
-                    <span class="terminal-command">./start-journey.sh</span><span class="cursor"></span>
+                    <span class="terminal-success">✓ OPERATIONAL. No Meetings. Max Productivity.</span>
                 </div>
             </div>
         </div>
 
-        <main>
-            <article class="manifesto">
-                <p><strong>Tôi vừa làm một việc hơi bốc đồng vào sáng nay:</strong> Mua tên miền 1nguoi.com. Nhiều bạn bè hỏi tôi mua để làm gì? Đầu cơ bán lại à? Hay định làm một mạng xã hội mới?</p>
+        <!-- Manifesto -->
+        <div class="manifesto-box">
+            <p>Chào mừng đến với mô hình doanh nghiệp của tương lai. Nơi <span class="highlight-text">số lượng nhân sự không quyết định sức mạnh</span>. Chúng tôi làm việc với niềm vui, sự tự do và hiệu suất của một tập đoàn đa quốc gia (dù văn phòng chỉ là cái bàn phòng ngủ).</p>
+        </div>
 
-                <p>Câu trả lời là: <em>Không.</em></p>
-
-                <p>Tôi mua nó vì nó mô tả chính xác con người tôi lúc này. Tôi là dân kỹ thuật, thường xuyên làm việc một mình. Tôi quen với những đêm dài chỉ có tiếng gõ phím và ánh sáng màn hình làm bạn.</p>
-
-                <p>Nhưng thú thật, hành trình này nhiều lúc... <em>rất cô đơn.</em></p>
-
-                <div class="quote-card">
-                    <p>Chúng ta đang sống trong một thế giới tôn sùng sự kết nối. Các công cụ ngoài kia phần lớn được sinh ra để phục vụ đội nhóm, để họp hành, để thông báo. Chúng quá ồn ào cho những người chỉ có "1 người".</p>
+        <!-- Team Section -->
+        <section id="team">
+            <h2>Hội Đồng Quản Trị (AI Board)</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="avatar">🧠</div>
+                    <div class="member-name">Claude 3.5</div>
+                    <div class="member-role">Giám Đốc Kỹ Thuật</div>
                 </div>
-
-                <p>Tôi nhận ra, <strong>cô đơn không phải là điểm yếu.</strong> Nếu biết tận dụng, đó là sự tự do và tập trung tối thượng.</p>
-            </article>
-
-            <div class="features">
-                <div class="feature-card">
-                    <span class="feature-icon">🛠️</span>
-                    <h3>Micro SaaS</h3>
-                    <p>Công cụ nhỏ gọn, giải quyết đúng 1 vấn đề cụ thể</p>
+                <div class="team-member">
+                    <div class="avatar">🤖</div>
+                    <div class="member-name">ChatGPT-4o</div>
+                    <div class="member-role">Giám Đốc Nội Dung</div>
                 </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🔇</span>
-                    <h3>Không ồn ào</h3>
-                    <p>Không chat nhóm, không notification spam</p>
+                <div class="team-member">
+                    <div class="avatar">💎</div>
+                    <div class="member-name">Gemini 1.5</div>
+                    <div class="member-role">Trưởng Ban Nghiên Cứu</div>
                 </div>
-                <div class="feature-card">
-                    <span class="feature-icon">💸</span>
-                    <h3>Chi phí thấp</h3>
-                    <p>Tối ưu cho nguồn lực của 1 người</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">📖</span>
-                    <h3>Build in Public</h3>
-                    <p>Chia sẻ hành trình thật, khó khăn thật</p>
+                <div class="team-member">
+                    <div class="avatar">👨‍💻</div>
+                    <div class="member-name">Tôi</div>
+                    <div class="member-role">Founder & Thực Tập Sinh</div>
                 </div>
             </div>
+        </section>
 
-            <section class="subscribe">
-                <div class="subscribe-content">
-                    <h2>Đi cùng tôi</h2>
-                    <p>Nếu bạn cũng đang đi một mình, để lại email để nhận cập nhật về hành trình này.</p>
-                    <form class="subscribe-form" action="#" method="post">
-                        <input type="email" placeholder="email@example.com" required>
-                        <button type="submit" class="btn-primary">Theo dõi</button>
-                    </form>
-                </div>
-            </section>
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2>Hệ Sinh Thái (Subsidiaries)</h2>
+            <div class="projects-grid">
+                <a href="tegia/index.html" class="project-card">
+                    <span class="project-badge">Living</span>
+                    <h3 class="project-title">Tề Gia</h3>
+                    <p class="project-desc">Quản trị cuộc sống cá nhân theo phong cách tối giản. Tu thân, tề gia, trị quốc, bình thiên hạ.</p>
+                    <span class="project-link">Truy cập Tề Gia →</span>
+                </a>
 
-            <div class="closing">
-                <p>Hành trình này bắt đầu từ hôm nay, với dòng code đầu tiên.<br>
-                <strong>Chào mừng đến với thế giới của 1 Người.</strong></p>
-                <p class="signature">> 1_</p>
+                <a href="vibea/index.html" class="project-card">
+                    <span class="project-badge">Creative</span>
+                    <h3 class="project-title">Vibea</h3>
+                    <p class="project-desc">Bộ công cụ AI (Vibe + Idea). Master Prompts và Templates để biến ý tưởng thành hiện thực.</p>
+                    <span class="project-link">Truy cập Vibea →</span>
+                </a>
             </div>
-        </main>
+        </section>
 
         <footer>
-            <div class="footer-links">
-                <a href="#">Blog</a>
-                <a href="#">GitHub</a>
-                <a href="#">Twitter</a>
-            </div>
-            <p class="copyright">© 2024 <span>1nguoi.com</span> — Build with ❤️ by 1 Người</p>
+            <p>© 2024 Tập Đoàn 1 Người. Vận hành bằng ☕ và ⚡.</p>
+            <p style="margin-top: 10px; opacity: 0.6; font-size: 0.8rem;">Vốn điều lệ: Vô giá.</p>
         </footer>
     </div>
 </body>
