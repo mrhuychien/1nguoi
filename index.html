@@ -3,434 +3,531 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tập Đoàn 1 Người - Vui Vẻ & Chuyên Nghiệp</title>
-    <meta name="description" content="Mô hình doanh nghiệp 1 người vận hành bởi AI Squad.">
-    <link rel="icon" type="image/png" href="logo.png">
-
+    <title>Tập Đoàn 1 Người | Pioneering the Solopreneur Future</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #000000;
+            --text-primary: #ffffff;
+            --text-secondary: #86868b;
+            --accent: #2997ff;
+            --accent-glow: rgba(41, 151, 255, 0.4);
+            --card-bg: #1d1d1f;
+            --nav-bg: rgba(0, 0, 0, 0.8);
+            --border-color: #333333;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --bg-dark: #0d1117;
-            --bg-card: #161b22;
-            --bg-card-hover: #1c2128;
-            --border: #30363d;
-            --text-primary: #f0f6fc;
-            --text-secondary: #8b949e;
-            --text-muted: #6e7681;
-            --accent-start: #79c0ff; /* Light Blue for fun */
-            --accent-end: #d2a8ff; /* Purple for AI */
-            --accent-glow: rgba(56, 139, 253, 0.15);
-            --gradient: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
-            --font-main: 'Be Vietnam Pro', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: var(--font-main);
-            background-color: var(--bg-dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
             color: var(--text-primary);
-            line-height: 1.7;
-            font-size: 17px;
+            line-height: 1.5;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Animated background */
-        .bg-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.4;
-            background-image:
-                radial-gradient(circle at 20% 50%, rgba(121, 192, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(210, 168, 255, 0.1) 0%, transparent 40%);
-        }
-
-        .grid-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image:
-                linear-gradient(rgba(48, 54, 61, 0.3) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(48, 54, 61, 0.3) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
-        /* Header */
-        header {
-            padding: 60px 0 60px;
-            text-align: center;
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 48px;
+            background: var(--nav-bg);
+            backdrop-filter: saturate(180%) blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        .logo-wrapper {
-            margin-bottom: 40px;
-            animation: fadeInDown 0.8s ease-out;
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            font-size: 12px;
         }
 
         .logo {
-            width: 100px;
-            height: 100px;
-            border-radius: 20px;
-            box-shadow:
-                0 0 40px var(--accent-glow),
-                0 20px 40px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05) rotate(5deg);
-        }
-
-        .hero-text {
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 24px;
-            letter-spacing: -1px;
-        }
-
-        h1 .highlight {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .tagline {
-            font-size: 1.3rem;
-            color: var(--text-secondary);
-            font-weight: 400;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Terminal */
-        .terminal {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            margin: 40px auto;
-            max-width: 700px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-        }
-
-        .terminal-header {
-            background: #21262d;
-            padding: 12px 16px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-primary);
+            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 8px;
-            border-bottom: 1px solid var(--border);
         }
 
-        .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
-        .terminal-dot.red { background: #ff5f56; }
-        .terminal-dot.yellow { background: #ffbd2e; }
-        .terminal-dot.green { background: #27ca40; }
-        .terminal-title { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); margin-left: 8px; }
-
-        .terminal-body {
-            padding: 24px;
-            font-family: var(--font-mono);
-            font-size: 14px;
-            line-height: 1.8;
-            text-align: left;
+        .logo-icon {
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(45deg, #fff, #666);
+            border-radius: 4px;
         }
 
-        .terminal-prompt { color: var(--accent-start); font-weight: bold; }
-        .terminal-command { color: var(--text-primary); }
-        .terminal-output { color: var(--text-secondary); display: block; margin-bottom: 8px; }
-        .terminal-success { color: #3fb950; }
-
-        /* Sections */
-        section {
-            margin: 80px 0;
-        }
-
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 32px;
-            text-align: center;
-        }
-
-        /* Team Grid */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        .nav-links {
+            display: flex;
             gap: 24px;
-            margin-top: 40px;
-            animation: fadeInUp 0.8s ease-out 0.6s both;
         }
 
-        .team-member {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
-            text-align: center;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .team-member:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-end);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .avatar {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            display: inline-block;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-        }
-
-        .member-name {
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-            font-size: 1.1rem;
-        }
-
-        .member-role {
-            font-family: var(--font-mono);
-            color: var(--accent-start);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Projects Grid */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            animation: fadeInUp 0.8s ease-out 0.8s both;
-        }
-
-        .project-card {
-            background: linear-gradient(145deg, var(--bg-card), var(--bg-card-hover));
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 32px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
+        .nav-links a {
+            color: #d1d1d1;
             text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 48px;
+            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 70%);
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            line-height: 1.05;
+            margin-bottom: 16px;
+            background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            max-width: 800px;
+        }
+
+        .hero p {
+            font-size: 24px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .cta-button {
+            background: var(--text-primary);
+            color: var(--bg-color);
+            padding: 12px 24px;
+            border-radius: 980px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: transform 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Stats Strip */
+        .stats-strip {
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 24px 0;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 32px;
+            margin-bottom: 4px;
+        }
+
+        .stat-item p {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
             display: block;
         }
 
-        .project-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-start);
+        .section-title {
+            font-size: 48px;
+            margin-bottom: 20px;
         }
 
-        .project-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(56, 139, 253, 0.1);
-            color: var(--accent-start);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
+        /* Grid Layouts */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
         }
 
-        .project-title {
-            font-size: 1.5rem;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-
-        .project-desc {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        .project-link {
-            margin-top: 20px;
-            display: inline-block;
-            color: var(--accent-end);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        /* Manifesto */
-        .manifesto-box {
-            background: rgba(22, 27, 34, 0.8);
-            border: 1px dashed var(--border);
-            border-radius: 20px;
+        .card {
+            background: var(--card-bg);
+            border-radius: 18px;
             padding: 40px;
-            margin: 60px 0;
-            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .manifesto-box p {
-            font-size: 1.2rem;
-            color: var(--text-primary);
-            max-width: 700px;
-            margin: 0 auto;
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.1);
         }
 
-        .highlight-text {
-            color: var(--accent-start);
-            font-weight: 600;
+        .card-icon {
+            font-size: 32px;
+            margin-bottom: 24px;
+            color: var(--accent);
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .card-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .card-link::after {
+            content: '→';
+            transition: transform 0.2s;
+        }
+
+        .card-link:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* Products Section (Big Cards) */
+        .product-card {
+            grid-column: span 1;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product-tegia {
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0)), url('https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?q=80&w=2070&auto=format&fit=crop'); /* Placeholder image */
+        }
+
+        .product-vibea {
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop'); /* Placeholder image */
+        }
+
+        .product-content {
+            z-index: 2;
         }
 
         /* Footer */
         footer {
-            text-align: center;
-            padding: 60px 0;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border);
+            background: #111;
+            padding: 60px 0 20px;
+            border-top: 1px solid #333;
+            font-size: 12px;
+            color: var(--text-secondary);
         }
 
-        /* Animations */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
         }
 
+        .footer-col h4 {
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-col a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 40px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <div class="bg-pattern"></div>
-    <div class="grid-overlay"></div>
 
-    <div class="container">
-        <!-- Hero Section -->
-        <header>
-            <div class="logo-wrapper">
-                <img src="logo.png" alt="Logo Tập Đoàn" class="logo">
-            </div>
-            <div class="hero-text">
-                <h1>Tập Đoàn <span class="highlight">1 Người</span></h1>
-                <p class="tagline">Vận hành bởi một con người & Biệt đội AI hùng hậu</p>
-            </div>
-        </header>
-
-        <!-- Terminal Intro -->
-        <div class="terminal">
-            <div class="terminal-header">
-                <span class="terminal-dot red"></span>
-                <span class="terminal-dot yellow"></span>
-                <span class="terminal-dot green"></span>
-                <span class="terminal-title">admin@1nguoi-corp:~$</span>
-            </div>
-            <div class="terminal-body">
-                <div class="terminal-line">
-                    <span class="terminal-prompt">$</span>
-                    <span class="terminal-command">init_corporation --mode=joyful</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-output">>> Initializing One-Person Empire...</span>
-                    <span class="terminal-output">>> Recruiting AI Board of Directors... Done.</span>
-                    <span class="terminal-output">>> Establishing Subsidiaries... Done.</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-prompt">$</span>
-                    <span class="terminal-command">status</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-success">✓ OPERATIONAL. No Meetings. Max Productivity.</span>
-                </div>
+    <nav>
+        <div class="container nav-content">
+            <a href="#" class="logo">
+                <div class="logo-icon"></div>
+                1-CORP
+            </a>
+            <div class="nav-links">
+                <a href="#ecosystem">Ecosystem</a>
+                <a href="#leadership">Leadership</a>
+                <a href="#vision">Vision</a>
+                <a href="#investors">Investors</a>
             </div>
         </div>
+    </nav>
 
-        <!-- Manifesto -->
-        <div class="manifesto-box">
-            <p>Chào mừng đến với mô hình doanh nghiệp của tương lai. Nơi <span class="highlight-text">số lượng nhân sự không quyết định sức mạnh</span>. Chúng tôi làm việc với niềm vui, sự tự do và hiệu suất của một tập đoàn đa quốc gia (dù văn phòng chỉ là cái bàn phòng ngủ).</p>
+    <header class="hero">
+        <div class="container">
+            <h1>Defining the Future<br>of One-Person Enterprise.</h1>
+            <p>Scalability of a conglomerate. Agility of an individual. <br>Powered by biological and artificial intelligence.</p>
+            <div style="margin-top: 32px;">
+                <a href="#ecosystem" class="cta-button">Explore Ecosystem</a>
+            </div>
         </div>
+    </header>
 
-        <!-- Team Section -->
-        <section id="team">
-            <h2>Hội Đồng Quản Trị (AI Board)</h2>
-            <div class="team-grid">
-                <div class="team-member">
-                    <div class="avatar">🧠</div>
-                    <div class="member-name">Claude 3.5</div>
-                    <div class="member-role">Giám Đốc Kỹ Thuật</div>
-                </div>
-                <div class="team-member">
-                    <div class="avatar">🤖</div>
-                    <div class="member-name">ChatGPT-4o</div>
-                    <div class="member-role">Giám Đốc Nội Dung</div>
-                </div>
-                <div class="team-member">
-                    <div class="avatar">💎</div>
-                    <div class="member-name">Gemini 1.5</div>
-                    <div class="member-role">Trưởng Ban Nghiên Cứu</div>
-                </div>
-                <div class="team-member">
-                    <div class="avatar">👨‍💻</div>
-                    <div class="member-name">Tôi</div>
-                    <div class="member-role">Founder & Thực Tập Sinh</div>
-                </div>
+    <div class="stats-strip">
+        <div class="container stats-grid">
+            <div class="stat-item">
+                <h3>1</h3>
+                <p>Human Employee</p>
             </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects">
-            <h2>Hệ Sinh Thái (Subsidiaries)</h2>
-            <div class="projects-grid">
-                <a href="tegia/index.html" class="project-card">
-                    <span class="project-badge">Living</span>
-                    <h3 class="project-title">Tề Gia</h3>
-                    <p class="project-desc">Quản trị cuộc sống cá nhân theo phong cách tối giản. Tu thân, tề gia, trị quốc, bình thiên hạ.</p>
-                    <span class="project-link">Truy cập Tề Gia →</span>
-                </a>
-
-                <a href="vibea/index.html" class="project-card">
-                    <span class="project-badge">Creative</span>
-                    <h3 class="project-title">Vibea</h3>
-                    <p class="project-desc">Bộ công cụ AI (Vibe + Idea). Master Prompts và Templates để biến ý tưởng thành hiện thực.</p>
-                    <span class="project-link">Truy cập Vibea →</span>
-                </a>
+            <div class="stat-item">
+                <h3>3</h3>
+                <p>AI Directors</p>
             </div>
-        </section>
-
-        <footer>
-            <p>© 2024 Tập Đoàn 1 Người. Vận hành bằng ☕ và ⚡.</p>
-            <p style="margin-top: 10px; opacity: 0.6; font-size: 0.8rem;">Vốn điều lệ: Vô giá.</p>
-        </footer>
+            <div class="stat-item">
+                <h3>∞</h3>
+                <p>Potential Scale</p>
+            </div>
+            <div class="stat-item">
+                <h3>0</h3>
+                <p>Useless Meetings</p>
+            </div>
+        </div>
     </div>
+
+    <section id="leadership">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Leadership</span>
+                <h2 class="section-title">The Board of Directors.</h2>
+                <p style="color: var(--text-secondary); max-width: 600px;">Our executive team combines cutting-edge large language models with human intuition to drive strategic innovation.</p>
+            </div>
+
+            <div class="bento-grid">
+                <div class="card">
+                    <div class="card-icon">🧠</div>
+                    <h3>Claude 3.5 Sonnet</h3>
+                    <p>Chief Technology Officer. Architect of complex systems and coding prowess. Known for clean logic and reliability.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h3>ChatGPT-4o</h3>
+                    <p>Chief Operating Officer. Versatile execution, rapid prototyping, and operational efficiency management.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔮</div>
+                    <h3>Gemini 1.5 Pro</h3>
+                    <p>Head of Research. Massive context window analysis and multimodal data processing capabilities.</p>
+                </div>
+                <div class="card" style="background: rgba(255,255,255,0.05);">
+                    <div class="card-icon">👤</div>
+                    <h3>The Founder</h3>
+                    <p>Chairman & CEO. Provide the vision, prompt engineering, and final decision making. The biological core.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ecosystem" style="background: #000;">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Products & Ecosystem</span>
+                <h2 class="section-title">Subsidiaries.</h2>
+            </div>
+
+            <div class="bento-grid">
+                <!-- Tegia -->
+                <div class="card product-card product-tegia">
+                    <div class="product-content">
+                        <h3>Tề Gia</h3>
+                        <p>Next-generation Family Operating System. Managing domestic logistics with enterprise-grade efficiency.</p>
+                        <a href="/tegia" class="cta-button">Launch Tề Gia OS</a>
+                    </div>
+                </div>
+
+                <!-- Vibea -->
+                <div class="card product-card product-vibea">
+                    <div class="product-content">
+                        <h3>Vibea</h3>
+                        <p>The Creative Suite for the modern age. Unleashing imagination through curated tools and resources.</p>
+                        <a href="/vibea" class="cta-button">Open Vibea Studio</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="investors">
+        <div class="container">
+            <div class="card" style="text-align: center; padding: 80px 40px;">
+                <span class="section-tag">Investor Relations</span>
+                <h2 style="font-size: 40px; margin-bottom: 24px;">Growth Trajectory.</h2>
+                <p style="font-size: 20px; color: var(--text-secondary); max-width: 700px; margin: 0 auto 40px;">
+                    We are currently trading at an all-time high of enthusiasm. Our dividends are paid in dopamine and completed projects.
+                </p>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px 40px; border-radius: 12px;">
+                        <div style="font-size: 32px; font-weight: 700; color: #4ade80;">+300%</div>
+                        <div style="font-size: 12px; text-transform: uppercase; margin-top: 8px;">Productivity YoY</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px 40px; border-radius: 12px;">
+                        <div style="font-size: 32px; font-weight: 700; color: #4ade80;">100%</div>
+                        <div style="font-size: 12px; text-transform: uppercase; margin-top: 8px;">Uptime</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="logo" style="margin-bottom: 20px; display: inline-block;">1-CORP</a>
+                    <p>The world's leading single-person multinational conglomerate.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Ecosystem</h4>
+                    <ul>
+                        <li><a href="/tegia">Tề Gia</a></li>
+                        <li><a href="/vibea">Vibea</a></li>
+                        <li><a href="#">R&D</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Careers (0)</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Sitemap</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Tập Đoàn 1 Người. All rights reserved.</p>
+                <p>Designed by Human & AI.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Simple animation on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Apply fade-in to sections
+        document.querySelectorAll('section, .hero, .stats-strip').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
